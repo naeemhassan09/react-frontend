@@ -1,0 +1,46 @@
+name: product_portal_ci
+
+on:
+  push:
+    branches:
+    - main
+    - develop
+    - stage
+  pull_request:
+    branches:
+    - main
+    - develop
+    - stage
+
+jobs:
+  build:
+    runs-on: self-hosted
+    timeout-minutes: 30
+    steps:
+      - name: Checkout to the repository
+        uses: actions/checkout@v3
+
+      - name: Set up NodeJS environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Yarn install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+
+      - name: Check linting and formatting
+        run: yarn lint
+
+      - name: Compile code
+        run: yarn compile
+
+      - name: "Run Cypress E2E Tests"
+        uses: cypress-io/github-action@v5
+        with:
+          start: yarn start
+          wait-on: "http://localhost:3000"
+          wait-on-timeout: 120
+          browser: chromium
+          record: false

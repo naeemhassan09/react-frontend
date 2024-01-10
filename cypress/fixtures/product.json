@@ -1,0 +1,141 @@
+{
+  "code": "OK",
+  "message": "Operation is successfully executed",
+  "userMessage": "Your request has been processed successfully",
+  "data": {
+    "products": [
+      {
+        "id": 73219,
+        "name": "product-dev-e2e",
+        "sku": "product-dev-e2e",
+        "image_url": null,
+        "description": "",
+        "location_id": 13,
+        "price": 100,
+        "cost_price": 130,
+        "mrp": 120,
+        "stock_quantity": 0,
+        "size": "900gm x 12",
+        "unit": "Kg",
+        "brand": "Test",
+        "urdu_name": null,
+        "urdu_unit": null,
+        "urdu_size": null,
+        "urdu_brand": null,
+        "disabled": 0,
+        "deleted_by": null,
+        "updated_by": 160,
+        "barcode": "HYPR967885654",
+        "consent_required": 0,
+        "created_at": "2022-11-14T11:32:16.000Z",
+        "updated_at": "2022-11-15T08:30:49.000Z",
+        "deleted_at": null,
+        "tax_percent": 5,
+        "tax_inclusive": 1,
+        "catalogue_product_id": null,
+        "published": 0,
+        "priority": null,
+        "weight": null,
+        "height": null,
+        "length": null,
+        "width": null,
+        "tax_category": 1,
+        "trade_price": 123,
+        "delivery_time": null,
+        "quantity_limit": null,
+        "is_volume_based_price_enabled": 0,
+        "physical_stock": 0,
+        "created_by": 160,
+        "tax_group": null,
+        "is_dynamic_price_enabled": 0,
+        "active_categories": [
+          {
+            "id": 73219,
+            "category_id": {
+              "id": 471,
+              "parent_id": null,
+              "name": "Aata, daal , cheeni, Biscuits, Chips & Candies, lotion, shampoo",
+              "image_url": "",
+              "priority": 8,
+              "start_date": "2020-07-12T18:04:28.000Z",
+              "end_date": "2020-07-12T18:04:28.000Z",
+              "disabled_at": null,
+              "disabled_by": null,
+              "location_id": 13,
+              "created_at": "2020-07-12T18:04:28.000Z",
+              "updated_at": "2020-07-12T18:04:28.000Z",
+              "deleted_at": null,
+              "type": 0
+            },
+            "product_id": 73219,
+            "product_priority": 25,
+            "product_max_priority": 25
+          },
+          {
+            "id": 73219,
+            "category_id": {
+              "id": 502,
+              "parent_id": 471,
+              "name": "Match box",
+              "image_url": null,
+              "priority": 1,
+              "start_date": "2020-07-12T18:04:37.000Z",
+              "end_date": "2020-07-12T18:04:37.000Z",
+              "disabled_at": null,
+              "disabled_by": null,
+              "location_id": 13,
+              "created_at": "2020-07-12T18:04:37.000Z",
+              "updated_at": "2020-07-12T18:04:37.000Z",
+              "deleted_at": null,
+              "type": 0
+            },
+            "product_id": 73219,
+            "product_priority": 20,
+            "product_max_priority": 20
+          }
+        ],
+        "tags": [
+          {
+            "created_at": "2022-09-24T19:40:08.000Z",
+            "updated_at": "2022-09-24T19:40:08.000Z",
+            "deleted_at": null,
+            "id": 162,
+            "name": "hello",
+            "status": true
+          },
+          {
+            "created_at": "2022-10-31T11:44:15.000Z",
+            "updated_at": "2022-10-31T11:44:15.000Z",
+            "deleted_at": null,
+            "id": 207,
+            "name": "hello wms",
+            "status": true
+          }
+        ],
+        "multilingual": [],
+        "volume_based_prices": [
+          {
+            "id": 382,
+            "price": 100,
+            "quantityFrom": 1,
+            "quantityTo": 5,
+            "disabled": false,
+            "productId": 73219
+          },
+          {
+            "id": 383,
+            "price": 80,
+            "quantityFrom": 6,
+            "quantityTo": null,
+            "disabled": false,
+            "productId": 73219
+          }
+        ],
+        "is_deactivated": false,
+        "reason": null
+      }
+    ],
+    "totalCount": 1
+  },
+  "success": true
+}

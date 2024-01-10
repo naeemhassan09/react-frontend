@@ -1,0 +1,2 @@
+export const REPORT_CUSTOMER_ASSIGNMENT_SKU='edReporting/reportCustomerAssignmentSKU';
+export const GET_REPORT_CUSTOMER_ASSIGNMENT_SKU='edReporting/getReportCustomerAssignmentSKU';

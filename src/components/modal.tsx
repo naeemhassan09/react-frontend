@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import TypePrimarySizelIconFal from './type-primary-sizel-icon-fal';
 
 type ModalType = {
   onClose?: () => void;
@@ -28,7 +28,7 @@ const Text1 = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: var(--gap-5xs);
+  gap: 8px;
 `;
 
 const LeadingContent = styled.div`
@@ -37,28 +37,6 @@ const LeadingContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-`;
-
-const Text11 = styled.div`
-  position: relative;
-  line-height: 24px;
-  font-weight: 500;
-`;
-
-const Button = styled.div`
-  align-self: stretch;
-  border-radius: var(--br-7xs);
-  background-color: var(--color-brown);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-4xs) var(--padding-mid);
-  text-align: left;
-  font-size: var(--text-base-leading-6-font-medium-size);
-  color: var(--white);
 `;
 
 const ModalRoot = styled.div`
@@ -77,7 +55,7 @@ const ModalRoot = styled.div`
   text-align: center;
   font-size: var(--text-lg-leading-6-font-medium-size);
   color: var(--gray-900);
-  font-family: var(--text-sm-leading-5-font-normal);
+  font-family: var(--text-base-leading-6-font-medium);
 `;
 
 const Modal: FunctionComponent<ModalType> = () => (
@@ -91,9 +69,11 @@ const Modal: FunctionComponent<ModalType> = () => (
         </Detail>
       </Text1>
     </LeadingContent>
-    <Button>
-      <Text11>ok</Text11>
-    </Button>
+    <TypePrimarySizelIconFal
+        buttonText='ok'
+        typePrimarySizelIconFalBackgroundColor='#a62632'
+        typePrimarySizelIconFalAlignSelf='stretch'
+    />
   </ModalRoot>
   );
 

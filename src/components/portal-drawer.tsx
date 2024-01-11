@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable react/react-in-jsx-scope */
 import {
   CSSProperties,

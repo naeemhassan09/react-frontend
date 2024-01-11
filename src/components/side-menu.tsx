@@ -21,11 +21,13 @@ const animationSlideInTop = keyframes`
 const Home = styled.div`
   position: relative;
   font-weight: 500;
+  &:hover {
+    color: var(--color-darkgray);
+  }
 `;
 
 const HomeWrapper = styled.a`
   text-decoration: none;
-  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -57,7 +59,7 @@ const SideMenuRoot = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: var(--padding-11xl) var(--padding-19xl);
+  padding: var(--padding-11xl) 38px;
   box-sizing: border-box;
   opacity: 0;
   width: 100%;
@@ -65,8 +67,8 @@ const SideMenuRoot = styled.div`
   overflow: auto;
   text-align: center;
   font-size: var(--text-sm-leading-5-font-normal-size);
-  color: var(--color-gray-100);
-  font-family: var(--text-sm-leading-5-font-normal);
+  color: var(--color-gray-200);
+  font-family: var(--text-base-leading-6-font-medium);
   &.animate {
     animation: 0.25s ease 0s 1 normal forwards ${animationSlideInTop};
   }

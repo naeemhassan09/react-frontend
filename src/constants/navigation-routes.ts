@@ -14,9 +14,11 @@ export const MAIN_ROUTE = '/internalerp';
 export const APP = '/app';
 export const ADD_ROUTE = '/add';
 export const LOGIN_ROUTE = '/login';
-
+export const DASHBORD_ROUTE = '/dashboard';
+export const PROFILE_ROUTE = '/profile';
 // Sidebar Route Names
 export enum SIDEBAR_NAMES {
+  DASHBOARD = 'Dashboard',
   PRODUCTS = 'Products',
   ZONE = 'Zones',
   TAGS = 'Tags Management',
@@ -52,6 +54,7 @@ export enum SIDEBAR_NAMES {
 }
 
 export enum SIDEBAR_ROUTES {
+  DASHBOARD ='/dashboard',
   PRODUCTS = '/product',
   ZONE = '/zone',
   TAGS = '/tag',

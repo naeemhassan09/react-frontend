@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { APP, SIDEBAR_ROUTES } from 'src/constants/navigation-routes';
+import { APP, DASHBORD_ROUTE } from 'src/constants/navigation-routes';
 import { getIsLoggedIn } from '../store/selectors/features/auth';
 import PublicRoutes from './public-routes';
 
@@ -12,8 +12,9 @@ import PublicRoutes from './public-routes';
 const Auth = () => {
   const loggedIn = useSelector(getIsLoggedIn);
 
+  console.log('Logged in ==>',loggedIn);
   return loggedIn ? (
-    <Redirect to={ `${APP}${SIDEBAR_ROUTES.PRODUCTS}` } />
+    <Redirect to={ `${APP}${DASHBORD_ROUTE}` } />
   ) : (
     <PublicRoutes />
   );

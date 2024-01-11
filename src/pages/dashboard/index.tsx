@@ -1116,7 +1116,7 @@ export const Dashboard: FunctionComponent = () => {
         <DashboardMainContainer>
           <SideMenuBar>
             <Logo>
-              <AlchemativeLogo1Icon alt='' src='/alchemativelogo-11@2x.png' />
+              <AlchemativeLogo1Icon alt='' src= { AlchemativeLogo } />
             </Logo>
             <SideMenuBarInner>
               <FrameParent>

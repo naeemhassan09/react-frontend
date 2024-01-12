@@ -1,7 +1,7 @@
 /* eslint-disable */
-import { DASHBORD_ROUTE, SIDEBAR_ROUTES, PROFILE_ROUTE, ORDERS_ROUTE } from 'src/constants/navigation-routes';
+import { DASHBORD_ROUTE, SIDEBAR_ROUTES, PROFILE_ROUTE, ORDERS_ROUTE, PRODUCTLIST_ROUTE } from 'src/constants/navigation-routes';
 
-import { Dashboard,  Orders,  Profile } from 'src/pages';
+import { Dashboard,  Orders,  Profile, ProductList } from 'src/pages';
 import { ROLE_TYPE } from '../constants/roles';
 
 export default [
@@ -29,6 +29,16 @@ export default [
         component: Orders,
         path: ORDERS_ROUTE,
         title: 'Orders',
+        permission: [
+          // ROLE_TYPE.ADMIN,
+          // ROLE_TYPE.COMPANY_OWNER,
+        ],
+      },
+
+      {
+        component: ProductList,
+        path: PRODUCTLIST_ROUTE,
+        title: 'Product List',
         permission: [
           // ROLE_TYPE.ADMIN,
           // ROLE_TYPE.COMPANY_OWNER,

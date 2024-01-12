@@ -17,6 +17,7 @@ export const LOGIN_ROUTE = '/login';
 export const DASHBORD_ROUTE = '/dashboard';
 export const PROFILE_ROUTE = '/profile';
 export const ORDERS_ROUTE = '/orders';
+export const PRODUCTLIST_ROUTE = '/productlist';
 // Sidebar Route Names
 export enum SIDEBAR_NAMES {
   DASHBOARD = 'Dashboard',

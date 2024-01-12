@@ -1,3 +1,4 @@
+export { DashboardServices } from './dashboard';
 export { AppService } from './app';
 export { AuthService } from './auth';
 export { ProductService } from './product';

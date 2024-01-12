@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 //import { logout } from '../../store/thunks/auth';
 
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, Box, Button, TextField, Typography } from '@mui/material';
 
-
+import { useDispatch } from 'react-redux';
 
 
 import AlchemtiveWhiteLogo from 'src/assets/images/Alchemative-white-SVG-logo.svg';
@@ -1088,10 +1088,17 @@ import PortalDrawer from 'src/components/portal-drawer';
 import MiniSideBar from 'src/components/mini-side-bar';
 import PortalPopup from 'src/components/portal-popup';
 import Modal from 'src/components/modal';
+import { logout } from '../../store/thunks/auth';
 
 export const Dashboard: FunctionComponent = () => {
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
+  
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout({}));
+  };
 
   const openAfterLoginMenu = useCallback(() => {
     setAfterLoginMenuOpen(true);
@@ -1154,6 +1161,14 @@ export const Dashboard: FunctionComponent = () => {
                 <FrameContainer>
                   <EllipseWrapper>
                     <FrameChild alt='' src='/ellipse-3@2x.png' />
+                    <Box>
+                      <Button onClick={ handleLogout }>
+                        { /*  When Button include children, it is treated as plain */ }
+                        <Box>
+                          <Typography>logout</Typography>
+                        </Box>
+                      </Button>
+                    </Box>
                   </EllipseWrapper>
                   <IconsolidmenuAlt3
                     alt=''

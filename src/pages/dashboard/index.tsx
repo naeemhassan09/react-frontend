@@ -1085,10 +1085,12 @@ import PortalDrawer from 'src/components/portal-drawer';
 import MiniSideBar from 'src/components/mini-side-bar';
 import PortalPopup from 'src/components/portal-popup';
 import Modal from 'src/components/modal';
-import { getBaseUrl } from 'src/store/selectors/features';
+import { getDashboardData } from 'src/store/selectors/entities';
+import { useSelector } from 'react-redux';
 
 export const Dashboard: FunctionComponent = () => { 
   const dispatch = useDispatch();
+  const dashboardData = useSelector(getDashboardData);
 
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
@@ -1110,9 +1112,10 @@ export const Dashboard: FunctionComponent = () => {
    }, []);
 
   useEffect(() => { 
-    console.log('working');
     dispatch(fetchDashboardData({}));
    }, []);
+
+ 
 
   return (
     <>
@@ -1176,12 +1179,12 @@ export const Dashboard: FunctionComponent = () => {
                   <ProductsPngIcon1Parent>
                     <ProductsPngIcon1 alt='' src='/productspngicon-1@2x.png' />
                     <Products>Products</Products>
-                    <B>15+</B>
+                    <B>{ dashboardData?.products }</B>
                   </ProductsPngIcon1Parent>
                   <VendorPngIcon1Parent>
                     <VendorPngIcon1 alt='' src='/vendorpngicon-1@2x.png' />
                     <Products>Vendor</Products>
-                    <B>5</B>
+                    <B>{ dashboardData?.vendors }</B>
                   </VendorPngIcon1Parent>
                 </RatingSubBox2>
                 <RatingSubBox21>
@@ -1191,7 +1194,7 @@ export const Dashboard: FunctionComponent = () => {
                       src='/approvedvendorpngicon-1@2x.png'
                     />
                     <Products>Approve Vendor</Products>
-                    <B>5</B>
+                    <B>{ dashboardData?.approved_vendors }</B>
                   </VendorPngIcon1Parent>
                   <PendingVendorPngIcon1Parent>
                     <PendingVendorPngIcon1
@@ -1199,7 +1202,7 @@ export const Dashboard: FunctionComponent = () => {
                       src='/pendingvendorpngicon-1@2x.png'
                     />
                     <Products>Pending Vendor</Products>
-                    <B>5</B>
+                    <B>{ dashboardData?.pending_vendors }</B>
                   </PendingVendorPngIcon1Parent>
                 </RatingSubBox21>
               </RatingSubBox>

@@ -5,15 +5,16 @@ import { fetchDashboardData } from 'src/store/thunks';
   
   interface IAppData {
     products?: number,
-    vendors: number,
+    vendors?: number,
     pending_vendors?: number,
     approved_vendors?: number,
-    product_import_list: number,
-    product_imported_list: number,
-    orders_count: number
-    orders:[]
-    isVendor: boolean,
+    product_import_list?: number,
+    product_imported_list?: number,
+    orders_count?: number,
+    orders?:[],
+    isVendor?: boolean,
   }
+
   interface IInitialState {
    data: IAppData|null,
   }
@@ -43,11 +44,20 @@ import { fetchDashboardData } from 'src/store/thunks';
   extraReducers: (builder) => {
     builder.addCase(fetchDashboardData.fulfilled, (state, action) => {
     const { is_vendor, dashboard_data,orders } = action.payload;
-   console.log('dashboard data in slice',is_vendor, dashboard_data,orders , state);
-
+   
+    state.data={
+    products: dashboard_data.products,
+    vendors: dashboard_data.vendors,
+    pending_vendors: dashboard_data.pending_vendors,
+    approved_vendors: dashboard_data.approved_vendors,
+    product_import_list: dashboard_data.product_import_list,
+    product_imported_list: dashboard_data.product_imported_list,
+    orders_count: dashboard_data.orders_count,
+    orders:orders,
+    isVendor: is_vendor,
+   };
+   
   });
-
- 
 },
    
   });

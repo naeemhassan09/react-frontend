@@ -11,14 +11,3 @@ const dashboardEntitiesSelector = (state: TReduxState) => state.entities.dashboa
 
 export const getDashboardData = createSelector(dashboardEntitiesSelector, (app) => get(app, 'data', null));
 
-// export const getAllCompanies = createSelector(getAppData, (appData) =>
-//   get(appData, 'companies', [])
-// );
-
-// export const getBusinessUnits = createSelector(getAppData, (appData) =>
-//   get(appData, 'businessUnits', [])
-// );
-
-// export const getAllLocations = createSelector(getAppData, (appData) =>
-//   get(appData, 'locations', [])
-// );

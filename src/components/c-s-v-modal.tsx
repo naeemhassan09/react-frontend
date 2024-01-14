@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
@@ -105,7 +106,7 @@ const CsvModalRoot = styled.div`
   font-family: var(--text-sm-leading-5-font-normal);
 `;
 
-const CSVModal: FunctionComponent<CSVModalType> = ({ }) => (
+const CSVModal: FunctionComponent<CSVModalType> = () => (
   <CsvModalRoot>
     <LeadingContent>
       <Text1>

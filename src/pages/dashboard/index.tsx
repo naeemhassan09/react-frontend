@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
-//import { useDispatch } from 'react-redux';
-//import { Typography, Button, Box } from '@mui/material';
-import { FunctionComponent, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import React, {  useEffect  } from 'react';
+//import {  useDispatch  } from 'react-redux';
+//import {  Typography, Button, Box  } from '@mui/material';
+import {  FunctionComponent, useState, useCallback  } from 'react';
+import {  Link  } from 'react-router-dom';
 import styled from 'styled-components';
+
+//import {  logout  } from '../../store/thunks/auth';
+import {  fetchDashboardData  } from 'src/store/thunks';
+import {  useDispatch  } from 'react-redux';
 //import { logout } from '../../store/thunks/auth';
 
 import { Autocomplete, Box, Button, TextField, Typography } from '@mui/material';
-
-import { useDispatch } from 'react-redux';
 
 
 import AlchemtiveWhiteLogo from 'src/assets/images/Alchemative-white-SVG-logo.svg';
@@ -62,10 +64,10 @@ const Frame = styled.div`
   padding: var(--padding-3xs) var(--padding-7xl);
   gap: var(--gap-3xs);
   cursor: pointer;
-  &:hover {
+  &:hover { 
     background-color: var(--color-gray-300);
     transition: 0.1s;
-  }
+   }
 `;
 
 const OrderSvgIcon1 = styled.img`
@@ -95,10 +97,10 @@ const Layer1 = styled.a`
   gap: var(--gap-3xs);
   cursor: pointer;
   color: inherit;
-  &:hover {
+  &:hover { 
     background-color: var(--color-gray-300);
     transition: 0.1s;
-  }
+   }
 `;
 
 const Frame1 = styled.a`
@@ -114,10 +116,10 @@ const Frame1 = styled.a`
   gap: var(--gap-3xs);
   cursor: pointer;
   color: inherit;
-  &:hover {
+  &:hover { 
     background-color: var(--color-gray-300);
     transition: 0.1s;
-  }
+   }
 `;
 
 const SettingsSvgIcon1Parent = styled.a`
@@ -132,10 +134,10 @@ const SettingsSvgIcon1Parent = styled.a`
   gap: var(--gap-3xs);
   cursor: pointer;
   color: inherit;
-  &:hover {
+  &:hover { 
     background-color: var(--color-gray-300);
     transition: 0.1s;
-  }
+   }
 `;
 
 const FrameParent = styled.div`
@@ -166,13 +168,13 @@ const SideMenuBar = styled.div`
   justify-content: flex-start;
   padding: var(--padding-5xl) 1.56rem;
   gap: var(--gap-xl);
-  background-image: url("/sidemenubar@3x.png");
+  background-image: url('/sidemenubar@3x.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 960px) { 
     display: none;
-  }
+   }
 `;
 
 const NavLinks = styled.div`
@@ -188,9 +190,9 @@ const NavLinksWrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: var(--padding-3xs);
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 960px) { 
     display: none;
-  }
+   }
 `;
 
 const FrameWrapper = styled.div`
@@ -223,9 +225,9 @@ const IconsolidmenuAlt3 = styled.img`
   flex-shrink: 0;
   display: none;
   cursor: pointer;
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 960px) { 
     display: flex;
-  }
+   }
 `;
 
 const FrameContainer = styled.div`
@@ -234,12 +236,12 @@ const FrameContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 960px) { 
     flex: 1;
     align-items: center;
     justify-content: space-between;
     gap: var(--gap-0);
-  }
+   }
 `;
 
 const FrameGroup = styled.div`
@@ -263,11 +265,11 @@ const Header = styled.div`
   box-sizing: border-box;
   text-align: left;
   color: #b3b5b5;
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 960px) { 
     border-radius: 0px;
     border-bottom-right-radius: var(--br-31xl);
     border-bottom-left-radius: var(--br-31xl);
-  }
+   }
 `;
 
 const SubHeader = styled.div`
@@ -279,9 +281,9 @@ const SubHeader = styled.div`
   padding: var(--padding-16xl) 2.81rem;
   text-align: left;
   color: var(--color-gray-200);
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 960px) { 
     display: flex;
-  }
+   }
 `;
 
 const ProductsPngIcon1 = styled.img`
@@ -317,10 +319,10 @@ const ProductsPngIcon1Parent = styled.div`
   padding: var(--padding-3xs) var(--padding-11xl);
   box-sizing: border-box;
   gap: var(--gap-9xs);
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 500px) { 
     flex: unset;
     align-self: stretch;
-  }
+   }
 `;
 
 const VendorPngIcon1 = styled.img`
@@ -343,10 +345,10 @@ const VendorPngIcon1Parent = styled.div`
   padding: var(--padding-3xs) var(--padding-xl);
   box-sizing: border-box;
   gap: var(--gap-9xs);
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 500px) { 
     flex: unset;
     align-self: stretch;
-  }
+   }
 `;
 
 const RatingSubBox2 = styled.div`
@@ -356,14 +358,14 @@ const RatingSubBox2 = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: var(--gap-14xl);
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 768px) { 
     flex-direction: row;
     flex: unset;
     align-self: stretch;
-  }
-  @media screen and (max-width: 500px) {
+   }
+  @media screen and (max-width: 500px) { 
     flex-direction: column;
-  }
+   }
 `;
 
 const ApprovedVendorPngIcon1 = styled.img`
@@ -392,10 +394,10 @@ const PendingVendorPngIcon1Parent = styled.div`
   justify-content: center;
   padding: var(--padding-3xs) var(--padding-xl);
   box-sizing: border-box;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 500px) { 
     flex: unset;
     align-self: stretch;
-  }
+   }
 `;
 
 const RatingSubBox21 = styled.div`
@@ -405,13 +407,13 @@ const RatingSubBox21 = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: var(--gap-14xl);
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 768px) { 
     flex: unset;
     align-self: stretch;
-  }
-  @media screen and (max-width: 500px) {
+   }
+  @media screen and (max-width: 500px) { 
     flex-direction: column;
-  }
+   }
 `;
 
 const RatingSubBox = styled.div`
@@ -421,9 +423,9 @@ const RatingSubBox = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: var(--gap-14xl);
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 768px) { 
     flex-direction: column;
-  }
+   }
 `;
 
 const RatingBox = styled.div`
@@ -434,25 +436,25 @@ const RatingBox = styled.div`
   align-items: flex-start;
   justify-content: center;
   padding: var(--padding-31xl) 0rem;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1200px) { 
     padding-left: 0rem;
     padding-right: 0rem;
     box-sizing: border-box;
-  }
-  @media screen and (max-width: 960px) {
+   }
+  @media screen and (max-width: 960px) { 
     padding-top: 0rem;
     box-sizing: border-box;
-  }
-  @media screen and (max-width: 768px) {
+   }
+  @media screen and (max-width: 768px) { 
     padding-left: var(--padding-21xl);
     padding-right: var(--padding-21xl);
     box-sizing: border-box;
-  }
-  @media screen and (max-width: 420px) {
+   }
+  @media screen and (max-width: 420px) { 
     padding-left: var(--padding-3xs);
     padding-right: var(--padding-3xs);
     box-sizing: border-box;
-  }
+   }
 `;
 
 const SelectThroughFilter = styled.div`
@@ -526,10 +528,10 @@ const FrameDiv = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0.75rem 0.56rem;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1200px) { 
     flex: unset;
     align-self: stretch;
-  }
+   }
 `;
 
 const PieChart = styled.b`
@@ -695,10 +697,10 @@ const MainChartsAndGraphDivInner = styled.div`
   font-size: 1.43rem;
   color: #0057ff;
   font-family: var(--font-arial);
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1200px) { 
     flex: unset;
     align-self: stretch;
-  }
+   }
 `;
 
 const TrafficReport = styled.div`
@@ -843,10 +845,10 @@ const FrameParent4 = styled.div`
   justify-content: center;
   padding: 0.75rem 0.62rem;
   gap: 0.06rem;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1200px) { 
     flex: unset;
     align-self: stretch;
-  }
+   }
 `;
 
 const MainChartsAndGraphDiv = styled.div`
@@ -857,9 +859,9 @@ const MainChartsAndGraphDiv = styled.div`
   justify-content: center;
   gap: 1.5rem;
   font-size: var(--font-size-4xs);
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1200px) { 
     flex-direction: column;
-  }
+   }
 `;
 
 const VendorWisePayment = styled.div`
@@ -988,9 +990,9 @@ const DashboardSheetContainer = styled.div`
   align-items: flex-start;
   justify-content: center;
   color: var(--color-darkslategray-100);
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 768px) { 
     display: none;
-  }
+   }
 `;
 
 const OpenInWindowWrapper = styled.div`
@@ -1004,13 +1006,13 @@ const OpenInWindowWrapper = styled.div`
   padding: var(--padding-3xs) var(--padding-xl);
   box-sizing: border-box;
   cursor: pointer;
-  &:hover {
+  &:hover { 
     background-color: var(--color-crimson);
     cursor: pointer;
-  }
-  @media screen and (max-width: 768px) {
+   }
+  @media screen and (max-width: 768px) { 
     display: flex;
-  }
+   }
 `;
 
 const ModalButton = styled.div`
@@ -1024,9 +1026,9 @@ const ModalButton = styled.div`
   padding: 3.06rem 1.31rem;
   text-align: left;
   color: var(--white);
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 768px) { 
     display: flex;
-  }
+   }
 `;
 
 const DashboardContentContainer = styled.div`
@@ -1069,7 +1071,6 @@ const MainDashboardDRoot = styled.div`
   font-family: var(--font-poppins);
 `;
 
-
 import DashboardIcon from 'src/assets/images/Dashboard-SVG-icon.svg';
 import AlchemativeBrownishRedIcon from 'src/assets/images/Alchemative-brownish-red-SVG-icon.svg';
 import AlchemativeLogo from 'src/assets/images/alchemative-logo.svg';
@@ -1088,9 +1089,17 @@ import PortalDrawer from 'src/components/portal-drawer';
 import MiniSideBar from 'src/components/mini-side-bar';
 import PortalPopup from 'src/components/portal-popup';
 import Modal from 'src/components/modal';
+
+import { getDashboardData } from 'src/store/selectors/entities';
+import { useSelector } from 'react-redux';
+
+export const Dashboard: FunctionComponent = () => { 
+  const dispatch = useDispatch();
+  const dashboardData = useSelector(getDashboardData);
+
 import { logout } from '../../store/thunks/auth';
 
-export const Dashboard: FunctionComponent = () => {
+
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
   
@@ -1100,22 +1109,27 @@ export const Dashboard: FunctionComponent = () => {
     dispatch(logout({}));
   };
 
-  const openAfterLoginMenu = useCallback(() => {
+  const openAfterLoginMenu = useCallback(() => { 
     setAfterLoginMenuOpen(true);
-  }, []);
+   }, []);
 
-  const closeAfterLoginMenu = useCallback(() => {
+  const closeAfterLoginMenu = useCallback(() => { 
     setAfterLoginMenuOpen(false);
-  }, []);
+   }, []);
 
-  const openModalPopup = useCallback(() => {
+  const openModalPopup = useCallback(() => { 
     setModalPopupOpen(true);
-  }, []);
+   }, []);
 
-  const closeModalPopup = useCallback(() => {
+  const closeModalPopup = useCallback(() => { 
     setModalPopupOpen(false);
-  }, []);
+   }, []);
 
+  useEffect(() => { 
+    dispatch(fetchDashboardData({}));
+   }, []);
+
+ 
 
   return (
     <>
@@ -1123,7 +1137,7 @@ export const Dashboard: FunctionComponent = () => {
         <DashboardMainContainer>
           <SideMenuBar>
             <Logo>
-              <AlchemativeLogo1Icon alt='' src= { AlchemativeLogo } />
+              <AlchemativeLogo1Icon alt='' src={ AlchemativeLogo } />
             </Logo>
             <SideMenuBarInner>
               <FrameParent>
@@ -1187,12 +1201,12 @@ export const Dashboard: FunctionComponent = () => {
                   <ProductsPngIcon1Parent>
                     <ProductsPngIcon1 alt='' src='/productspngicon-1@2x.png' />
                     <Products>Products</Products>
-                    <B>15+</B>
+                    <B>{ dashboardData?.products }</B>
                   </ProductsPngIcon1Parent>
                   <VendorPngIcon1Parent>
                     <VendorPngIcon1 alt='' src='/vendorpngicon-1@2x.png' />
                     <Products>Vendor</Products>
-                    <B>5</B>
+                    <B>{ dashboardData?.vendors }</B>
                   </VendorPngIcon1Parent>
                 </RatingSubBox2>
                 <RatingSubBox21>
@@ -1202,7 +1216,7 @@ export const Dashboard: FunctionComponent = () => {
                       src='/approvedvendorpngicon-1@2x.png'
                     />
                     <Products>Approve Vendor</Products>
-                    <B>5</B>
+                    <B>{ dashboardData?.approved_vendors }</B>
                   </VendorPngIcon1Parent>
                   <PendingVendorPngIcon1Parent>
                     <PendingVendorPngIcon1
@@ -1210,7 +1224,7 @@ export const Dashboard: FunctionComponent = () => {
                       src='/pendingvendorpngicon-1@2x.png'
                     />
                     <Products>Pending Vendor</Products>
-                    <B>5</B>
+                    <B>{ dashboardData?.pending_vendors }</B>
                   </PendingVendorPngIcon1Parent>
                 </RatingSubBox21>
               </RatingSubBox>
@@ -1223,7 +1237,7 @@ export const Dashboard: FunctionComponent = () => {
                   </SelectThroughFilter>
                   <FrameAutocomplete
                     size='small'
-                    sx={ { width: 79 } }
+                    sx={ {  width: 79  } }
                     disablePortal
                     options={ ['option1', 'option2', 'option3', ''] }
                     renderInput={ (params: any) => (
@@ -1277,7 +1291,9 @@ export const Dashboard: FunctionComponent = () => {
                       <PieChartParent>
                         <PieChart>{ 'Pie Chart ' }</PieChart>
                         <APieChartContainer>
-                          <APieChart>{ 'A pie chart is great for visualization ' }</APieChart>
+                          <APieChart>
+                            { 'A pie chart is great for visualization ' }
+                          </APieChart>
                           <APieChart>{ 'of percentage ' }</APieChart>
                         </APieChartContainer>
                       </PieChartParent>
@@ -1314,7 +1330,7 @@ export const Dashboard: FunctionComponent = () => {
                   <TrafficReport>Traffic report</TrafficReport>
                   <FrameAutocomplete
                     size='small'
-                    sx={ { width: 79 } }
+                    sx={ {  width: 79  } }
                     disablePortal
                     options={ ['option1', 'option2', 'option3', ''] }
                     renderInput={ (params: any) => (
@@ -1596,8 +1612,6 @@ export const Dashboard: FunctionComponent = () => {
           <Modal onClose={ closeModalPopup } />
         </PortalPopup>
       ) }
-
     </>
   );
-};
-
+ };

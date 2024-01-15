@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { FunctionComponent, useState, useEffect } from 'react';
 import {
   TextField,
@@ -142,7 +143,8 @@ const CreateUserModalRoot = styled.div`
   }
 `;
 
-const CreateUserModal: FunctionComponent<CreateUserModalType> = ({}) => {
+
+const CreateUserModal: FunctionComponent<CreateUserModalType> = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleShowPasswordClick = () => {

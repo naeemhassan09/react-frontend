@@ -79,7 +79,7 @@ const SubMenuBarRoot = styled.div`
   }
 `;
 
-const SubMenuBar: FunctionComponent<SubMenuBarType> = ({ }) => {
+const SubMenuBar: FunctionComponent<SubMenuBarType> = () => {
   useEffect(() => {
     const scrollAnimElements = document.querySelectorAll(
       '[data-animate-on-scroll]'

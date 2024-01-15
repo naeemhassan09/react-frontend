@@ -53,7 +53,7 @@ const DashboardWrapper = styled.div`
   height: 1.31rem;
 `;
 
-const Frame = styled.div`
+const Frame = styled(Link)`
   align-self: stretch;
   background-color: var(--color-gray-400);
   overflow: hidden;
@@ -84,7 +84,7 @@ const Orders = styled.div`
   cursor: pointer;
 `;
 
-const Layer1 = styled.a`
+const Layer1 = styled(Link)`
   text-decoration: none;
   align-self: stretch;
   background-color: var(--color-gray-400);
@@ -103,7 +103,7 @@ const Layer1 = styled.a`
    }
 `;
 
-const Frame1 = styled.a`
+const Frame1 = styled(Link)`
   text-decoration: none;
   align-self: stretch;
   background-color: var(--color-gray-400);
@@ -122,7 +122,7 @@ const Frame1 = styled.a`
    }
 `;
 
-const SettingsSvgIcon1Parent = styled.a`
+const SettingsSvgIcon1Parent = styled(Link)`
   text-decoration: none;
   align-self: stretch;
   background-color: var(--color-gray-400);
@@ -1091,6 +1091,8 @@ import PortalPopup from 'src/components/portal-popup';
 import Modal from 'src/components/modal';
 import { getDashboardData } from 'src/store/selectors/entities';
 import { useSelector } from 'react-redux';
+import { APP, DASHBORD_ROUTE, ORDERS_ROUTE, PRODUCTLIST_ROUTE, 
+  USERMANAGEMENT_ROUTE } from 'src/constants/navigation-routes';
 import { logout } from '../../store/thunks/auth';
 
 
@@ -1140,21 +1142,21 @@ export const Dashboard: FunctionComponent = () => {
             </Logo>
             <SideMenuBarInner>
               <FrameParent>
-                <Frame>
+                <Frame to={ `${APP}${DASHBORD_ROUTE}` }>
                   <DashboardSvgIcon1 alt='' src='/dashboardsvgicon-1.svg' />
                   <DashboardWrapper>
                     <Dashboard_1>Dashboard</Dashboard_1>
                   </DashboardWrapper>
                 </Frame>
-                <Layer1>
+                <Layer1 to={ `${APP}${ORDERS_ROUTE}` }>
                   <OrderSvgIcon1 alt='' src='/ordersvgicon-1.svg' />
                   <Orders>Orders</Orders>
                 </Layer1>
-                <Frame1>
+                <Frame1 to={ `${APP}${PRODUCTLIST_ROUTE}` }>
                   <OrderSvgIcon1 alt='' src='/productlistsvgicon-1.svg' />
                   <Orders>Product List</Orders>
                 </Frame1>
-                <SettingsSvgIcon1Parent>
+                <SettingsSvgIcon1Parent to={ `${APP}${USERMANAGEMENT_ROUTE}` }>
                   <OrderSvgIcon1 alt='' src='/settingssvgicon-1.svg' />
                   <Orders>Setiings</Orders>
                 </SettingsSvgIcon1Parent>

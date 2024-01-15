@@ -654,21 +654,21 @@ export const Orders: FunctionComponent = () => {
                 <ClipPathGroup alt='' src='/clip-path-group@2x.png' />
               </WebLogo>
               <FrameParent>
-                <Frame to='/maindashboard'>
+                <Frame to='/app/dashboard'>
                   <VectorParent>
                     <VectorIcon alt='' src='/group-2@2x.png' />
                     <Dashboard>Dashboard</Dashboard>
                   </VectorParent>
                 </Frame>
-                <Layer1 to='/mainorders'>
+                <Layer1 to='/app/orders'>
                   <GroupIcon alt='' src='/group@2x.png' />
                   <Orders_1>Orders</Orders_1>
                 </Layer1>
-                <Frame1 to='/mainpropductlist'>
+                <Frame1 to='/app/productlist'>
                   <VectorIcon1 alt='' src='/vector@2x.png' />
                   <Orders_1>Product List</Orders_1>
                 </Frame1>
-                <IconParent to='/mainsettingsrolespermissions'>
+                <IconParent to='/app/usermanagement'>
                   <Icon1>
                     <TransparentRectangleIcon
                       alt=''

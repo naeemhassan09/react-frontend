@@ -639,7 +639,7 @@ export const ProductList: FunctionComponent = () => {
   const [isCSVModalPopupOpen, setCSVModalPopupOpen] = useState(false);
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
-  const [totlaPages, setTotalPages]=useState<number>();
+  const [totalPages, setTotalPages]=useState<number>(0);
   const [currentPage, setCurrentPage]=useState<number>(0);
   const [selectedProductArray, setSelectedProductArray]=useState<any>([]);
   const itemsPerPage=10;
@@ -711,6 +711,7 @@ const renderTable = () => (
   );
 
   const handleNextPage = () => {
+    if (currentPage < totalPages)
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
@@ -868,9 +869,6 @@ const renderTable = () => (
                   <TitleWrapper>
                     <Title>Total Variants</Title>
                   </TitleWrapper>
-                  { /* <TitleWrapper>
-                    <Title1>Total Variants</Title1>
-                  </TitleWrapper> */ }
                 </Colum1>
               </ProductSheetContainer>
               <>{ renderTable() }</>              
@@ -880,7 +878,7 @@ const renderTable = () => (
                     <Import>Item per page: 10</Import>
                   </ItemPerPageParent>
                   <Of0Wrapper>
-                    <Import>{ `${currentPage} of ${totlaPages}` }</Import>
+                    <Import>{ `${currentPage} of ${totalPages}` }</Import>
                   </Of0Wrapper>
                   <DoubleRightParent>
                     <Icons8Back501 alt='' src='/icons8back50-1@2x.png' onClick={ handlePrevPage }/>

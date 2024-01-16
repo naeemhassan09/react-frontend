@@ -670,7 +670,7 @@ export const ProductList: FunctionComponent = () => {
 
 
 const renderTable = () => (
-    selectedProductArray.length > 0 ? (
+    selectedProductArray?.length > 0 ? (
       <>
         { selectedProductArray.map((item: any, index: number) => (
           <ProductSheetContainer key={ index }>

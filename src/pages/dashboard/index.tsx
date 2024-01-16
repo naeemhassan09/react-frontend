@@ -1100,8 +1100,6 @@ export const Dashboard: FunctionComponent = () => {
   const dispatch = useDispatch();
   const dashboardData = useSelector(getDashboardData);
 
-
-
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
   

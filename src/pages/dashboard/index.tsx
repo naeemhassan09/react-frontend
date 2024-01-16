@@ -1128,8 +1128,6 @@ export const Dashboard: FunctionComponent = () => {
     dispatch(fetchDashboardData({}));
    }, []);
 
- 
-
   return (
     <>
       <MainDashboardDRoot>

@@ -507,12 +507,12 @@ const Of0Wrapper = styled.div`
   padding: var(--padding-3xs);
 `;
 
-const DoubleRightIcon = styled.img`
-  position: relative;
-  width: 1.5rem;
-  height: 1.5rem;
-  object-fit: contain;
-`;
+// const DoubleRightIcon = styled.img`
+//   position: relative;
+//   width: 1.5rem;
+//   height: 1.5rem;
+//   object-fit: contain;
+// `;
 
 const Icons8Back501 = styled.img`
   position: relative;
@@ -639,8 +639,10 @@ export const ProductList: FunctionComponent = () => {
   const [isCSVModalPopupOpen, setCSVModalPopupOpen] = useState(false);
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
-  const [totlaPages, setTotalPages]=useState<number>(0);
+  const [totlaPages, setTotalPages]=useState<number>();
   const [currentPage, setCurrentPage]=useState<number>(0);
+  const [selectedProductArray, setSelectedProductArray]=useState<any>([]);
+  const itemsPerPage=10;
 
   const openAfterLoginMenu = useCallback(() => {
     setAfterLoginMenuOpen(true);
@@ -666,60 +668,80 @@ export const ProductList: FunctionComponent = () => {
     setModalPopupOpen(false);
   }, []);
 
-  const renderTable =(()=>(
 
-    <ProductSheetContainer>
-      <Colum1>
-        <TitleWrapper>
-          <Title1>Title</Title1>
-        </TitleWrapper>
-      </Colum1>
-      <Colum1>
-        <TitleWrapper>
-          <Title1>Title</Title1>
-        </TitleWrapper>
-      </Colum1>
-      <Colum1>
-        <TitleWrapper>
-          <Title1>Title</Title1>
-        </TitleWrapper>
-      </Colum1>
-      <Colum1>
-        <TitleWrapper>
-          <Title1>Title</Title1>
-        </TitleWrapper>
-      </Colum1>
-      <Colum1>
-        <TitleWrapper>
-          <Title1>Title</Title1>
-        </TitleWrapper>
-      </Colum1>
-      <Colum1>
-        <TitleWrapper>
-          <Title1>Title</Title1>
-        </TitleWrapper>
-      </Colum1>
-    </ProductSheetContainer>
-  ));
+const renderTable = () => (
+    selectedProductArray.length > 0 ? (
+      <>
+        { selectedProductArray.map((item: any, index: number) => (
+          <ProductSheetContainer key={ index }>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.title }</Title1>
+              </TitleWrapper>
+            </Colum1>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.product_type }</Title1>
+              </TitleWrapper>
+            </Colum1>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.vendor }</Title1>
+              </TitleWrapper>
+            </Colum1>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.published_at }</Title1>
+              </TitleWrapper>
+            </Colum1>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.status }</Title1>
+              </TitleWrapper>
+            </Colum1>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.no_of_variants }</Title1>
+              </TitleWrapper>
+            </Colum1>
+          </ProductSheetContainer>
+        )) }
+      </>
+    ) : <></>
+  );
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
 
   useEffect(() => { 
     dispatch(fetchProductData({}));
    }, []);
 
    useEffect(()=>{
-
-    console.log(productList);
-
     if (productList && productList.length>0)
     {
         const pages=Math.ceil(productList.length/10);
         setTotalPages(pages);
         setCurrentPage(1);
     }
-
-    
    },[productList]);
 
+   useEffect(() => {
+    if (productList !== null  && productList && productList.length>10) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const nextItems = productList.slice(startIndex, endIndex);
+      setSelectedProductArray(nextItems);
+    }
+
+    else  setSelectedProductArray(productList);
+
+  }, [productList, currentPage]);
 
   return (
     <>
@@ -861,10 +883,8 @@ export const ProductList: FunctionComponent = () => {
                     <Import>{ `${currentPage} of ${totlaPages}` }</Import>
                   </Of0Wrapper>
                   <DoubleRightParent>
-                    <DoubleRightIcon alt='' src='/double-right@2x.png' />
-                    <Icons8Back501 alt='' src='/icons8back50-1@2x.png' />
-                    <Icons8Back501 alt='' src='/icons8forward50-1@2x.png' />
-                    <Icons8Back501 alt='' src='/double-right@2x.png' />
+                    <Icons8Back501 alt='' src='/icons8back50-1@2x.png' onClick={ handlePrevPage }/>
+                    <Icons8Back501 alt='' src='/icons8forward50-1@2x.png' onClick={ handleNextPage }/>
                   </DoubleRightParent>
                 </FrameParent1>
               </BottomPagination>

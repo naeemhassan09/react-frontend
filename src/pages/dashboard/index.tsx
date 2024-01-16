@@ -1100,9 +1100,16 @@ export const Dashboard: FunctionComponent = () => {
   const dispatch = useDispatch();
   const dashboardData = useSelector(getDashboardData);
 
+  const ordersArrays=  dashboardData?.orders;
+
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
+
+  const [selectedOrderArray, setSelectedOrderArray] = useState<any>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages,setTotalPages]=useState<number>(0);
   
+  const itemsPerPage = 10;
 
   const handleLogout = () => {
     dispatch(logout({}));
@@ -1124,9 +1131,89 @@ export const Dashboard: FunctionComponent = () => {
     setModalPopupOpen(false);
    }, []);
 
+   const renderTable = () => (
+    selectedOrderArray!==undefined && selectedOrderArray?.length > 0 ? (
+      <>
+        { selectedOrderArray.map((item: any, index: number) => (
+          <VendorSheetContainer key={ index }>
+            <Colum1>
+              <VendorNameContainer>
+                <NoOfOrder>{ item?.vendor_name }</NoOfOrder>
+              </VendorNameContainer>
+            </Colum1>
+  
+            <Colum1>
+              <VendorNameContainer>
+                <NoOfOrder>{ item?.no_of_orders }</NoOfOrder>
+              </VendorNameContainer>
+            </Colum1>
+  
+            <Colum1>
+              <VendorNameContainer>
+                <NoOfOrder>{ item?.total_amount }</NoOfOrder>
+              </VendorNameContainer>
+            </Colum1>
+  
+            <Colum1>
+              <VendorNameContainer>
+                <NoOfOrder>{ item?.total_commission }</NoOfOrder>
+              </VendorNameContainer>
+            </Colum1>
+  
+            <Colum1>
+              <VendorNameContainer>
+                <NoOfOrder>{ item?.total_pending_commission }</NoOfOrder>
+              </VendorNameContainer>
+            </Colum1>
+  
+            <Colum1>
+              <VendorNameContainer>
+                <NoOfOrder>{ item?.total_paid_commission }</NoOfOrder>
+              </VendorNameContainer>
+            </Colum1>
+          </VendorSheetContainer>
+        )) }
+      </>
+    ) : (
+      <></>
+    )
+  );
+  
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages)
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
   useEffect(() => { 
     dispatch(fetchDashboardData({}));
    }, []);
+
+   useEffect(()=>{    
+    if (ordersArrays && ordersArrays.length>0)
+    {
+        const pages=Math.ceil(ordersArrays.length/10);
+        setTotalPages(pages);
+        setCurrentPage(1);
+    }
+   },[ordersArrays]);
+
+   useEffect(() => {
+    if (ordersArrays !== null  && ordersArrays && ordersArrays.length>10) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const nextItems = ordersArrays.slice(startIndex, endIndex);
+      setSelectedOrderArray(nextItems);
+    }
+
+    else  setSelectedOrderArray(ordersArrays);
+
+  }, [ordersArrays, currentPage]);
+
 
   return (
     <>
@@ -1312,7 +1399,7 @@ export const Dashboard: FunctionComponent = () => {
                             <A> B</A>
                             <RectangleDiv />
                           </BParent>
-                        </GroupParent>
+                        </GroupParent>orders
                       </FrameWrapper2>
                     </FrameParent3>
                   </FrameWrapper1>
@@ -1415,170 +1502,43 @@ export const Dashboard: FunctionComponent = () => {
                   <VendorNameWrapper>
                     <VendorName>Vendor Name</VendorName>
                   </VendorNameWrapper>
-                  <VendorNameContainer>
-                    <NoOfOrder>Vendor Name</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Vendor Name</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Vendor Name</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Vendor Name</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Vendor Name</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Vendor Name</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Vendor Name</NoOfOrder>
-                  </VendorNameContainer>
                 </Colum1>
                 <Colum1>
                   <VendorNameWrapper>
-                    <VendorName>No od Order</VendorName>
+                    <VendorName>No of Order</VendorName>
                   </VendorNameWrapper>
-                  <VendorNameContainer>
-                    <NoOfOrder>No of Order</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>No of Order</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>No of Order</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>No of Order</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>No of Order</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>No of Order</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>No of Order</NoOfOrder>
-                  </VendorNameContainer>
                 </Colum1>
                 <Colum1>
                   <VendorNameWrapper>
                     <VendorName>Total Amount</VendorName>
                   </VendorNameWrapper>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Amount</NoOfOrder>
-                  </VendorNameContainer>
                 </Colum1>
                 <Colum1>
                   <VendorNameWrapper>
                     <VendorName>Total Pay Bill</VendorName>
                   </VendorNameWrapper>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Pay Bill</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Pay Bill</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Pay Bill</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Pay Bill</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Pay Bill</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Pay Bill</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Pay Bill</NoOfOrder>
-                  </VendorNameContainer>
                 </Colum1>
                 <Colum1>
                   <VendorNameWrapper>
                     <VendorName>Pending Amount</VendorName>
                   </VendorNameWrapper>
-                  <VendorNameContainer>
-                    <NoOfOrder>Pending Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Pending Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Pending Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Pending Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Pending Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Pending Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Pending Amount</NoOfOrder>
-                  </VendorNameContainer>
                 </Colum1>
                 <Colum1>
                   <VendorNameWrapper>
                     <VendorName>Paid Amount</VendorName>
                   </VendorNameWrapper>
-                  <VendorNameContainer>
-                    <NoOfOrder>Paid Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Paid Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Paid Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Paid Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Paid Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Paid Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Paid Amount</NoOfOrder>
-                  </VendorNameContainer>
                 </Colum1>
               </VendorSheetContainer>
+              <> { renderTable() } </>
               <DashboardSheetContainerInner>
                 <FrameParent9>
                   <ItemPerPage50Parent>
-                    <SelectThroughFilter>Item per page: 50</SelectThroughFilter>
-                    <SelectThroughFilter>0 of 0</SelectThroughFilter>
+                    <SelectThroughFilter>Item per page: 10</SelectThroughFilter>
+                    <SelectThroughFilter>{ `${currentPage} of ${totalPages}` }</SelectThroughFilter>
                   </ItemPerPage50Parent>
                   <DoubleRightParent>
-                    <DoubleRightIcon alt='' src='/double-right@2x.png' />
-                    <Icons8Back501 alt='' src='/icons8back50-1@2x.png' />
-                    <Icons8Back501 alt='' src='/icons8forward50-1@2x.png' />
-                    <Icons8Back501 alt='' src='/double-right1@2x.png' />
+                    <Icons8Back501 alt='' src='/icons8back50-1@2x.png' onClick={ handlePrevPage }/>
+                    <Icons8Back501 alt='' src='/icons8forward50-1@2x.png' onClick={ handleNextPage }/>
                   </DoubleRightParent>
                 </FrameParent9>
               </DashboardSheetContainerInner>

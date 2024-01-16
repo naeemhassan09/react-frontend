@@ -1,11 +1,10 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { FunctionComponent, useState, useCallback } from 'react';
+import { FunctionComponent, useState, useCallback, useEffect } from 'react';
 import {
   TextField,
   InputAdornment,
   Icon,
 
-  Autocomplete,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -14,6 +13,10 @@ import PortalPopup from 'src/components/portal-popup';
 import Modal from 'src/components/modal';
 import MiniSideBar from 'src/components/mini-side-bar';
 import PortalDrawer from 'src/components/portal-drawer';
+import { useDispatch } from 'react-redux';
+import { fetchProductData } from 'src/store/thunks';
+import { getProductList } from 'src/store/selectors/entities';
+import { useSelector } from 'react-redux';
 
 const ClipPathGroup = styled.img`
   position: relative;
@@ -486,7 +489,7 @@ const ProductSheetContainer = styled.div`
   justify-content: flex-start;
 `;
 
-const FrameItem = styled(Autocomplete)``;
+// const FrameItem = styled(Autocomplete)``;
 
 const ItemPerPageParent = styled.div`
   display: flex;
@@ -504,12 +507,12 @@ const Of0Wrapper = styled.div`
   padding: var(--padding-3xs);
 `;
 
-const DoubleRightIcon = styled.img`
-  position: relative;
-  width: 1.5rem;
-  height: 1.5rem;
-  object-fit: contain;
-`;
+// const DoubleRightIcon = styled.img`
+//   position: relative;
+//   width: 1.5rem;
+//   height: 1.5rem;
+//   object-fit: contain;
+// `;
 
 const Icons8Back501 = styled.img`
   position: relative;
@@ -625,13 +628,21 @@ const MainPropductListRoot = styled.div`
   text-align: left;
   font-size: var(--text-sm-leading-5-font-normal-size);
   color: var(--white);
-  font-family: var(--font-poppins);
+  font-family: var(--font-poppins);        console.log('pages',pages);
+
 `;
 
 export const ProductList: FunctionComponent = () => {
+  const dispatch=useDispatch();
+  const productList = useSelector(getProductList);
+  
   const [isCSVModalPopupOpen, setCSVModalPopupOpen] = useState(false);
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
+  const [totalPages, setTotalPages]=useState<number>(0);
+  const [currentPage, setCurrentPage]=useState<number>(0);
+  const [selectedProductArray, setSelectedProductArray]=useState<any>([]);
+  const itemsPerPage=10;
 
   const openAfterLoginMenu = useCallback(() => {
     setAfterLoginMenuOpen(true);
@@ -656,6 +667,82 @@ export const ProductList: FunctionComponent = () => {
   const closeModalPopup = useCallback(() => {
     setModalPopupOpen(false);
   }, []);
+
+
+const renderTable = () => (
+    selectedProductArray?.length > 0 ? (
+      <>
+        { selectedProductArray.map((item: any, index: number) => (
+          <ProductSheetContainer key={ index }>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.title }</Title1>
+              </TitleWrapper>
+            </Colum1>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.product_type }</Title1>
+              </TitleWrapper>
+            </Colum1>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.vendor }</Title1>
+              </TitleWrapper>
+            </Colum1>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.published_at }</Title1>
+              </TitleWrapper>
+            </Colum1>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.status }</Title1>
+              </TitleWrapper>
+            </Colum1>
+            <Colum1>
+              <TitleWrapper>
+                <Title1>{ item.no_of_variants }</Title1>
+              </TitleWrapper>
+            </Colum1>
+          </ProductSheetContainer>
+        )) }
+      </>
+    ) : <></>
+  );
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages)
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  useEffect(() => { 
+    dispatch(fetchProductData({}));
+   }, []);
+
+   useEffect(()=>{
+    if (productList && productList.length>0)
+    {
+        const pages=Math.ceil(productList.length/10);
+        setTotalPages(pages);
+        setCurrentPage(1);
+    }
+   },[productList]);
+
+   useEffect(() => {
+    if (productList !== null  && productList && productList.length>10) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const nextItems = productList.slice(startIndex, endIndex);
+      setSelectedProductArray(nextItems);
+    }
+
+    else  setSelectedProductArray(productList);
+
+  }, [productList, currentPage]);
 
   return (
     <>
@@ -756,204 +843,46 @@ export const ProductList: FunctionComponent = () => {
                   <TitleWrapper>
                     <Title>Title</Title>
                   </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Title</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Title</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Title</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Title</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Title</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Title</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Title</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Title</Title1>
-                  </TitleWrapper>
                 </Colum1>
                 <Colum1>
                   <TitleWrapper>
                     <Title>Product Type</Title>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Product Type</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Product Type</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Product Type</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Product Type</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Product Type</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Product Type</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Product Type</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Product Type</Title1>
                   </TitleWrapper>
                 </Colum1>
                 <Colum1>
                   <TitleWrapper>
                     <Title>Shopify Vendor</Title>
                   </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Shopify vendor</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Shopify vendor</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Shopify vendor</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Shopify vendor</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Shopify vendor</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Shopify vendor</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Shopify vendor</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Shopify vendor</Title1>
-                  </TitleWrapper>
+                
                 </Colum1>
                 <Colum1>
                   <TitleWrapper>
                     <Title>Published At</Title>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Published At</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Published At</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Published At</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Published At</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Published At</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Published At</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Published At</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Published At</Title1>
                   </TitleWrapper>
                 </Colum1>
                 <Colum1>
                   <TitleWrapper>
                     <Title>Status</Title>
                   </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Status</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Status</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Status</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Status</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Status</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Status</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Status</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Status</Title1>
-                  </TitleWrapper>
                 </Colum1>
                 <Colum1>
                   <TitleWrapper>
                     <Title>Total Variants</Title>
                   </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Total Variants</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Total Variants</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Total Variants</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Total Variants</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Total Variants</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Total Variants</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Total Variants</Title1>
-                  </TitleWrapper>
-                  <TitleWrapper>
-                    <Title1>Total Variants</Title1>
-                  </TitleWrapper>
                 </Colum1>
               </ProductSheetContainer>
+              <>{ renderTable() }</>              
               <BottomPagination>
                 <FrameParent1>
                   <ItemPerPageParent>
-                    <Import>Item per page:</Import>
-                    <FrameItem
-                      disablePortal
-                      options={ ['1', '2', '3'] }
-                      renderInput={ (params: any) => (
-                        <TextField
-                          { ...params }
-                          color='primary'
-                          label=''
-                          variant='standard'
-                          placeholder=''
-                          helperText=''
-                        />
-                      ) }
-                    />
+                    <Import>Item per page: 10</Import>
                   </ItemPerPageParent>
                   <Of0Wrapper>
-                    <Import>0 of 0</Import>
+                    <Import>{ `${currentPage} of ${totalPages}` }</Import>
                   </Of0Wrapper>
                   <DoubleRightParent>
-                    <DoubleRightIcon alt='' src='/double-right@2x.png' />
-                    <Icons8Back501 alt='' src='/icons8back50-1@2x.png' />
-                    <Icons8Back501 alt='' src='/icons8forward50-1@2x.png' />
-                    <Icons8Back501 alt='' src='/double-right@2x.png' />
+                    <Icons8Back501 alt='' src='/icons8back50-1@2x.png' onClick={ handlePrevPage }/>
+                    <Icons8Back501 alt='' src='/icons8forward50-1@2x.png' onClick={ handleNextPage }/>
                   </DoubleRightParent>
                 </FrameParent1>
               </BottomPagination>

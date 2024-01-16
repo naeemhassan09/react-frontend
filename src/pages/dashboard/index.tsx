@@ -1107,6 +1107,8 @@ export const Dashboard: FunctionComponent = () => {
 
   const [selectedOrderArray, setSelectedOrderArray] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages,setTotalPages]=useState<number>(0);
+  
   const itemsPerPage = 10;
 
   const handleLogout = () => {
@@ -1179,6 +1181,7 @@ export const Dashboard: FunctionComponent = () => {
   
 
   const handleNextPage = () => {
+    if (currentPage < totalPages)
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
@@ -1189,6 +1192,15 @@ export const Dashboard: FunctionComponent = () => {
   useEffect(() => { 
     dispatch(fetchDashboardData({}));
    }, []);
+
+   useEffect(()=>{    
+    if (ordersArrays && ordersArrays.length>0)
+    {
+        const pages=Math.ceil(ordersArrays.length/10);
+        setTotalPages(pages);
+        setCurrentPage(1);
+    }
+   },[ordersArrays]);
 
    useEffect(() => {
     if (ordersArrays !== null  && ordersArrays && ordersArrays.length>10) {
@@ -1490,72 +1502,31 @@ export const Dashboard: FunctionComponent = () => {
                   <VendorNameWrapper>
                     <VendorName>Vendor Name</VendorName>
                   </VendorNameWrapper>
-                  {
-                  /* <VendorNameContainer>
-                    <NoOfOrder>Vendor Name</NoOfOrder>
-                  </VendorNameContainer>
-                  */
-                  
-                  }
                 </Colum1>
                 <Colum1>
                   <VendorNameWrapper>
                     <VendorName>No of Order</VendorName>
                   </VendorNameWrapper>
-                  {
-                  /* <VendorNameContainer>
-                    <NoOfOrder>No of Order</NoOfOrder>
-                 
-                  </VendorNameContainer> */
-                  }
                 </Colum1>
                 <Colum1>
                   <VendorNameWrapper>
                     <VendorName>Total Amount</VendorName>
                   </VendorNameWrapper>
-                  {
-                  /* <VendorNameContainer>
-                    <NoOfOrder>Total Amount</NoOfOrder>
-                  </VendorNameContainer>
-                  <VendorNameContainer>
-                    <NoOfOrder>Total Amount</NoOfOrder>
-                  </VendorNameContainer> */
-                  }
                 </Colum1>
                 <Colum1>
                   <VendorNameWrapper>
                     <VendorName>Total Pay Bill</VendorName>
                   </VendorNameWrapper>
-                  {
-                  /* <VendorNameContainer>
-                    <NoOfOrder>Total Pay Bill</NoOfOrder>
-                  </VendorNameContainer> */
-                  }
-                  
                 </Colum1>
                 <Colum1>
                   <VendorNameWrapper>
                     <VendorName>Pending Amount</VendorName>
                   </VendorNameWrapper>
-                  { /*
-                   <VendorNameContainer>
-                    <NoOfOrder>Pending Amount</NoOfOrder>
-                  </VendorNameContainer>
-                            <VendorNameContainer>
-                    <NoOfOrder>Pending Amount</NoOfOrder>
-                  </VendorNameContainer> */
-                  }
                 </Colum1>
                 <Colum1>
                   <VendorNameWrapper>
                     <VendorName>Paid Amount</VendorName>
                   </VendorNameWrapper>
-                  {
-                  /* <VendorNameContainer>
-                    <NoOfOrder>Paid Amount</NoOfOrder>
-                  </VendorNameContainer>
-                
-               */ }
                 </Colum1>
               </VendorSheetContainer>
               <> { renderTable() } </>
@@ -1563,7 +1534,7 @@ export const Dashboard: FunctionComponent = () => {
                 <FrameParent9>
                   <ItemPerPage50Parent>
                     <SelectThroughFilter>Item per page: 10</SelectThroughFilter>
-                    <SelectThroughFilter>{ `${selectedOrderArray?.length} of 10` }</SelectThroughFilter>
+                    <SelectThroughFilter>{ `${currentPage} of ${totalPages}` }</SelectThroughFilter>
                   </ItemPerPage50Parent>
                   <DoubleRightParent>
                     <Icons8Back501 alt='' src='/icons8back50-1@2x.png' onClick={ handlePrevPage }/>

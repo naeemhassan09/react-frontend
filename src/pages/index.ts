@@ -5,6 +5,7 @@ import { ProductList } from './productlist';
 import { Health as HealthCheck} from './health';
 import { UserManagement } from './usermanagment';
 import { ActivityStream } from './activitystream';
+import { RolesPermission } from './roles-permission';
 
 export {
   Dashboard,
@@ -13,5 +14,6 @@ export {
   Orders,
   ProductList,
   UserManagement,
-  ActivityStream
+  ActivityStream, 
+  RolesPermission,
 };

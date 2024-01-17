@@ -20,6 +20,7 @@ export const ORDERS_ROUTE = '/orders';
 export const PRODUCTLIST_ROUTE = '/productlist';
 export const USERMANAGEMENT_ROUTE= '/usermanagement';
 export const ACTIVITYSTREAM_ROUTE = '/activitystream';
+export const ROLESPERMISSION_ROUTE = '/rolespermission';
 // Sidebar Route Names
 export enum SIDEBAR_NAMES {
   DASHBOARD = 'Dashboard',

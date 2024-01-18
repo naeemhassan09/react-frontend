@@ -152,7 +152,7 @@ const CreateShopifyModalRoot = styled.div`
   }
 `;
 
-const CreateShopifyModal: FunctionComponent<CreateShopifyModalType> = ({}) => {
+const CreateShopifyModal: FunctionComponent<CreateShopifyModalType> = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleShowPasswordClick = () => {

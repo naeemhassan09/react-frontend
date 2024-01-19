@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import { APP } from 'src/constants/navigation-routes';
-import { getIsLoggedIn, getUserRoleId } from '../store/selectors/features/auth';
+import { getIsLoggedIn } from '../store/selectors/features/auth';
 import PrivateRoutesConfig from './private-route-config';
 import MapAllowedRoutes from './map-allowed-routes';
 

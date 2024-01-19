@@ -1,24 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchProductData } from 'src/store/thunks';
+import { fetchOrderData } from 'src/store/thunks';
 
+
+  
 
   interface IInitialState {
    data: []|null,
   }
   
   const INITIAL_STATE : IInitialState = {
-   data:null,
+    data:null,
   };
 
 
-  export const productListEntitySlice = createSlice({
+  export const OrderEntitySlice = createSlice({
     // A name, used in action types
-    name: 'productList',
+    name: 'orderList',
     // The initial state for the reducer
     initialState: INITIAL_STATE,
     // An object of 'case reducers'. Key names will be used to generate actions.
     reducers: {
-      setProductListData: (state) => {
+      setOrderData: (state) => {
       state.data=null;
       },
 
@@ -27,16 +29,16 @@ import { fetchProductData } from 'src/store/thunks';
 
      // A "builder callback" function used to add more reducers
   extraReducers: (builder) => {
-    builder.addCase(fetchProductData.fulfilled, (state, action) => {
-    state.data=action.payload.products;
+    builder.addCase(fetchOrderData.fulfilled, (state, action) => {
+    state.data=action.payload.orders;
    
   });
 },
    
   });
   
-  export const { setProductListData } = productListEntitySlice.actions;
+  export const { setOrderData } = OrderEntitySlice.actions;
   
-  export const productListEntityReducer = productListEntitySlice.reducer;
+  export const orderEntityReducer = OrderEntitySlice.reducer;
   
   

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { ROLES } from '../../../constants/roles';
+// import { ROLES } from '../../../constants/roles';
 /**
  *
  * @param state
@@ -10,8 +10,8 @@ const authEntitySelector = (state: TReduxState) => state?.entities?.auth;
 
 export const getIsLoggedIn = createSelector(authEntitySelector, (app) => app?.data);
 
-export const getCurrentUser = createSelector(getIsLoggedIn, (data: any) => data?.user);
+// export const getCurrentUser = createSelector(getIsLoggedIn, (data: any) => data?.user);
 
-export const getIsAdmin = createSelector(getIsLoggedIn, (data: any) => data && data?.role === ROLES.ADMIN);
+// export const getIsAdmin = createSelector(getIsLoggedIn, (data: any) => data && data?.role === ROLES.ADMIN);
 
-export const getUserRole = createSelector(getIsLoggedIn, (data: any) => data?.role);
+// export const getUserRole = createSelector(getIsLoggedIn, (data: any) => data?.role);

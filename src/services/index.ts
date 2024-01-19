@@ -6,3 +6,4 @@ export { TagService } from './tag';
 export { ZoneService } from './zone';
 export { PricingService } from './pricing';
 export { MovService } from './mov';
+export {OrderService} from './orders';

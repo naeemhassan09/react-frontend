@@ -5,3 +5,4 @@ export * from './tag';
 export * from './zone';
 export * from './sku';
 export * from './dashboard';
+export * from './orders';

@@ -1,10 +1,10 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { FunctionComponent, useState, useCallback } from 'react';
+import { FunctionComponent, useState, useCallback, useEffect } from 'react';
 import {
   TextField,
   InputAdornment,
   Icon,
-  Autocomplete,
+//   Autocomplete,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -12,6 +12,9 @@ import Modal from 'src/components/modal';
 import PortalPopup from 'src/components/portal-popup';
 import MiniSideBar from 'src/components/mini-side-bar';
 import PortalDrawer from 'src/components/portal-drawer';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrderData } from 'src/store/selectors/entities';
+import { fetchOrderData } from 'src/store/thunks';
 
 const ClipPathGroup = styled.img`
   position: relative;
@@ -482,7 +485,7 @@ const VendorSheetContainer = styled.div`
   justify-content: flex-start;
 `;
 
-const FrameItem = styled(Autocomplete)``;
+// const FrameItem = styled(Autocomplete)``;
 
 const ItemPerPageParent = styled.div`
   display: flex;
@@ -500,14 +503,15 @@ const Of0Wrapper = styled.div`
   padding: var(--padding-3xs);
 `;
 
-const DoubleRightIcon = styled.img`
-  position: relative;
-  width: 1.5rem;
-  height: 1.5rem;
-  object-fit: contain;
-`;
+// const DoubleRightIcon = styled.img`
+//   position: relative;
+//   width: 1.5rem;
+//   height: 1.5rem;
+//   object-fit: contain;
+// `;
 
 const Icons8Back501 = styled.img`
+  cursor: pointer;
   position: relative;
   width: 1.5rem;
   height: 1.5rem;
@@ -625,6 +629,17 @@ const MainOrdersRoot = styled.div`
 `;
 
 export const Orders: FunctionComponent = () => {
+
+  const orderData=useSelector(getOrderData);
+  
+  console.log('orders data',orderData);
+  const dispatch=useDispatch();
+ 
+  const [totalPages, setTotalPages]=useState<number>(0);
+  const [currentPage, setCurrentPage]=useState<number>(0);
+  const [selectedOrderArray, setSelectedOrderArray]=useState<any>([]);
+  const itemsPerPage=10;
+
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
 
@@ -643,6 +658,86 @@ export const Orders: FunctionComponent = () => {
   const closeModalPopup = useCallback(() => {
     setModalPopupOpen(false);
   }, []);
+
+  useEffect(()=>{
+    dispatch(fetchOrderData({}));
+  },[]);
+
+
+
+  const renderTable = () => (
+    selectedOrderArray?.length > 0 ? (
+      <>
+        { selectedOrderArray.map((item: any) => (
+          <VendorSheetContainer key={ item.id }>
+            <Colum1>
+              <OrderNumberWrapper>
+                <Fanatical>{ item.order_number }</Fanatical>
+              </OrderNumberWrapper>
+            </Colum1>
+            <Colum1>
+              <OrderNumberWrapper>
+                <Fanatical>{ item.email }</Fanatical>
+              </OrderNumberWrapper>
+            </Colum1>
+            <Colum1>
+              <OrderNumberWrapper>
+                <Fanatical>{ item.financial_status }</Fanatical>
+              </OrderNumberWrapper>
+            </Colum1>
+            <Colum1>
+              <OrderNumberWrapper>
+                <Fanatical>{ item.order_number }</Fanatical>
+              </OrderNumberWrapper>
+            </Colum1>
+            <Colum1>
+              <OrderNumberWrapper>
+                <Fanatical>{ item.fulfillment_status }</Fanatical>
+              </OrderNumberWrapper>
+            </Colum1>
+            <Colum1>
+              <OrderNumberWrapper>
+                <Fanatical>{ item.total_price }</Fanatical>
+              </OrderNumberWrapper>
+            </Colum1>
+          </VendorSheetContainer>
+        )) }
+      </>
+    ) : <></>
+  );
+  
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages)
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+   useEffect(()=>{
+
+    if (orderData && orderData.length>0)
+    {
+        const pages=Math.ceil(orderData.length/10);
+        setTotalPages(pages);
+        setCurrentPage(1);
+    }
+
+   },[orderData]);
+
+   useEffect(() => {
+    if (orderData !== null  && orderData && orderData.length>10) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const nextItems = orderData.slice(startIndex, endIndex);
+      setSelectedOrderArray(nextItems);
+    }
+
+    else  setSelectedOrderArray(orderData);
+
+  }, [orderData, currentPage]);
 
   return (
     <>
@@ -736,192 +831,58 @@ export const Orders: FunctionComponent = () => {
                 <OrdersSheet>Orders Sheet</OrdersSheet>
               </FrameGroup>
             </VendorSheetHeading>
+            
             <DashboardSheet>
               <VendorSheetContainer>
                 <Colum1>
                   <OrderNumberWrapper>
-                    <OrderNumber>order Number</OrderNumber>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Number</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Number</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Number</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Number</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Number</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Number</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Number</Fanatical>
+                    <OrderNumber>Order Number</OrderNumber>
                   </OrderNumberWrapper>
                 </Colum1>
                 <Colum1>
                   <OrderNumberWrapper>
                     <OrderNumber>Email</OrderNumber>
                   </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Email</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Email</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Email</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Email</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Email</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Email</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Email</Fanatical>
-                  </OrderNumberWrapper>
                 </Colum1>
                 <Colum1>
                   <OrderNumberWrapper>
                     <OrderNumber>Order Status</OrderNumber>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Status</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Status</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Status</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Status</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Status</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Status</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Order Status</Fanatical>
                   </OrderNumberWrapper>
                 </Colum1>
                 <Colum1>
                   <OrderNumberWrapper>
                     <OrderNumber>Finalical</OrderNumber>
                   </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fanatical</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fanatical</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fanatical</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fanatical</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fanatical</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fanatical</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fanatical</Fanatical>
-                  </OrderNumberWrapper>
                 </Colum1>
                 <Colum1>
                   <OrderNumberWrapper>
                     <OrderNumber>Fulfilment</OrderNumber>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fulfilment</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fulfilment</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fulfilment</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fulfilment</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fulfilment</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fulfilment</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Fulfilment</Fanatical>
                   </OrderNumberWrapper>
                 </Colum1>
                 <Colum1>
                   <OrderNumberWrapper>
                     <OrderNumber>Amount</OrderNumber>
                   </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Amount</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Amount</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Amount</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Amount</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Amount</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Amount</Fanatical>
-                  </OrderNumberWrapper>
-                  <OrderNumberWrapper>
-                    <Fanatical>Amount</Fanatical>
-                  </OrderNumberWrapper>
                 </Colum1>
               </VendorSheetContainer>
+              <>{ renderTable() }</>
+
               <DashboardSheetInner>
+
                 <FrameParent1>
                   <ItemPerPageParent>
-                    <New>Item per page:</New>
-                    <FrameItem
-                      disablePortal
-                      options={ ['1', '2', '3'] }
-                      renderInput={ (params: any) => (
-                        <TextField
-                          { ...params }
-                          color='primary'
-                          label=''
-                          variant='standard'
-                          placeholder=''
-                          helperText=''
-                        />
-                      ) }
-                    />
+                    <New>{ `Item per page: ${ itemsPerPage }` }</New>
+                 
                   </ItemPerPageParent>
                   <Of0Wrapper>
-                    <New>0 of 0</New>
+                    <New>{ `${ currentPage } of ${ totalPages }` }</New>
                   </Of0Wrapper>
                   <DoubleRightParent>
-                    <DoubleRightIcon alt='' src='/double-right@2x.png' />
-                    <Icons8Back501 alt='' src='/icons8back50-1@2x.png' />
-                    <Icons8Back501 alt='' src='/icons8forward50-1@2x.png' />
-                    <Icons8Back501 alt='' src='/double-right@2x.png' />
+
+                    { /* <DoubleRightIcon alt='' src='/double-right@2x.png' /> */ }
+                    <Icons8Back501 alt='' src='/icons8back50-1@2x.png' onClick={ handlePrevPage }/>
+                    <Icons8Back501 alt='' src='/icons8forward50-1@2x.png' onClick={ handleNextPage }/>
+                    { /* <Icons8Back501 alt='' src='/double-right@2x.png' /> */ } 
                   </DoubleRightParent>
                 </FrameParent1>
               </DashboardSheetInner>

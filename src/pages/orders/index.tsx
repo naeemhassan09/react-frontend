@@ -17,6 +17,7 @@ import Pagination from 'src/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderData } from 'src/store/selectors/entities';
 import { fetchOrderData } from 'src/store/thunks';
+import { APP, NEWORDER_ROUTE } from 'src/constants/navigation-routes';
 
 const Orders1 = styled.div`
   position: relative;
@@ -546,7 +547,7 @@ export const Orders: FunctionComponent = () => {
                   } }
                   sx={ { '& .MuiInputBase-root': { height: '36px' } } }
                 />
-                <NewButton to='/orderneworder'>
+                <NewButton to={ `${APP}${NEWORDER_ROUTE}` }>
                   <New>+ New</New>
                 </NewButton>
               </FrameParent>

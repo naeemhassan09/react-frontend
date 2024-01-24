@@ -6,6 +6,7 @@ import { Health as HealthCheck} from './health';
 import { UserManagement } from './usermanagment';
 import { ActivityStream } from './activitystream';
 import { RolesPermission } from './roles-permission';
+import { NewOrder } from './neworder/index';
 
 export {
   Dashboard,
@@ -16,4 +17,5 @@ export {
   UserManagement,
   ActivityStream, 
   RolesPermission,
+  NewOrder,
 };

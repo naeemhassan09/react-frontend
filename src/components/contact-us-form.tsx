@@ -16,6 +16,13 @@ const Home = styled.div`
   cursor: pointer;
 `;
 
+const HomeFrame = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
 const AboutUs = styled.a`
   text-decoration: none;
   position: relative;
@@ -53,7 +60,7 @@ const Icon1 = styled.img`
   max-height: 100%;
 `;
 
-const IconsolidmenuAlt3 = styled.div`
+const IconsolidmenuAlt = styled.div`
   position: relative;
   width: 2.5rem;
   height: 2.5rem;
@@ -83,7 +90,7 @@ const Actions = styled.div`
   }
 `;
 
-const AlchemativeLogo1Parent = styled.div`
+const InsideHeaderContainer = styled.div`
   align-self: stretch;
   display: flex;
   flex-direction: row;
@@ -128,19 +135,25 @@ const ContactUsForm: FunctionComponent = () => {
   return (
     <>
       <HeaderRoot>
-        <AlchemativeLogo1Parent>
+        <InsideHeaderContainer>
           <AlchemativeLogo1Icon alt='' src='/alchemativelogo-1@2x.png' />
           <Actions>
             <NavLinks>
-              <Home>Home</Home>
-              <AboutUs>About us</AboutUs>
-              <AboutUs>Contact us</AboutUs>
+              <HomeFrame>
+                <Home>Home</Home>
+              </HomeFrame>
+              <HomeFrame>
+                <AboutUs>About us</AboutUs>
+              </HomeFrame>
+              <HomeFrame>
+                <AboutUs>Contact us</AboutUs>
+              </HomeFrame>
             </NavLinks>
-            <IconsolidmenuAlt3 onClick={ openSideMenu }>
+            <IconsolidmenuAlt onClick={ openSideMenu }>
               <Icon1 alt='' src='/icon.svg' />
-            </IconsolidmenuAlt3>
+            </IconsolidmenuAlt>
           </Actions>
-        </AlchemativeLogo1Parent>
+        </InsideHeaderContainer>
       </HeaderRoot>
       { isSideMenuOpen && (
         <PortalDrawer

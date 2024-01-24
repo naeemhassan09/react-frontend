@@ -12,8 +12,6 @@ import Modal from 'src/components/modal';
 import PortalPopup from 'src/components/portal-popup';
 import MiniSideBar from 'src/components/mini-side-bar';
 import PortalDrawer from 'src/components/portal-drawer';
-import SubMenuBar from 'src/components/sub-menu-bar';
-import CreateUserModal from 'src/components/create-user-modal';
 
 const ClipPathGroup = styled.img`
   position: relative;
@@ -1067,24 +1065,8 @@ export const UserManagement: FunctionComponent = () => {
           <MiniSideBar onClose={ closeAfterLoginMenu } />
         </PortalDrawer>
       ) }
-      { isSubMenuBarOpen && (
-        <PortalDrawer
-          overlayColor='rgba(113, 113, 113, 0.3)'
-          placement='Right'
-          onOutsideClick={ closeSubMenuBar }
-        >
-          <SubMenuBar onClose={ closeSubMenuBar } />
-        </PortalDrawer>
-      ) }
-      { isCreateUserModalOpen && (
-        <PortalDrawer
-          overlayColor='rgba(113, 113, 113, 0.3)'
-          placement='Right'
-          onOutsideClick={ closeCreateUserModal }
-        >
-          <CreateUserModal onClose={ closeCreateUserModal } />
-        </PortalDrawer>
-      ) }
+      { isSubMenuBarOpen }
+      { isCreateUserModalOpen }
       { isModalPopupOpen && (
         <PortalPopup
           overlayColor='rgba(113, 113, 113, 0.3)'

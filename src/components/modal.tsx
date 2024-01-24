@@ -1,7 +1,6 @@
-/* eslint-disable react/react-in-jsx-scope */
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import TypePrimarySizelIconFal from './type-primary-sizel-icon-fal';
+import TypeWhiteSizelIconFalse from './type-white-sizel-icon-false';
 
 type ModalType = {
   onClose?: () => void;
@@ -28,7 +27,7 @@ const Text1 = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 8px;
+  gap: var(--gap-5xs);
 `;
 
 const LeadingContent = styled.div`
@@ -69,12 +68,14 @@ const Modal: FunctionComponent<ModalType> = () => (
         </Detail>
       </Text1>
     </LeadingContent>
-    <TypePrimarySizelIconFal
-        buttonText='ok'
-        typePrimarySizelIconFalBackgroundColor='#a62632'
-        typePrimarySizelIconFalAlignSelf='stretch'
+    <TypeWhiteSizelIconFalse
+      text='ok'
+      typeWhiteSizelIconFalseBackgroundColor='#a62632'
+      typeWhiteSizelIconFalseBorder='unset'
+      typeWhiteSizelIconFalseAlignSelf='stretch'
+      textColor='#fff'
     />
   </ModalRoot>
-  );
+);
 
 export default Modal;

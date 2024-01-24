@@ -1,5 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FunctionComponent, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 
@@ -42,15 +40,7 @@ const FrameParent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--gap-xl);
-`;
-
-const NavLinks = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  gap: var(--gap-mini);
 `;
 
 const SideMenuRoot = styled.div`
@@ -58,8 +48,8 @@ const SideMenuRoot = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: var(--padding-11xl) 38px;
+  justify-content: center;
+  padding: var(--padding-11xl) var(--padding-19xl);
   box-sizing: border-box;
   opacity: 0;
   width: 100%;
@@ -107,19 +97,17 @@ const SideMenu: FunctionComponent<SideMenuType> = () => {
   }, []);
   return (
     <SideMenuRoot data-animate-on-scroll>
-      <NavLinks>
-        <FrameParent>
-          <HomeWrapper>
-            <Home>Home</Home>
-          </HomeWrapper>
-          <HomeWrapper>
-            <Home>About Us</Home>
-          </HomeWrapper>
-          <HomeWrapper>
-            <Home>Contact Us</Home>
-          </HomeWrapper>
-        </FrameParent>
-      </NavLinks>
+      <FrameParent>
+        <HomeWrapper>
+          <Home>Home</Home>
+        </HomeWrapper>
+        <HomeWrapper>
+          <Home>About Us</Home>
+        </HomeWrapper>
+        <HomeWrapper>
+          <Home>Contact Us</Home>
+        </HomeWrapper>
+      </FrameParent>
     </SideMenuRoot>
   );
 };

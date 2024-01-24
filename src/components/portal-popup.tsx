@@ -1,4 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
 import {
   CSSProperties,
   RefObject,
@@ -24,13 +23,13 @@ const PortalOverlay = styled.div`
 type PopupProps = {
   overlayColor?: string;
   placement?:
-    | 'Centered'
-    | 'Top left'
-    | 'Top center'
-    | 'Top right'
-    | 'Bottom left'
-    | 'Bottom center'
-    | 'Bottom right';
+  | 'Centered'
+  | 'Top left'
+  | 'Top center'
+  | 'Top right'
+  | 'Bottom left'
+  | 'Bottom center'
+  | 'Bottom right';
   onOutsideClick?: () => void;
   zIndex?: number;
   children: ReactNode;

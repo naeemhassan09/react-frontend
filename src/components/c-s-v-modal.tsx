@@ -1,7 +1,6 @@
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import TypeWhiteSizelIconFalse from './type-white-sizel-icon-false';
 
 type CSVModalType = {
   onClose?: () => void;
@@ -45,45 +44,6 @@ const LeadingContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  text-align: center;
-  font-size: var(--text-lg-leading-6-font-medium-size);
-`;
-
-const Text11 = styled.div`
-  position: relative;
-  line-height: 24px;
-  font-weight: 500;
-`;
-
-const Button = styled.div`
-  align-self: stretch;
-  border-radius: var(--br-7xs);
-  background-color: var(--indigo-600);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-4xs) var(--padding-mid);
-  cursor: pointer;
-  color: var(--white);
-`;
-
-const Button1 = styled.div`
-  align-self: stretch;
-  border-radius: var(--br-7xs);
-  background-color: var(--white);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--gray-300);
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-4xs) var(--padding-mid);
-  cursor: pointer;
-  color: var(--gray-700);
 `;
 
 const CsvModalRoot = styled.div`
@@ -100,10 +60,10 @@ const CsvModalRoot = styled.div`
   gap: var(--gap-xl);
   max-width: 100%;
   max-height: 100%;
-  text-align: left;
-  font-size: var(--text-base-leading-6-font-medium-size);
+  text-align: center;
+  font-size: var(--text-lg-leading-6-font-medium-size);
   color: var(--gray-900);
-  font-family: var(--text-sm-leading-5-font-normal);
+  font-family: var(--text-base-leading-6-font-medium);
 `;
 
 const CSVModal: FunctionComponent<CSVModalType> = () => (
@@ -117,13 +77,21 @@ const CSVModal: FunctionComponent<CSVModalType> = () => (
         </Detail>
       </Text1>
     </LeadingContent>
-    <Button>
-      <Text11>Select file</Text11>
-    </Button>
-    <Button1>
-      <Text11>Cancel</Text11>
-    </Button1>
+    <TypeWhiteSizelIconFalse
+      text='Select file'
+      typeWhiteSizelIconFalseBackgroundColor='#b81226'
+      typeWhiteSizelIconFalseBorder='unset'
+      typeWhiteSizelIconFalseAlignSelf='stretch'
+      textColor='#fff'
+    />
+    <TypeWhiteSizelIconFalse
+      text='Cancel'
+      typeWhiteSizelIconFalseBackgroundColor='#fff'
+      typeWhiteSizelIconFalseBorder='2px solid var(--color-firebrick)'
+      typeWhiteSizelIconFalseAlignSelf='stretch'
+      textColor='#b81226'
+    />
   </CsvModalRoot>
-  );
+);
 
 export default CSVModal;

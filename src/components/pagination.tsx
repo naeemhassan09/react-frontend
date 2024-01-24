@@ -88,6 +88,8 @@ const PaginationContainerRoot = styled.div`
 `;
 
 const Pagination: FunctionComponent<PaginationType> = ({
+  imageAltText,
+  imageDimensions,
   itemsPerPageOptions = [10, 20, 30],
   itemsPerPage,
   currentPage,
@@ -112,8 +114,8 @@ const Pagination: FunctionComponent<PaginationType> = ({
         <ItemPerPage>{ `${currentPage} of ${totalPages}` }</ItemPerPage>
       </Of0Wrapper>
       <DoubleRightParent>
-        <Icons8Back alt='Previous Page' src='/path/to/prev-icon.png' onClick={ onPrevPage } />
-        <Icons8Back alt='Next Page' src='/path/to/next-icon.png' onClick={ onNextPage } />
+        <Icons8Back alt='Previous Page' src={ imageAltText } onClick={ onPrevPage } />
+        <Icons8Back alt='Next Page' src={ imageDimensions } onClick={ onNextPage } />
       </DoubleRightParent>
     </PaginationBox>
   </PaginationContainerRoot>

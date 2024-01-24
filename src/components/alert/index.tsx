@@ -32,9 +32,9 @@ export const AlertWrapper: React.FC = () => {
 
   return (
     <>
-      <Snackbar open={open} autoHideDuration={2000} onClose={() => setOpen(false)}>
-        <Alert onClose={() => setOpen(false)} sx={{ width: '100%' }}>
-          {message}
+      <Snackbar open={ open } autoHideDuration={ 2000 } onClose={ () => setOpen(false) }>
+        <Alert onClose={ () => setOpen(false) } sx={ { width: '100%' } }>
+          { message }
         </Alert>
       </Snackbar>
     </>

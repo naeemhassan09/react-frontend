@@ -1,21 +1,411 @@
-/* eslint-disable import/order */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable max-len */
 import React,  { FunctionComponent, useState, useCallback } from 'react';
 import { TextField, InputAdornment, Icon, IconButton } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
-
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import ContactUsForm from 'src/components/contact-us-form';
+import FormSocialMediaContainer from 'src/components/form-social-media-container';
 import { useDispatch } from 'react-redux';
 import { login } from 'src/store/thunks';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { testId } from 'src/utils/e2e';
-import SideMenu from 'src/components/side-menu';
-import PortalDrawer from 'src/components/portal-drawer';
+const WelcomeToAlchemative = styled.div`
+  align-self: stretch;
+  position: relative;
+  font-weight: 600;
+  @media screen and (max-width: 960px) {
+    text-align: center;
+  }
+`;
 
-import { Login_1,Pngwing1Icon, Appstore1Icon, CaptureRemovebgPreview1Icon, DownloadOurAppParent, ForgotPasswords, FrameChild, FrameContainer, FrameDiv, FrameGroup, FrameParent1, FrameParent2, FrameParent3, Google, Googleplay1Icon, Googleplay1Parent, LoginContainer, LoginForm1, LoginFormChild, LoginFormInner, LoginFormRoot, LoginWrapper, Logo, LogoParent, Pngwing1Wrapper, VendorRegistration, VendorRegistrationWrapper } from './styled';
+const LoremIpsumDolor = styled.div`
+  align-self: stretch;
+  position: relative;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  font-family: var(--font-poppins);
+  @media screen and (max-width: 960px) {
+    text-align: center;
+  }
+`;
+
+const WelcomeToAlchemativeParent = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--gap-3xs);
+  @media screen and (max-width: 960px) {
+    align-items: center;
+    justify-content: flex-start;
+  }
+`;
+
+const FrameWrapper = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  @media screen and (max-width: 960px) {
+    align-items: center;
+    justify-content: flex-start;
+  }
+`;
+
+const GetStarted = styled.div`
+  position: relative;
+  font-weight: 500;
+`;
+
+const GetStartedButton = styled.a`
+  text-decoration: none;
+  border-radius: var(--br-8xs);
+  background-color: var(--white);
+  height: 2.25rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-3xs) var(--padding-mini);
+  box-sizing: border-box;
+  cursor: pointer;
+  color: inherit;
+  &:hover {
+    background-color: var(--color-firebrick);
+    color: white;
+  }
+`;
+
+const LearnAboutUs = styled.div`
+  position: relative;
+  font-weight: 500;
+  white-space: pre-wrap;
+`;
+
+const LearnAboutUsButton = styled.div`
+  border-radius: var(--br-8xs);
+  background-color: var(--color-lavenderblush-100);
+  height: 2.25rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-3xs) var(--padding-mini);
+  box-sizing: border-box;
+  cursor: pointer;
+  &:hover {
+    background-color: #f2dee0;
+  }
+`;
+
+const GetStartedButtonParent = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-mini);
+  font-size: var(--text-sm-leading-5-font-normal-size);
+  color: var(--color-brown-200);
+  font-family: var(--font-poppins);
+`;
+
+const FrameParent = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0rem 2.5rem 0rem 0rem;
+  gap: 1.19rem;
+  @media screen and (max-width: 960px) {
+    align-items: center;
+    justify-content: flex-start;
+    padding-right: 0rem;
+    box-sizing: border-box;
+  }
+`;
+
+const HeroSectionInner = styled.div`
+  flex: 1;
+  height: 25rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-3xs) 0rem;
+  box-sizing: border-box;
+  @media screen and (max-width: 960px) {
+    width: auto;
+    align-self: stretch;
+    gap: var(--gap-16xl);
+    flex: unset;
+  }
+`;
+
+const Login1 = styled.div`
+  position: relative;
+  font-weight: 600;
+`;
+
+const LoginWrapper = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+`;
+
+const Pngwing1Icon = styled.img`
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: cover;
+`;
+
+const GoogleIconBox = styled.div`
+  border-radius: var(--br-31xl);
+  border: 2px solid var(--color-whitesmoke-200);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-3xs);
+`;
+
+const GoogleIconBoxParent = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-18xl);
+`;
+
+const FrameChild = styled(TextField)`
+  border: none;
+  background-color: transparent;
+  align-self: stretch;
+`;
+
+const FrameContainer = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1.63rem;
+`;
+
+const LoginButton = styled.button`
+  cursor: pointer;
+  text-decoration: none;
+  align-self: stretch;
+  border-radius: var(--br-5xs);
+  background-color: var(--color-firebrick);
+  height: 2.25rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-3xs);
+  box-sizing: border-box;
+  color: inherit;
+  &:hover {
+    background-color: var(--color-crimson);
+  }
+`;
+
+const VendorRegistrationButton = styled.div`
+  align-self: stretch;
+  border-radius: var(--br-5xs);
+  border: 2px solid var(--color-firebrick);
+  box-sizing: border-box;
+  height: 2.25rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-3xs);
+  cursor: pointer;
+  color: var(--color-firebrick);
+  &:hover {
+    background-color: var(--color-firebrick);
+    color: white;
+  }
+`;
+
+const LoginButtonParent = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-mini);
+  color: var(--white);
+`;
+
+const FrameGroup = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
+  font-size: var(--text-sm-leading-5-font-normal-size);
+`;
+
+const LoginForm = styled.form`
+  border-radius: var(--br-5xs);
+  width: 25rem;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-11xl) var(--padding-16xl);
+  box-sizing: border-box;
+  gap: 0.88rem;
+  max-width: 25rem;
+  @media screen and (max-width: 768px) {
+    padding-left: var(--padding-3xs);
+    padding-right: var(--padding-3xs);
+    box-sizing: border-box;
+  }
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
+`;
+
+const LoginFormMainContainer = styled.div`
+  border-radius: 33px;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0rem var(--padding-3xs);
+  font-size: 1.25rem;
+  color: var(--color-black);
+  font-family: var(--font-poppins);
+  @media screen and (max-width: 960px) {
+    width: auto;
+    align-self: unset;
+    flex-direction: row;
+    gap: var(--gap-3xs);
+    padding-right: var(--padding-3xs);
+    box-sizing: border-box;
+  }
+  @media screen and (max-width: 500px) {
+    align-self: stretch;
+    width: auto;
+  }
+`;
+
+const HeroSection = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-xl) var(--padding-16xl);
+  @media screen and (max-width: 960px) {
+    flex-direction: column;
+    padding-top: 0rem;
+    box-sizing: border-box;
+  }
+`;
+
+const PrivacyPolicy = styled.div`
+  position: relative;
+  font-weight: 500;
+  cursor: pointer;
+`;
+
+const PrivacyPolicyWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-3xs);
+`;
+
+const FrameDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    gap: var(--gap-0);
+    padding-bottom: 0rem;
+    box-sizing: border-box;
+  }
+`;
+
+const NavLinks = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: var(--text-sm-leading-5-font-normal-size);
+  @media screen and (max-width: 960px) {
+    gap: var(--gap-9xl);
+    align-items: center;
+    justify-content: center;
+    flex: unset;
+    align-self: stretch;
+  }
+`;
+
+const FooterLinks = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-5xl) var(--padding-16xl);
+  gap: var(--gap-16xl);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  font-family: var(--font-poppins);
+  @media screen and (max-width: 960px) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+`;
+
+const LoginFormScreen = styled.div`
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-image: url("/login-form-screen@3x.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  max-width: 80rem;
+  min-height: 45rem;
+`;
+
+const LoginFormScreenMainRoot = styled.div`
+  position: relative;
+  background-color: var(--white);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  font-size: 2.25rem;
+  color: var(--white);
+  font-family: var(--font-lato);
+`;
 
 
 type AuthFormData = {
@@ -23,17 +413,9 @@ type AuthFormData = {
   password: string;
 };
 
-import logo from 'src/assets/images/logo@2x.png';
-import pngwing from 'src/assets/images/pngwing-1@2x.png';
-import facebookIcon from 'src/assets/images/facebook-f@2x.png';
-import googleplay from 'src/assets/images/googleplay-1@2x.png';
-import appstore from 'src/assets/images/appstore-1@2x.png';
 
-import Footer from 'src/components/footer';
-import Header from 'src/components/header';
+const Login: FunctionComponent = () => {
 
-
-const Login: React.FC = () => {
   const dispatch = useDispatch();
 
   const {
@@ -59,98 +441,118 @@ const Login: React.FC = () => {
 
 
   return (
-    <>
-      <LoginFormRoot>
-        <Header/>
-        <LoginFormInner onSubmit={ handleSubmit(onSubmit) }>
-          <LogoParent>
-            <Logo>
-              <CaptureRemovebgPreview1Icon
-                src={ logo } alt=''
-              />
-            </Logo>
-            <LoginForm1>
+    <LoginFormScreenMainRoot>
+      <LoginFormScreen>
+        <ContactUsForm />
+        <HeroSection>
+          <HeroSectionInner>
+            <FrameParent>
+              <FrameWrapper>
+                <WelcomeToAlchemativeParent>
+                  <WelcomeToAlchemative>
+                    WELCOME TO SHOPIFY-MANGMENT-APPLICATION
+                  </WelcomeToAlchemative>
+                  <LoremIpsumDolor>
+                    Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et
+                    massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
+                    sapien fringilla, mattis ligula consectetur, ultrices
+                    mauris. Maecenas vitae mattis tellus..
+                  </LoremIpsumDolor>
+                </WelcomeToAlchemativeParent>
+              </FrameWrapper>
+              <GetStartedButtonParent>
+                <GetStartedButton>
+                  <GetStarted>Get Started</GetStarted>
+                </GetStartedButton>
+                <LearnAboutUsButton>
+                  <LearnAboutUs>Learn About us</LearnAboutUs>
+                </LearnAboutUsButton>
+              </GetStartedButtonParent>
+            </FrameParent>
+          </HeroSectionInner>
+          <LoginFormMainContainer>
+            <LoginForm onSubmit={ handleSubmit(onSubmit) }>
               <LoginWrapper>
-                <Login_1>LOGIN</Login_1>
+                <Login1>LOGIN</Login1>
               </LoginWrapper>
-              <LoginFormChild>
-                <FrameGroup>
-                  <FrameContainer>
-                    <Pngwing1Wrapper>
-                      <Pngwing1Icon 
-                        src={ pngwing } 
-                      />
-                    </Pngwing1Wrapper>
-                    <Google>Google</Google>
-                  </FrameContainer>
-                  <FrameDiv>
-                    <Pngwing1Wrapper>
-                      <Pngwing1Icon src={ facebookIcon } />
-                    </Pngwing1Wrapper>
-                    <Google>Facebook</Google>
-                  </FrameDiv>
-                </FrameGroup>
-              </LoginFormChild>
-              <FrameParent1>
-                <FrameParent2>
+              <GoogleIconBoxParent>
+                <GoogleIconBox>
+                  <Pngwing1Icon alt='' src='/pngwing-1@2x.png' />
+                </GoogleIconBox>
+                <GoogleIconBox>
+                  <Pngwing1Icon alt='' src='/facebook-f@2x.png' />
+                </GoogleIconBox>
+              </GoogleIconBoxParent>
+              <FrameGroup>
+                <FrameContainer>
                   <FrameChild
                 color='primary'
                 label='Email'
-                size='small'
                 required
-                fullWidth
-                variant='outlined'
                 type='email'
+                placeholder='@email'
+                variant='standard'
+                sx={ { '& .MuiInputBase-root': { height: '36px' } } }
                 { ...register('email', { required: true }) }
                   />
                   <FrameChild
-                color='primary'
-                label='Password'
-                size='small'
-                required
-                fullWidth
-                variant='outlined'
-                type={ showPassword ? 'text' : 'password' }
-                { ...register('password', { required: true }) }
-                InputProps={ {
-                  endAdornment: (
-                    <InputAdornment position='end'>
-                      <IconButton
-                        onClick={ handleShowPasswordClick }
-                        aria-label='toggle password visibility'
-                      >
-                    
-                        { showPassword ? <VisibilityOff /> : <Visibility /> }
-                   
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                } }
+                    color='primary'
+                    placeholder='Password'
+                    required
+                    variant='standard'
+                    type={ showPassword ? 'text' : 'password' }
+                    { ...register('password', { required: true }) }
+                    InputProps={ {
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          <IconButton
+                            onClick={ handleShowPasswordClick }
+                            aria-label='toggle password visibility'
+                          >
+                            <Icon>
+                              { showPassword ? 'visibility_off' : 'visibility' }
+                            </Icon>
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    } }
+                    sx={ { '& .MuiInputBase-root': { height: '36px' } } }
                   />
-                </FrameParent2>
-                <ForgotPasswords>{ 'Forgot passwords ?  ' }</ForgotPasswords>
-                <FrameParent3>
-                  <LoginContainer type='submit' >
-                    <VendorRegistration>Login</VendorRegistration>
-                  </LoginContainer>
-                  <VendorRegistrationWrapper>
-                    <VendorRegistration>Vendor Registration</VendorRegistration>
-                  </VendorRegistrationWrapper>
-                </FrameParent3>
-              </FrameParent1>
-            </LoginForm1>
-          </LogoParent>
-        </LoginFormInner>
-        <DownloadOurAppParent>
-          <Login_1>Download Our App</Login_1>
-          <Googleplay1Parent>
-            <Googleplay1Icon src= { googleplay } />
-            <Appstore1Icon src= { appstore } />
-          </Googleplay1Parent>
-        </DownloadOurAppParent>
-        <Footer/>
-      </LoginFormRoot>
-    </>
+                </FrameContainer>
+                <LearnAboutUs>{ 'Forgot passwords ?  ' }</LearnAboutUs>
+                <LoginButtonParent>
+                  <LoginButton type='submit' >
+                    <GetStarted>Login</GetStarted>
+                  </LoginButton>
+                  <VendorRegistrationButton>
+                    <GetStarted>Vendor Registration</GetStarted>
+                  </VendorRegistrationButton>
+                </LoginButtonParent>
+              </FrameGroup>
+            </LoginForm>
+          </LoginFormMainContainer>
+        </HeroSection>
+        <FormSocialMediaContainer />
+        <FooterLinks>
+          <FrameDiv>
+            <PrivacyPolicyWrapper>
+              <PrivacyPolicy>Privacy policy</PrivacyPolicy>
+            </PrivacyPolicyWrapper>
+            <PrivacyPolicyWrapper>
+              <PrivacyPolicy>{ 'Billing Policy ' }</PrivacyPolicy>
+            </PrivacyPolicyWrapper>
+            <PrivacyPolicyWrapper>
+              <PrivacyPolicy>GDPR Compliance</PrivacyPolicy>
+            </PrivacyPolicyWrapper>
+          </FrameDiv>
+          <NavLinks>
+            <PrivacyPolicy>
+              © 2023 – Powered by Alchemative – All Rights Reserved
+            </PrivacyPolicy>
+          </NavLinks>
+        </FooterLinks>
+      </LoginFormScreen>
+    </LoginFormScreenMainRoot>
   );
 };
 

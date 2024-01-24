@@ -388,7 +388,7 @@ const Import = styled.div`
 
 const ImportWrapper = styled.div`
   border-radius: var(--br-8xs);
-  background-color: var(--color-firebrick);
+  background-color: black;
   height: 2.25rem;
   display: flex;
   flex-direction: row;
@@ -636,6 +636,7 @@ export const ProductList: FunctionComponent = () => {
   const dispatch=useDispatch();
   const productList = useSelector(getProductList);
   
+  const [completeProductList, setCompleteProductList]=useState(productList);
   const [isCSVModalPopupOpen, setCSVModalPopupOpen] = useState(false);
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
@@ -644,32 +645,7 @@ export const ProductList: FunctionComponent = () => {
   const [selectedProductArray, setSelectedProductArray]=useState<any>([]);
   const itemsPerPage=10;
 
-  const openAfterLoginMenu = useCallback(() => {
-    setAfterLoginMenuOpen(true);
-  }, []);
-
-  const closeAfterLoginMenu = useCallback(() => {
-    setAfterLoginMenuOpen(false);
-  }, []);
-
-  const openCSVModalPopup = useCallback(() => {
-    setCSVModalPopupOpen(true);
-  }, []);
-
-  const closeCSVModalPopup = useCallback(() => {
-    setCSVModalPopupOpen(false);
-  }, []);
-
-  const openModalPopup = useCallback(() => {
-    setModalPopupOpen(true);
-  }, []);
-
-  const closeModalPopup = useCallback(() => {
-    setModalPopupOpen(false);
-  }, []);
-
-
-const renderTable = () => (
+  const renderTable = () => (
     selectedProductArray?.length > 0 ? (
       <>
         { selectedProductArray.map((item: any, index: number) => (
@@ -710,6 +686,31 @@ const renderTable = () => (
     ) : <></>
   );
 
+  const openAfterLoginMenu = useCallback(() => {
+    setAfterLoginMenuOpen(true);
+  }, []);
+
+  const closeAfterLoginMenu = useCallback(() => {
+    setAfterLoginMenuOpen(false);
+  }, []);
+
+  const openCSVModalPopup = useCallback(() => {
+    setCSVModalPopupOpen(true);
+  }, []);
+
+  const closeCSVModalPopup = useCallback(() => {
+    setCSVModalPopupOpen(false);
+  }, []);
+
+  const openModalPopup = useCallback(() => {
+    setModalPopupOpen(true);
+  }, []);
+
+  const closeModalPopup = useCallback(() => {
+    setModalPopupOpen(false);
+  }, []);
+
+
   const handleNextPage = () => {
     if (currentPage < totalPages)
     setCurrentPage((prevPage) => prevPage + 1);
@@ -719,30 +720,45 @@ const renderTable = () => (
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  const onHandleSearchText=((event: any)=>{
+   const searchText= event.target.value.toLowerCase();
+    let filterObject: any= [];
+
+    if (completeProductList && searchText!=='')    
+    {
+        filterObject=productList?.filter((item:any)=> item.title.trim().toLowerCase().includes(searchText));
+        setCompleteProductList(filterObject);
+    }  
+
+    else
+    setCompleteProductList(productList);
+});
+
   useEffect(() => { 
     dispatch(fetchProductData({}));
    }, []);
 
    useEffect(()=>{
-    if (productList && productList.length>0)
+    if (completeProductList && completeProductList.length>0)
     {
-        const pages=Math.ceil(productList.length/10);
+        const pages=Math.ceil(completeProductList.length/10);
         setTotalPages(pages);
         setCurrentPage(1);
     }
-   },[productList]);
+   },[completeProductList]);
 
    useEffect(() => {
-    if (productList !== null  && productList && productList.length>10) {
+    if (completeProductList !== null  && completeProductList && completeProductList.length>10) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const nextItems = productList.slice(startIndex, endIndex);
+      const nextItems = completeProductList.slice(startIndex, endIndex);
       setSelectedProductArray(nextItems);
     }
 
-    else  setSelectedProductArray(productList);
+    else  setSelectedProductArray(completeProductList);
 
-  }, [productList, currentPage]);
+  }, [completeProductList, currentPage]);
+
 
   return (
     <>
@@ -825,6 +841,7 @@ const renderTable = () => (
                       </InputAdornment>
                     ),
                   } }
+                  onChange={ onHandleSearchText }
                 />
                 <ImportWrapper onClick={ openCSVModalPopup }>
                   <Import>Import</Import>

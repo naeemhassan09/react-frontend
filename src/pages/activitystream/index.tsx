@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/react-in-jsx-scope */
-import { FunctionComponent, useState, useCallback } from 'react';
+import { FunctionComponent, useState, useCallback, useEffect } from 'react';
 import {
   TextField,
   Icon,
@@ -16,6 +16,9 @@ import PortalPopup from 'src/components/portal-popup';
 import MiniSideBar from 'src/components/mini-side-bar';
 import PortalDrawer from 'src/components/portal-drawer';
 import SubMenuBar from 'src/components/sub-menu-bar';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchActivityData } from 'src/store/thunks';
+import { getAuthToken } from 'src/store/selectors/features';
 
 const ClipPathGroup = styled.img`
   position: relative;
@@ -500,7 +503,7 @@ const GenerateTransactions = styled.div`
 
 const GenerateTransactionsWrapper = styled.div`
   border-radius: var(--br-8xs);
-  background-color: var(--color-firebrick);
+  background-color: black;
   height: 2.25rem;
   display: flex;
   flex-direction: row;
@@ -816,6 +819,10 @@ const SettingActivityStreamRoot = styled.div`
 `;
 
 export const ActivityStream: FunctionComponent = () => {
+ 
+  const dispatch=useDispatch();
+  const token=useSelector(getAuthToken);
+
   const [dateDateTimePickerValue, setDateDateTimePickerValue] = useState<
     string | null
   >(null);
@@ -851,6 +858,12 @@ export const ActivityStream: FunctionComponent = () => {
   const closeModalPopup = useCallback(() => {
     setModalPopupOpen(false);
   }, []);
+
+  useEffect(()=>{
+console.log('working', token);
+    dispatch(fetchActivityData({}));
+
+  },[]);
 
   return (
     <LocalizationProvider dateAdapter={ AdapterDayjs }>

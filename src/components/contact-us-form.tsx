@@ -1,7 +1,7 @@
-import { FunctionComponent, useState, useCallback } from "react";
-import styled from "styled-components";
-import SideMenu from "./side-menu";
-import PortalDrawer from "./portal-drawer";
+import { FunctionComponent, useState, useCallback } from 'react';
+import styled from 'styled-components';
+import SideMenu from './side-menu';
+import PortalDrawer from './portal-drawer';
 
 const AlchemativeLogo1Icon = styled.img`
   position: relative;
@@ -9,11 +9,20 @@ const AlchemativeLogo1Icon = styled.img`
   height: 1.61rem;
   object-fit: cover;
 `;
+
 const Home = styled.div`
   position: relative;
   font-weight: 500;
   cursor: pointer;
 `;
+
+const HomeFrame = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
 const AboutUs = styled.a`
   text-decoration: none;
   position: relative;
@@ -21,6 +30,7 @@ const AboutUs = styled.a`
   color: inherit;
   cursor: pointer;
 `;
+
 const NavLinks = styled.div`
   display: flex;
   flex-direction: row;
@@ -36,6 +46,7 @@ const NavLinks = styled.div`
     display: none;
   }
 `;
+
 const Icon1 = styled.img`
   position: absolute;
   height: 60%;
@@ -48,7 +59,8 @@ const Icon1 = styled.img`
   overflow: hidden;
   max-height: 100%;
 `;
-const IconsolidmenuAlt3 = styled.div`
+
+const IconsolidmenuAlt = styled.div`
   position: relative;
   width: 2.5rem;
   height: 2.5rem;
@@ -58,6 +70,7 @@ const IconsolidmenuAlt3 = styled.div`
     display: flex;
   }
 `;
+
 const Actions = styled.div`
   display: flex;
   flex-direction: row;
@@ -76,7 +89,8 @@ const Actions = styled.div`
     flex-direction: row;
   }
 `;
-const AlchemativeLogo1Parent = styled.div`
+
+const InsideHeaderContainer = styled.div`
   align-self: stretch;
   display: flex;
   flex-direction: row;
@@ -88,6 +102,7 @@ const AlchemativeLogo1Parent = styled.div`
     gap: var(--gap-0);
   }
 `;
+
 const HeaderRoot = styled.div`
   align-self: stretch;
   background-color: var(--white);
@@ -120,29 +135,35 @@ const ContactUsForm: FunctionComponent = () => {
   return (
     <>
       <HeaderRoot>
-        <AlchemativeLogo1Parent>
-          <AlchemativeLogo1Icon alt="" src="/alchemativelogo-1@2x.png" />
+        <InsideHeaderContainer>
+          <AlchemativeLogo1Icon alt='' src='/alchemativelogo-1@2x.png' />
           <Actions>
             <NavLinks>
-              <Home>Home</Home>
-              <AboutUs>About us</AboutUs>
-              <AboutUs>Contact us</AboutUs>
+              <HomeFrame>
+                <Home>Home</Home>
+              </HomeFrame>
+              <HomeFrame>
+                <AboutUs>About us</AboutUs>
+              </HomeFrame>
+              <HomeFrame>
+                <AboutUs>Contact us</AboutUs>
+              </HomeFrame>
             </NavLinks>
-            <IconsolidmenuAlt3 onClick={openSideMenu}>
-              <Icon1 alt="" src="/icon.svg" />
-            </IconsolidmenuAlt3>
+            <IconsolidmenuAlt onClick={ openSideMenu }>
+              <Icon1 alt='' src='/icon.svg' />
+            </IconsolidmenuAlt>
           </Actions>
-        </AlchemativeLogo1Parent>
+        </InsideHeaderContainer>
       </HeaderRoot>
-      {isSideMenuOpen && (
+      { isSideMenuOpen && (
         <PortalDrawer
-          overlayColor="rgba(113, 113, 113, 0.3)"
-          placement="Top"
-          onOutsideClick={closeSideMenu}
+          overlayColor='rgba(113, 113, 113, 0.3)'
+          placement='Top'
+          onOutsideClick={ closeSideMenu }
         >
-          <SideMenu onClose={closeSideMenu} />
+          <SideMenu onClose={ closeSideMenu } />
         </PortalDrawer>
-      )}
+      ) }
     </>
   );
 };

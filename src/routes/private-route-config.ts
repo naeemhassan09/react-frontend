@@ -1,8 +1,9 @@
 /* eslint-disable */
 import { DASHBORD_ROUTE, SIDEBAR_ROUTES, PROFILE_ROUTE, ORDERS_ROUTE, PRODUCTLIST_ROUTE, USERMANAGEMENT_ROUTE, 
-  ACTIVITYSTREAM_ROUTE, ROLESPERMISSION_ROUTE } from 'src/constants/navigation-routes';
+  ACTIVITYSTREAM_ROUTE, ROLESPERMISSION_ROUTE, 
+  NEWORDER_ROUTE} from 'src/constants/navigation-routes';
 
-import { Dashboard,  Orders,  Profile, ProductList, UserManagement, ActivityStream, RolesPermission } from 'src/pages';
+import { Dashboard,  Orders,  Profile, ProductList, UserManagement, ActivityStream, RolesPermission, NewOrder } from 'src/pages';
 import { ROLE_TYPE } from '../constants/roles';
 
 export default [
@@ -70,6 +71,15 @@ export default [
         component: RolesPermission,
         path: ROLESPERMISSION_ROUTE,
         title: 'Roles Permissions',
+        permission: [
+          // ROLE_TYPE.ADMIN,
+          // ROLE_TYPE.COMPANY_OWNER,
+        ],
+      },
+      {
+        component: NewOrder,
+        path: NEWORDER_ROUTE,
+        title: 'New Order',
         permission: [
           // ROLE_TYPE.ADMIN,
           // ROLE_TYPE.COMPANY_OWNER,

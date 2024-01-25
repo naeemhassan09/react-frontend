@@ -1,4 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
 import { FunctionComponent, useState, useEffect } from 'react';
 import {
   TextField,
@@ -46,7 +45,6 @@ const CloseWrapper = styled.div`
 
 const CreateUserNameParent = styled.div`
   align-self: stretch;
-  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -73,7 +71,6 @@ const Enabled = styled.div`
 
 const CheckboxParent = styled.div`
   align-self: stretch;
-  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -83,7 +80,7 @@ const CheckboxParent = styled.div`
 
 const CreateWrapper = styled.div`
   border-radius: var(--br-8xs);
-  background-color: var(--color-lightpink);
+  background-color: var(--color-firebrick);
   height: 36px;
   display: flex;
   flex-direction: row;
@@ -99,19 +96,24 @@ const CreateWrapper = styled.div`
 
 const CloseContainer = styled.div`
   border-radius: var(--br-8xs);
-  background-color: var(--color-firebrick);
+  background-color: var(--white);
+  border: 2px solid var(--color-firebrick);
+  box-sizing: border-box;
   height: 36px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: var(--padding-3xs) var(--padding-xl);
-  box-sizing: border-box;
+  color: var(--color-firebrick);
+  &:hover {
+    background-color: var(--color-firebrick);
+    color: white;
+  }
 `;
 
 const FrameParent = styled.div`
   align-self: stretch;
-  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -142,7 +144,6 @@ const CreateUserModalRoot = styled.div`
     animation: 0.25s ease 0s 1 normal forwards ${animationSlideInRight};
   }
 `;
-
 
 const CreateUserModal: FunctionComponent<CreateUserModalType> = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -198,6 +199,7 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = () => {
         fullWidth
         variant='outlined'
         type='text'
+        sx={ { '& .MuiInputBase-root': { height: '36px' } } }
       />
       <CreateUserModalChild
         color='primary'
@@ -206,6 +208,7 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = () => {
         placeholder='Last Name'
         fullWidth
         variant='outlined'
+        sx={ { '& .MuiInputBase-root': { height: '36px' } } }
       />
       <CreateUserModalChild
         color='primary'
@@ -214,6 +217,7 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = () => {
         placeholder='@username'
         required
         variant='outlined'
+        sx={ { '& .MuiInputBase-root': { height: '36px' } } }
       />
       <CreateUserModalChild
         color='primary'
@@ -224,6 +228,7 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = () => {
         fullWidth
         variant='outlined'
         type='email'
+        sx={ { '& .MuiInputBase-root': { height: '36px' } } }
       />
       <FrameAutocomplete
         size='small'
@@ -262,6 +267,7 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = () => {
             </InputAdornment>
           ),
         } }
+        sx={ { '& .MuiInputBase-root': { height: '36px' } } }
       />
       <CreateUserModalChild
         color='primary'
@@ -283,6 +289,7 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = () => {
             </InputAdornment>
           ),
         } }
+        sx={ { '& .MuiInputBase-root': { height: '36px' } } }
       />
       <CheckboxParent>
         <Checkbox1 label='' control={ <Checkbox id='small' color='primary' /> } />

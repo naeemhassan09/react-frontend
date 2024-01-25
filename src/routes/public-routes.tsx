@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Dashboard } from 'src/pages';
-import Login from '../pages/auth/login';
+import Login from 'src/pages/auth/login';
 
 const PublicRoutes = () => (
   <Fragment>

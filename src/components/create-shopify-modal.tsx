@@ -1,4 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
 import { FunctionComponent, useState, useEffect } from 'react';
 import {
   TextField,
@@ -52,7 +51,6 @@ const CloseWrapper = styled.div`
 
 const CreateShopifyStoreSettngParent = styled.div`
   align-self: stretch;
-  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -75,7 +73,6 @@ const Enabled = styled.div`
 
 const CheckboxParent = styled.div`
   align-self: stretch;
-  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -85,7 +82,7 @@ const CheckboxParent = styled.div`
 
 const CreateShopifyCenterWrapper = styled.div`
   border-radius: var(--br-8xs);
-  background-color: var(--color-lightpink);
+  background-color: var(--color-firebrick);
   height: 36px;
   display: flex;
   flex-direction: row;
@@ -101,17 +98,20 @@ const CreateShopifyCenterWrapper = styled.div`
 
 const CloseContainer = styled.div`
   border-radius: var(--br-8xs);
-  background-color: var(--color-firebrick);
+  background-color: var(--white);
+  border: 2px solid var(--color-firebrick);
+  box-sizing: border-box;
   height: 36px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: var(--padding-3xs) var(--padding-xl);
-  box-sizing: border-box;
   cursor: pointer;
+  color: var(--color-firebrick);
   &:hover {
-    background-color: var(--color-crimson);
+    background-color: var(--color-firebrick);
+    color: white;
   }
   @media screen and (max-width: 420px) {
     flex: 1;
@@ -120,7 +120,6 @@ const CloseContainer = styled.div`
 
 const FrameParent = styled.div`
   align-self: stretch;
-  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -206,6 +205,7 @@ const CreateShopifyModal: FunctionComponent<CreateShopifyModalType> = () => {
         fullWidth
         variant='outlined'
         type='text'
+        sx={ { '& .MuiInputBase-root': { height: '36px' } } }
       />
       <CreateShopifyModalChild
         color='primary'
@@ -215,6 +215,7 @@ const CreateShopifyModal: FunctionComponent<CreateShopifyModalType> = () => {
         required
         fullWidth
         variant='outlined'
+        sx={ { '& .MuiInputBase-root': { height: '36px' } } }
       />
       <CreateShopifyModalChild
         color='primary'
@@ -225,6 +226,7 @@ const CreateShopifyModal: FunctionComponent<CreateShopifyModalType> = () => {
         fullWidth
         variant='outlined'
         type='number'
+        sx={ { '& .MuiInputBase-root': { height: '36px' } } }
       />
       <CreateShopifyModalChild
         color='primary'
@@ -247,6 +249,7 @@ const CreateShopifyModal: FunctionComponent<CreateShopifyModalType> = () => {
             </InputAdornment>
           ),
         } }
+        sx={ { '& .MuiInputBase-root': { height: '36px' } } }
       />
       <CreateShopifyModalChild
         color='primary'
@@ -268,6 +271,7 @@ const CreateShopifyModal: FunctionComponent<CreateShopifyModalType> = () => {
             </InputAdornment>
           ),
         } }
+        sx={ { '& .MuiInputBase-root': { height: '36px' } } }
       />
       <CheckboxParent>
         <Checkbox1 label='' control={ <Checkbox id='small' color='primary' /> } />

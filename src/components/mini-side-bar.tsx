@@ -1,5 +1,5 @@
-/* eslint-disable react/react-in-jsx-scope */
 import { FunctionComponent, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 type MiniSideBarType = {
@@ -17,37 +17,37 @@ const animationSlideInLeft = keyframes`
     }
   `;
 
-const GroupIcon = styled.img`
+const AlchematicveMiniIcon = styled.img`
   position: relative;
   width: 24px;
   height: 24px;
 `;
 
-const GroupIcon1 = styled.img`
+const GroupIcon = styled.img`
   position: relative;
   width: 24px;
   height: 20.1px;
 `;
 
-const Frame = styled.a`
+const Frame = styled(Link)`
+  cursor: pointer;
   text-decoration: none;
   align-self: stretch;
   border-radius: var(--br-31xl);
-  background-color: var(--color-gray-400);
+  background-color: var(--color-gray-300);
   overflow: hidden;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   padding: var(--padding-7xl);
-  cursor: pointer;
   &:hover {
-    background-color: var(--color-gray-300);
+    background-color: var(--color-gray-400);
     transition: 0.1s;
   }
 `;
 
-const OrderSvgIcon1 = styled.img`
+const OrderSvgIcon = styled.img`
   position: relative;
   width: 24px;
   height: 24px;
@@ -55,43 +55,45 @@ const OrderSvgIcon1 = styled.img`
   flex-shrink: 0;
 `;
 
-const Layer1 = styled.a`
+const Layer = styled(Link)`
+  cursor: pointer;
   text-decoration: none;
   align-self: stretch;
   border-radius: var(--br-31xl);
-  background-color: var(--color-gray-400);
+  background-color: var(--color-gray-300);
   overflow: hidden;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   padding: var(--padding-7xl);
-  cursor: pointer;
   &:hover {
-    background-color: var(--color-gray-300);
+    background-color: var(--color-gray-400);
     transition: 0.1s;
   }
 `;
 
-const SettingsSvgIcon1Wrapper = styled.a`
+const SettingsSvgIcon1Wrapper = styled(Link)`
+  cursor: pointer;
   text-decoration: none;
   align-self: stretch;
   border-radius: var(--br-31xl);
-  background-color: var(--color-gray-400);
+  background-color: var(--color-gray-300);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   padding: var(--padding-7xl);
-  cursor: pointer;
   &:hover {
-    background-color: var(--color-gray-300);
+    background-color: var(--color-gray-400);
     transition: 0.1s;
   }
 `;
 
 const FrameParent = styled.div`
   border-top: 2px solid #ffefef;
+  box-sizing: border-box;
+  width: 76px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -100,7 +102,7 @@ const FrameParent = styled.div`
   gap: var(--gap-xs);
 `;
 
-const GroupParent = styled.div`
+const AlchematicveMiniIconParent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -161,23 +163,23 @@ const MiniSideBar: FunctionComponent<MiniSideBarType> = () => {
   }, []);
   return (
     <MiniSideBarRoot data-animate-on-scroll>
-      <GroupParent>
-        <GroupIcon alt='' src='/group.svg' />
+      <AlchematicveMiniIconParent>
+        <AlchematicveMiniIcon alt='' src='/alchematicveminiicon.svg' />
         <FrameParent>
-          <Frame>
-            <GroupIcon1 alt='' src='/group1.svg' />
+          <Frame to='/maindashboardd'>
+            <GroupIcon alt='' src='/group.svg' />
           </Frame>
-          <Layer1>
-            <OrderSvgIcon1 alt='' src='/ordersvgicon-11.svg' />
-          </Layer1>
-          <Frame>
-            <OrderSvgIcon1 alt='' src='/productlistsvgicon-11.svg' />
+          <Layer to='/orders'>
+            <OrderSvgIcon alt='' src='/ordersvgicon-11.svg' />
+          </Layer>
+          <Frame to='/product-list'>
+            <OrderSvgIcon alt='' src='/productlistsvgicon-11.svg' />
           </Frame>
-          <SettingsSvgIcon1Wrapper>
-            <OrderSvgIcon1 alt='' src='/settingssvgicon-11.svg' />
+          <SettingsSvgIcon1Wrapper to='/settings'>
+            <OrderSvgIcon alt='' src='/settingssvgicon-11.svg' />
           </SettingsSvgIcon1Wrapper>
         </FrameParent>
-      </GroupParent>
+      </AlchematicveMiniIconParent>
     </MiniSideBarRoot>
   );
 };

@@ -32,7 +32,7 @@ module.exports = {
     'react/no-multi-comp': 2,
     'react/no-unknown-property': 2,
     'react/prop-types': 2,
-    'react/react-in-jsx-scope': 2,
+    'react/react-in-jsx-scope': 'off',
     'react/self-closing-comp': ['error', {
       component: true,
       html: false,
@@ -62,7 +62,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 0,
     'no-shadow': 0,
     '@typescript-eslint/no-shadow': 2,
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
     'padding-line-between-statements': [
       'error',

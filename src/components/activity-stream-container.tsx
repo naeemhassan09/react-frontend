@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { 
   ACTIVITYSTREAM_ROUTE, APP, 
   ROLESPERMISSION_ROUTE, 
+  SETTINGSVENDOR_ROUTE, 
   USERMANAGEMENT_ROUTE 
 } from 'src/constants/navigation-routes';
 import SideMenuOfSubMenu from './side-menu-of-sub-menu';
@@ -191,6 +192,12 @@ ActivityStreamContainerType
               propBorderRadius2={ propBorderRadius2 }
             >
               <ProductList2>Activity Stream</ProductList2>
+            </ProductListWrapper2>
+            <ProductListWrapper2
+              to={ `${APP}${SETTINGSVENDOR_ROUTE}` }
+              propBorderRadius2={ propBorderRadius2 }
+            >
+              <ProductList2>Vendor</ProductList2>
             </ProductListWrapper2>
           </FrameParent>
           <Layer3Icon

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { 
   ACTIVITYSTREAM_ROUTE, 
   APP, ROLESPERMISSION_ROUTE, 
+  SETTINGSVENDOR_ROUTE, 
   USERMANAGEMENT_ROUTE 
 } from 'src/constants/navigation-routes';
 import { Button, Typography } from '@mui/material';
@@ -194,6 +195,9 @@ const ActivityStreamContainer1: FunctionComponent = () => {
             </Links>
             <Links1   to={ `${APP}${ACTIVITYSTREAM_ROUTE}` } >
               <ActivityStream>Activity Stream</ActivityStream>
+            </Links1>
+            <Links1  to={ `${APP}${SETTINGSVENDOR_ROUTE}` } >
+              <ActivityStream>Vendor</ActivityStream>
             </Links1>
           </NavLinks>
           <FrameParent>

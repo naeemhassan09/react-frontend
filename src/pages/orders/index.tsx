@@ -411,8 +411,6 @@ const OrdersRoot = styled.div`
 export const Orders: FunctionComponent = () => {
 
   const orderData=useSelector(getOrderData);
-  
-  console.log('orders data',orderData);
   const dispatch=useDispatch();
  
   const [totalPages, setTotalPages]=useState<number>(0);
@@ -422,6 +420,50 @@ export const Orders: FunctionComponent = () => {
 
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
+  const [completeOrderData,setCompleteOrderData]=useState(orderData);
+  
+//   const renderTable = () => (
+//     selectedOrderArray?.length > 0 ? (
+//       <>
+//         { selectedOrderArray.map((item: any) => (
+//           <VendorSheetContainer key={ item.id }>
+//             <Colum1>
+//               <OrderNumberWrapper>
+//                 <Fanatical>{ item.order_number }</Fanatical>
+//               </OrderNumberWrapper>
+//             </Colum1>
+//             <Colum1>
+//               <OrderNumberWrapper>
+//                 <Fanatical>{ item.email }</Fanatical>
+//               </OrderNumberWrapper>
+//             </Colum1>
+//             <Colum1>
+//               <OrderNumberWrapper>
+//                 <Fanatical>{ item.financial_status }</Fanatical>
+//               </OrderNumberWrapper>
+//             </Colum1>
+//             <Colum1>
+//               <OrderNumberWrapper>
+//                 <Fanatical>{ item.order_number }</Fanatical>
+//               </OrderNumberWrapper>
+//             </Colum1>
+//             <Colum1>
+//               <OrderNumberWrapper>
+//                 <Fanatical>{ item.fulfillment_status }</Fanatical>
+//               </OrderNumberWrapper>
+//             </Colum1>
+//             <Colum1>
+//               <OrderNumberWrapper>
+//                 <Fanatical>{ item.total_price }</Fanatical>
+//               </OrderNumberWrapper>
+//             </Colum1>
+//           </VendorSheetContainer>
+//         )) }
+//       </>
+//     ) : <></>
+//   );
+
+
 
   const openAfterLoginMenu = useCallback(() => {
     setAfterLoginMenuOpen(true);
@@ -439,6 +481,22 @@ export const Orders: FunctionComponent = () => {
     setModalPopupOpen(false);
   }, []);
 
+
+
+  const onHandleSearchText=((event: any)=>{
+    const searchText= event.target.value.toLowerCase();
+     let filterObject: any= []; 
+     if (completeOrderData && searchText!=='')    
+     {
+         filterObject=orderData?.filter((item:any)=> item.order_number.trim().toLowerCase().includes(searchText)||
+         item.email.trim().toLowerCase().includes(searchText));
+         setCompleteOrderData(filterObject);
+     }  
+ 
+     else
+     setCompleteOrderData(orderData);
+ });
+
   useEffect(()=>{
     dispatch(fetchOrderData({}));
   },[]);
@@ -453,28 +511,33 @@ export const Orders: FunctionComponent = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+
    useEffect(()=>{
 
-    if (orderData && orderData.length>0)
+    if (completeOrderData && completeOrderData.length>0)
     {
-        const pages=Math.ceil(orderData.length/10);
+        const pages=Math.ceil(completeOrderData.length/10);
         setTotalPages(pages);
         setCurrentPage(1);
     }
 
-   },[orderData]);
+   },[completeOrderData]);
 
    useEffect(() => {
-    if (orderData !== null  && orderData && orderData.length>10) {
+    if (completeOrderData !== null  && completeOrderData && completeOrderData.length>10) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const nextItems = orderData.slice(startIndex, endIndex);
+      const nextItems = completeOrderData.slice(startIndex, endIndex);
       setSelectedOrderArray(nextItems);
     }
 
-    else  setSelectedOrderArray(orderData);
+    else  setSelectedOrderArray(completeOrderData);
 
-  }, [orderData, currentPage]);
+  }, [completeOrderData, currentPage]);
+
+  useEffect(()=>{
+    dispatch(fetchOrderData({}));
+  },[]); 
 
   const renderTable = () => (
     selectedOrderArray?.length > 0 ? (
@@ -545,6 +608,7 @@ export const Orders: FunctionComponent = () => {
                       </InputAdornment>
                     ),
                   } }
+                  onChange={ onHandleSearchText }
                   sx={ { '& .MuiInputBase-root': { height: '36px' } } }
                 />
                 <NewButton to={ `${APP}${NEWORDER_ROUTE}` }>

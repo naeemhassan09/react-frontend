@@ -485,9 +485,7 @@ export const Orders: FunctionComponent = () => {
 
   const onHandleSearchText=((event: any)=>{
     const searchText= event.target.value.toLowerCase();
-     let filterObject: any= [];
-     console.log(completeOrderData);
- 
+     let filterObject: any= []; 
      if (completeOrderData && searchText!=='')    
      {
          filterObject=orderData?.filter((item:any)=> item.order_number.trim().toLowerCase().includes(searchText)||

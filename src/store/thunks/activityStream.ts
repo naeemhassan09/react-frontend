@@ -18,7 +18,7 @@ export const fetchActivityData = createAsyncThunk<TObject, TObject, IActionOptio
   async ( _requestPayload: Record<string, string>,thunkAPI) => {
     const baseUrl = getBaseUrl(thunkAPI.getState());
     const token=getAuthToken(thunkAPI.getState());
-    const { data } = await ActivityServices.fetchAllActivities(baseUrl, '2024-1-10', '2024-1-15', token);
+    const { data } = await ActivityServices.fetchAllActivities(baseUrl, _requestPayload, token);
     return thunkAPI.fulfillWithValue(data);
   }
 );

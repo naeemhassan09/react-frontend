@@ -696,10 +696,10 @@ export const ActivityStream: FunctionComponent = () => {
 
   const [dateDateTimePickerValue, setDateDateTimePickerValue] = useState<
     string | null
-  >(null);
+  >('');
 
   const [dateDateTimePicker1Value, setDateDateTimePicker1Value] =
-    useState(null);
+    useState<string | null>('');
 
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
 
@@ -711,9 +711,25 @@ export const ActivityStream: FunctionComponent = () => {
     setModalPopupOpen(false);
   }, []);
 
+  const formatDate = (date: string) => {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+  
+    if (month.length < 2) 
+      month = '0' + month;
+    if (day.length < 2) 
+      day = '0' + day;
+  
+    return [year, month, day].join('-');
+  };
+
   useEffect(()=>{
-console.log('working', token);
-    dispatch(fetchActivityData({}));
+    const s='01/10/20024', e='01/15/20024';
+    const startDate=formatDate(s);
+    const endDate=formatDate(e);
+    dispatch(fetchActivityData({startDate, endDate}));
 
   },[]);
 

@@ -7,6 +7,7 @@ import {
 import { TextField, InputAdornment, Icon, IconButton } from '@mui/material';
 import { Property } from 'csstype';
 import styled from 'styled-components';
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import CreateShopifyModal from './create-shopify-modal';
 import PortalDrawer from './portal-drawer';
 
@@ -106,7 +107,7 @@ const CreateShopifyStoreCard: FunctionComponent<CreateShopifyStoreCardType> = ({
             InputProps={ {
               endAdornment: (
                 <InputAdornment position='end'>
-                  <Icon>search_sharp</Icon>
+                  <SearchSharpIcon />
                 </InputAdornment>
               ),
             } }

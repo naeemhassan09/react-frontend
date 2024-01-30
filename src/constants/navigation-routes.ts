@@ -22,6 +22,7 @@ export const USERMANAGEMENT_ROUTE= '/usermanagement';
 export const ACTIVITYSTREAM_ROUTE = '/activitystream';
 export const ROLESPERMISSION_ROUTE = '/rolespermission';
 export const NEWORDER_ROUTE = '/neworder';
+export const SETTINGS_ROUTE = '/settings';
 // Sidebar Route Names
 export enum SIDEBAR_NAMES {
   DASHBOARD = 'Dashboard',

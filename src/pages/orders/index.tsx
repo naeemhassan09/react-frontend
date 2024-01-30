@@ -13,7 +13,7 @@ import PortalPopup from 'src/components/portal-popup';
 import FormContainer from 'src/components/form-container';
 import OrderHeaderContainer from 'src/components/order-header-container';
 import Pagination from 'src/components/pagination';
-
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderData } from 'src/store/selectors/entities';
 import { fetchOrderData } from 'src/store/thunks';
@@ -604,7 +604,7 @@ export const Orders: FunctionComponent = () => {
                   InputProps={ {
                     endAdornment: (
                       <InputAdornment position='end'>
-                        <Icon>search_sharp</Icon>
+                        <SearchSharpIcon />
                       </InputAdornment>
                     ),
                   } }

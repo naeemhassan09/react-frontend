@@ -18,6 +18,8 @@ import { fetchProductData } from 'src/store/thunks';
 import { getProductList } from 'src/store/selectors/entities';
 import { useSelector } from 'react-redux';
 
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
+
 const ProductList1 = styled.div`
   position: relative;
   font-weight: 600;
@@ -565,7 +567,7 @@ export const ProductList: FunctionComponent = () => {
                   InputProps={ {
                     endAdornment: (
                       <InputAdornment position='end'>
-                        <Icon>search_sharp</Icon>
+                        <SearchSharpIcon />
                       </InputAdornment>
                     ),
                   } }

@@ -22,6 +22,7 @@ import Pagination from 'src/components/pagination';
 import { getDashboardData } from 'src/store/selectors/entities';
 import { useSelector } from 'react-redux';
 import { APP, DASHBORD_ROUTE, ORDERS_ROUTE, PRODUCTLIST_ROUTE, 
+  SETTINGS_ROUTE, 
   USERMANAGEMENT_ROUTE } from 'src/constants/navigation-routes';
 
 import { logout } from '../../store/thunks/auth';
@@ -576,7 +577,7 @@ export const Dashboard: FunctionComponent = () => {
                   <OrderSvgIcon alt='' src='/productlistsvgicon-1.svg' />
                   <Orders1>Product List</Orders1>
                 </Frame1>
-                <SettingsSvgIcon1Parent to={ `${APP}${USERMANAGEMENT_ROUTE}` }>
+                <SettingsSvgIcon1Parent to={ `${APP}${SETTINGS_ROUTE}` }>
                   <OrderSvgIcon alt='' src='/settingssvgicon-1.svg' />
                   <Orders1>Setiings</Orders1>
                 </SettingsSvgIcon1Parent>

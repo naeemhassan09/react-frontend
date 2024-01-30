@@ -1,6 +1,15 @@
 import { FunctionComponent, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { 
+  ACTIVITYSTREAM_ROUTE, 
+  APP, ROLESPERMISSION_ROUTE, 
+  USERMANAGEMENT_ROUTE 
+} from 'src/constants/navigation-routes';
+import { Button, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import { logout } from 'src/store/thunks';
+import { useDispatch } from 'react-redux';
 import MiniSideBar from './mini-side-bar';
 import PortalDrawer from './portal-drawer';
 
@@ -157,6 +166,7 @@ const HeaderRoot = styled.div`
 `;
 
 const ActivityStreamContainer1: FunctionComponent = () => {
+  const dispatch = useDispatch();
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
 
   const openAfterLoginMenu = useCallback(() => {
@@ -167,18 +177,22 @@ const ActivityStreamContainer1: FunctionComponent = () => {
     setAfterLoginMenuOpen(false);
   }, []);
 
+  const handleLogout = () => {
+    dispatch(logout({}));
+  };
+
   return (
     <>
       <HeaderRoot>
         <NavLinksParent>
           <NavLinks>
-            <Links to='/settingsrolespermisssions'>
+            <Links   to={ `${APP}${ROLESPERMISSION_ROUTE}` } >
               <RolesPermission>{ 'Roles & Permission' }</RolesPermission>
             </Links>
-            <Links to='/settingsusermanagement'>
+            <Links   to={ `${APP}${USERMANAGEMENT_ROUTE}` } >
               <RolesPermission>{ 'User Management ' }</RolesPermission>
             </Links>
-            <Links1 to='/settingsactivitystream'>
+            <Links1   to={ `${APP}${ACTIVITYSTREAM_ROUTE}` } >
               <ActivityStream>Activity Stream</ActivityStream>
             </Links1>
           </NavLinks>
@@ -190,6 +204,14 @@ const ActivityStreamContainer1: FunctionComponent = () => {
                   <Developer>Developer</Developer>
                 </Frame>
                 <FrameChild alt='' src='/ellipse-3@2x.png' />
+                <Box>
+                  <Button onClick={ handleLogout }>
+                    { /*  When Button include children, it is treated as plain */ }
+                    <Box>
+                      <Typography>logout</Typography>
+                    </Box>
+                  </Button>
+                </Box>
               </FrameGroup>
             </FrameWrapper>
             <IconsolidmenuAlt

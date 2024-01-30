@@ -7,6 +7,11 @@ import {
 import { Link } from 'react-router-dom';
 import { Property } from 'csstype';
 import styled from 'styled-components';
+import { 
+  ACTIVITYSTREAM_ROUTE, APP, 
+  ROLESPERMISSION_ROUTE, 
+  USERMANAGEMENT_ROUTE 
+} from 'src/constants/navigation-routes';
 import SideMenuOfSubMenu from './side-menu-of-sub-menu';
 import PortalDrawer from './portal-drawer';
 
@@ -170,19 +175,19 @@ ActivityStreamContainerType
         <SubHeaderRoot>
           <FrameParent>
             <ProductListWrapper
-              to='/settingsrolespermisssions'
+              to={ `${APP}${ROLESPERMISSION_ROUTE}` } 
               propBorderRadius={ propBorderRadius }
             >
               <ProductList1>{ 'Roles & Permission' }</ProductList1>
             </ProductListWrapper>
             <ProductListWrapper1
-              to='/settingsusermanagement'
+              to={ `${APP}${USERMANAGEMENT_ROUTE}` } 
               propBorderRadius1={ propBorderRadius1 }
             >
               <ProductList2>User Management</ProductList2>
             </ProductListWrapper1>
             <ProductListWrapper2
-              to='/settingsactivitystream'
+              to={ `${APP}${ACTIVITYSTREAM_ROUTE}` }
               propBorderRadius2={ propBorderRadius2 }
             >
               <ProductList2>Activity Stream</ProductList2>

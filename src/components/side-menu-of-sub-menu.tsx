@@ -118,13 +118,13 @@ const SideMenuOfSubMenu: FunctionComponent<SideMenuOfSubMenuType> = () => {
   return (
     <SideMenuOfSubMenuRoot data-animate-on-scroll>
       <FrameParent>
-        <RolesPermissionWrapper to='/settingsrolespermisssions'>
+        <RolesPermissionWrapper to='/rolespermisssion'>
           <RolesPermission>{ 'Roles & Permission' }</RolesPermission>
         </RolesPermissionWrapper>
-        <RolesPermissionWrapper to='/settingsusermanagement'>
+        <RolesPermissionWrapper to='/usermanagement'>
           <RolesPermission>User Management</RolesPermission>
         </RolesPermissionWrapper>
-        <ActivityStreamWrapper to='/settingsactivitystream'>
+        <ActivityStreamWrapper to='/activitystream'>
           <RolesPermission>Activity Stream</RolesPermission>
         </ActivityStreamWrapper>
       </FrameParent>

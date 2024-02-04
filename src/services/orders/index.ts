@@ -1,7 +1,7 @@
 /* eslint-disable padding-line-between-statements */
 import { AxiosResponse } from 'axios';
-// import { useSelector } from 'react-redux';
-// import { getAuthToken } from 'src/store/selectors/features';
+import { useSelector } from 'react-redux';
+import { getAuthToken } from 'src/store/selectors/features';
 import { HttpService } from '../http';
 import { prepareErrorResponse, prepareResponseObject } from '../http/response';
 import { RESPONSE_TYPES } from '../../constants/response-types';
@@ -20,4 +20,23 @@ export class OrderService extends HttpService {
           throw prepareErrorResponse(error);
         }
       };
+
+      fetchVarients = async (baseAuthUrl: string, token: string): Promise<IPrepareResponse<AxiosResponse>> => {
+        
+        console.log(token,`${baseAuthUrl}/api/v1/orders/product_drowdown`);
+
+            try {
+              const apiResponse = await this.get(
+                `${baseAuthUrl}/api/v1/orders/product_drowdown`,
+               { headers: {
+                    Authorization: `${token}`
+                  }}
+              );
+              console.log('api response',apiResponse);
+              return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+            } catch (error) {
+              throw prepareErrorResponse(error);
+            }
+          };
 }
+

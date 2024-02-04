@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchOrderData } from 'src/store/thunks';
+import { fetchProductVarient } from 'src/store/thunks';
 
 
   
 
   interface IInitialState {
    data: []|null,
+   productVarient:[],
   }
   
   const INITIAL_STATE : IInitialState = {
     data:null,
+    productVarient:[],
   };
 
 
@@ -24,6 +27,10 @@ import { fetchOrderData } from 'src/store/thunks';
       state.data=null;
       },
 
+      setProductVairnet: ((state)=>{
+        state.productVarient=[];
+      })
+
     
     },
 
@@ -33,6 +40,12 @@ import { fetchOrderData } from 'src/store/thunks';
     state.data=action.payload.orders;
    
   });
+  builder.addCase(fetchProductVarient.fulfilled, (state, action) => {
+    state.productVarient=action.payload;
+    
+   });
+
+  
 },
    
   });

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useCallback } from 'react';
+import { FunctionComponent, useState, useCallback, useEffect } from 'react';
 import {
   TextField,
   InputAdornment,
@@ -12,6 +12,8 @@ import PortalPopup from 'src/components/portal-popup';
 import FormContainer from 'src/components/form-container';
 import OrderHeaderContainer from 'src/components/order-header-container';
 import CreateShopifyStoreCard from 'src/components/create-shopify-store-card';
+import { useDispatch } from 'react-redux';
+import { fetchProductVarient } from 'src/store/thunks';
 
 const Orders1 = styled.div`
   position: relative;
@@ -286,6 +288,13 @@ export const NewOrder: FunctionComponent = () => {
   const closeModalPopup = useCallback(() => {
     setModalPopupOpen(false);
   }, []);
+
+ const dispatch=useDispatch();
+
+ useEffect(()=>{
+    console.log('working');
+    dispatch(fetchProductVarient({}));
+ },[]);
 
   return (
     <>

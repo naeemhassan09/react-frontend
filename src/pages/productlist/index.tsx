@@ -14,8 +14,8 @@ import FormContainer from 'src/components/form-container';
 import OrderHeaderContainer from 'src/components/order-header-container';
 import Pagination from 'src/components/pagination';
 import { useDispatch } from 'react-redux';
-import { fetchProductData } from 'src/store/thunks';
-import { getProductList } from 'src/store/selectors/entities';
+import { downloadProductData, fetchProductData } from 'src/store/thunks';
+import {  getProductList } from 'src/store/selectors/entities';
 import { useSelector } from 'react-redux';
 
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
@@ -418,7 +418,7 @@ export const ProductList: FunctionComponent = () => {
 
   const dispatch=useDispatch();
   const productList = useSelector(getProductList);
-  
+
   const [completeProductList, setCompleteProductList]=useState(productList);
   const [isCSVModalPopupOpen, setCSVModalPopupOpen] = useState(false);
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
@@ -426,7 +426,15 @@ export const ProductList: FunctionComponent = () => {
   const [totalPages, setTotalPages]=useState<number>(0);
   const [currentPage, setCurrentPage]=useState<number>(0);
   const [selectedProductArray, setSelectedProductArray]=useState<any>([]);
-  const itemsPerPage=10;
+  const [itemsPerPage, setItemsPerPage]=useState(10);
+
+  const options = [
+    { value: 'canceled', label: 'Canceled' },
+    { value: 'shipped', label: 'Shipped' },
+    { value: 'pending', label: 'Pending' },
+    { value: 'delivered', label: 'Delivered' },
+    { value: 'active', label: 'Active' },
+  ];
 
   const renderTable = () => (
     selectedProductArray?.length > 0 ? (
@@ -493,11 +501,34 @@ export const ProductList: FunctionComponent = () => {
     setModalPopupOpen(false);
   }, []);
 
+  const openExportCSV=(()=>{ 
+    dispatch(downloadProductData({}));
+  });
 
   const handleNextPage = () => {
     if (currentPage < totalPages)
     setCurrentPage((prevPage) => prevPage + 1);
   };
+
+  const handleChangeOrderStatus = (selectedValue: any ) => {
+
+    if (selectedValue !== null) {
+        let filterObject: any= [];
+
+        if (completeProductList && selectedValue!=='')    
+        {
+            filterObject=productList?.filter((item:any)=> item.status.trim().toLowerCase()
+            .includes(selectedValue.value));
+            setCompleteProductList(filterObject);
+        }  
+    } else
+    {
+      setCompleteProductList(productList);
+    }
+
+
+};
+
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -513,25 +544,45 @@ export const ProductList: FunctionComponent = () => {
         setCompleteProductList(filterObject);
     }  
 
-    else
+    else 
+    if (productList)
     setCompleteProductList(productList);
 });
+
+const handlePerItem=((_value: any)=>{
+    const value=parseInt(_value);
+    if (value===0)
+    setItemsPerPage(10);
+    else
+    setItemsPerPage(_value);
+});
+
 
   useEffect(() => { 
     dispatch(fetchProductData({}));
    }, []);
 
+   useEffect(()=>{setCompleteProductList(productList)},[productList]);
+
    useEffect(()=>{
+    console.log(completeProductList);
+
     if (completeProductList && completeProductList.length>0)
     {
-        const pages=Math.ceil(completeProductList.length/10);
+        const pages=Math.ceil(completeProductList.length/itemsPerPage);
         setTotalPages(pages);
         setCurrentPage(1);
     }
-   },[completeProductList]);
+
+    else {
+        setTotalPages(1);
+        setCurrentPage(1);
+    }
+
+   },[completeProductList, itemsPerPage]);
 
    useEffect(() => {
-    if (completeProductList !== null  && completeProductList && completeProductList.length>10) {
+    if (completeProductList && completeProductList !== null    && completeProductList.length>itemsPerPage) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
       const nextItems = completeProductList.slice(startIndex, endIndex);
@@ -540,7 +591,7 @@ export const ProductList: FunctionComponent = () => {
 
     else  setSelectedProductArray(completeProductList);
 
-  }, [completeProductList, currentPage]);
+  }, [completeProductList, currentPage, itemsPerPage]);
 
 
   return (
@@ -577,7 +628,7 @@ export const ProductList: FunctionComponent = () => {
                 <ImportButton onClick={ openCSVModalPopup }>
                   <Import>Import</Import>
                 </ImportButton>
-                <ExportButton>
+                <ExportButton onClick={ openExportCSV }>
                   <Import>Export</Import>
                 </ExportButton>
               </FrameParent>
@@ -593,7 +644,8 @@ export const ProductList: FunctionComponent = () => {
                   size='small'
                   sx={ { width: '100%' } }
                   disablePortal
-                  options={ ['Canceled', 'Shipped', 'Pending', 'Delivered'] }
+                  options={ options } 
+                  onChange={ (_event, value) => handleChangeOrderStatus(value) }
                   renderInput={ (params: any) => (
                     <TextField
                       { ...params }
@@ -602,8 +654,10 @@ export const ProductList: FunctionComponent = () => {
                       variant='outlined'
                       placeholder='Order Status'
                       helperText=''
+
                     />
                   ) }
+
                 />
               </FilterContainerInner>
             </FilterContainer>
@@ -646,13 +700,13 @@ export const ProductList: FunctionComponent = () => {
                 imageId='/icons8back50-1@2x.png'
                 imageCode='/icons8forward50-1@2x.png'
                 imageDimensions='/double-right1@2x.png'
-                itemsPerPageOptions={ [10, 20, 30] } // Example options for items per page
+                itemsPerPageOptions={ [10, 15, 20] }
                 itemsPerPage={ itemsPerPage }
                 currentPage={ currentPage }
                 totalPages={ totalPages }
-                onItemsPerPageChange={ (_value) => {
-                  // handle items per page change
-                } }
+                onItemsPerPageChange={ (_value) => 
+                    handlePerItem(_value)
+                 }
                 onNextPage={ handleNextPage }
                 onPrevPage={ handlePrevPage }
               />

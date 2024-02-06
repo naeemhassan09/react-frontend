@@ -2,6 +2,7 @@ export const PRODUCT_FETCH = 'product/fetchProducts';
 export const PRODUCT_CREATE = 'product/createProducts';
 export const PRODUCT_UPDATE = 'product/updateProducts';
 export const CATEGORIES_FETCH = 'product/fetchCategories';
+export const PRODUCT_BULK_DOWNLOAD= 'product/bulkDownloadPRoduct';
 export const PRODUCT_BULK_UPLOAD_PRODUCTS = 'product/bulkUploadProducts';
 export const PRODUCT_BULK_UPDATE_PRODUCTS = 'product/bulkUpdateProducts';
 export const PRODUCT_BULK_UPDATE_LOCATION_PRICES_STOCK = 'product/bulkUpdateLocationPricesAndStock';

@@ -309,4 +309,17 @@ export class ProductService extends HttpService {
           throw prepareErrorResponse(error);
         }
       };
+      
+      dowbloadData  = async (baseAuthUrl: string, token: string): Promise<IPrepareResponse<AxiosResponse>> => {
+        //    const token=useSelector(getAuthToken);
+            try {
+              const apiResponse = await this.get(
+                `${baseAuthUrl}/api/v1/products/download_products`,
+            { headers: {Authorization: token}}
+              );
+              return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+            } catch (error) {
+              throw prepareErrorResponse(error);
+            }
+          };
 }

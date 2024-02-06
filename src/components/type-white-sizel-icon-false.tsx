@@ -10,6 +10,7 @@ type TypeWhiteSizelIconFalseType = {
   typeWhiteSizelIconFalseBorder?: string;
   typeWhiteSizelIconFalseAlignSelf?: CSSProperties['alignSelf'];
   textColor?: CSSProperties['color'];
+  onClick?: () => void;
 };
 
 const Text1 = styled.div<{ textColor?: Property.Color }>`
@@ -36,6 +37,7 @@ const TypewhiteSizelIconfalseRoot = styled.div<{
   text-align: left;
   font-size: var(--text-base-leading-6-font-medium-size);
   color: var(--gray-700);
+  cursor: pointer;
   font-family: var(--text-base-leading-6-font-medium);
   background-color: ${(p) => p.typeWhiteSizelIconFalseBackgroundColor}
   border: ${(p) => p.typeWhiteSizelIconFalseBorder}
@@ -50,6 +52,7 @@ TypeWhiteSizelIconFalseType
   typeWhiteSizelIconFalseBorder,
   typeWhiteSizelIconFalseAlignSelf,
   textColor,
+  onClick,
 }) => (
   <TypewhiteSizelIconfalseRoot
     typeWhiteSizelIconFalseBackgroundColor={
@@ -57,6 +60,7 @@ TypeWhiteSizelIconFalseType
     }
     typeWhiteSizelIconFalseBorder={ typeWhiteSizelIconFalseBorder }
     typeWhiteSizelIconFalseAlignSelf={ typeWhiteSizelIconFalseAlignSelf }
+    onClick={ onClick }
   >
     <Text1 textColor={ textColor }>{ text }</Text1>
   </TypewhiteSizelIconfalseRoot>

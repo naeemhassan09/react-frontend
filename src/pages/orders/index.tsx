@@ -416,54 +416,20 @@ export const Orders: FunctionComponent = () => {
   const [totalPages, setTotalPages]=useState<number>(0);
   const [currentPage, setCurrentPage]=useState<number>(0);
   const [selectedOrderArray, setSelectedOrderArray]=useState<any>([]);
-  const itemsPerPage=10;
+  const [itemsPerPage,setItemsPerPage]=useState(10);
 
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
   const [completeOrderData,setCompleteOrderData]=useState(orderData);
+  const [orderNumberOptions, setOrderNumberOptions]=useState([]);
   
-//   const renderTable = () => (
-//     selectedOrderArray?.length > 0 ? (
-//       <>
-//         { selectedOrderArray.map((item: any) => (
-//           <VendorSheetContainer key={ item.id }>
-//             <Colum1>
-//               <OrderNumberWrapper>
-//                 <Fanatical>{ item.order_number }</Fanatical>
-//               </OrderNumberWrapper>
-//             </Colum1>
-//             <Colum1>
-//               <OrderNumberWrapper>
-//                 <Fanatical>{ item.email }</Fanatical>
-//               </OrderNumberWrapper>
-//             </Colum1>
-//             <Colum1>
-//               <OrderNumberWrapper>
-//                 <Fanatical>{ item.financial_status }</Fanatical>
-//               </OrderNumberWrapper>
-//             </Colum1>
-//             <Colum1>
-//               <OrderNumberWrapper>
-//                 <Fanatical>{ item.order_number }</Fanatical>
-//               </OrderNumberWrapper>
-//             </Colum1>
-//             <Colum1>
-//               <OrderNumberWrapper>
-//                 <Fanatical>{ item.fulfillment_status }</Fanatical>
-//               </OrderNumberWrapper>
-//             </Colum1>
-//             <Colum1>
-//               <OrderNumberWrapper>
-//                 <Fanatical>{ item.total_price }</Fanatical>
-//               </OrderNumberWrapper>
-//             </Colum1>
-//           </VendorSheetContainer>
-//         )) }
-//       </>
-//     ) : <></>
-//   );
-
-
+  const options = [
+    { value: 'canceled', label: 'Canceled' },
+    { value: 'shipped', label: 'Shipped' },
+    { value: 'pending', label: 'Pending' },
+    { value: 'delivered', label: 'Delivered' },
+    { value: 'active', label: 'Active' },
+  ];
 
   const openAfterLoginMenu = useCallback(() => {
     setAfterLoginMenuOpen(true);
@@ -482,7 +448,6 @@ export const Orders: FunctionComponent = () => {
   }, []);
 
 
-
   const onHandleSearchText=((event: any)=>{
     const searchText= event.target.value.toLowerCase();
      let filterObject: any= []; 
@@ -497,10 +462,6 @@ export const Orders: FunctionComponent = () => {
      setCompleteOrderData(orderData);
  });
 
-  useEffect(()=>{
-    dispatch(fetchOrderData({}));
-  },[]);
-
 
   const handleNextPage = () => {
     if (currentPage < totalPages)
@@ -511,29 +472,89 @@ export const Orders: FunctionComponent = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  const handleChangeOrderNumber = (selectedValue: any ) => {
+
+    if (selectedValue !== null) {
+        let filterObject: any= [];
+
+        if (completeOrderData && selectedValue!=='')    
+        {
+            filterObject=orderData?.filter((item:any)=> item.order_number.trim().toLowerCase()
+            .includes(selectedValue.value));
+            setCompleteOrderData(filterObject);
+        }  
+    } else
+    {
+      setCompleteOrderData(orderData);
+    }
+};
+
+  const handleChangeOrderStatus = (selectedValue: any ) => {
+
+        if (selectedValue !== null) {
+        let filterObject: any= [];
+
+        if (completeOrderData && selectedValue!=='')    
+        {
+            filterObject=orderData?.filter((item:any)=> item.fulfillment_status.trim().toLowerCase()
+            .includes(selectedValue.value));
+            setCompleteOrderData(filterObject);
+        }  
+    } else
+    {
+      setCompleteOrderData(orderData);
+    }
+};
+
+  const handleOrderNumberArray=((orders:any)=>{
+ 
+    if (orders && orders.length>0)
+    {
+        const orderNumberArray = orders.map((order_item: any) => ({
+            label: order_item.order_number,
+            value: order_item.order_number,
+          }));
+
+        setOrderNumberOptions(orderNumberArray);
+    }
+  });
+
+  const handlePerItem=((_value: any)=>{
+    const value=parseInt(_value);
+    if (value===0)
+    setItemsPerPage(10);
+    else
+    setItemsPerPage(_value);
+});
 
    useEffect(()=>{
 
     if (completeOrderData && completeOrderData.length>0)
     {
-        const pages=Math.ceil(completeOrderData.length/10);
+        const pages=Math.ceil(completeOrderData.length/itemsPerPage);
         setTotalPages(pages);
         setCurrentPage(1);
     }
-
-   },[completeOrderData]);
+    else {
+        setTotalPages(1);
+        setCurrentPage(1);
+    }
+   },[completeOrderData, itemsPerPage]);
 
    useEffect(() => {
-    if (completeOrderData !== null  && completeOrderData && completeOrderData.length>10) {
+    if (completeOrderData !== null  && completeOrderData && completeOrderData.length>itemsPerPage) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
       const nextItems = completeOrderData.slice(startIndex, endIndex);
       setSelectedOrderArray(nextItems);
     }
-
     else  setSelectedOrderArray(completeOrderData);
+  }, [completeOrderData, currentPage, itemsPerPage]);
 
-  }, [completeOrderData, currentPage]);
+  useEffect(()=>{  
+    setCompleteOrderData(orderData);
+    handleOrderNumberArray(orderData);
+},[orderData]);
 
   useEffect(()=>{
     dispatch(fetchOrderData({}));
@@ -627,7 +648,8 @@ export const Orders: FunctionComponent = () => {
                   size='small'
                   sx={ { width: '100%' } }
                   disablePortal
-                  options={ [] as any }
+                  options={ orderNumberOptions }
+                  onChange={ (_event, value) => handleChangeOrderNumber(value) }
                   renderInput={ (params: any) => (
                     <TextField
                       { ...params }
@@ -643,7 +665,9 @@ export const Orders: FunctionComponent = () => {
                   size='small'
                   sx={ { width: '100%' } }
                   disablePortal
-                  options={ ['Canceled', 'Shipped', 'Pending', 'Delivered'] }
+                  options={ options }
+                  onChange={ (_event, value) => handleChangeOrderStatus(value) }
+
                   renderInput={ (params: any) => (
                     <TextField
                       { ...params }
@@ -703,13 +727,13 @@ export const Orders: FunctionComponent = () => {
                   imageId='/icons8back50-1@2x.png'
                   imageCode='/icons8forward50-1@2x.png'
                   imageDimensions='/double-right1@2x.png'
-                  itemsPerPageOptions={ [10, 20, 30] } // Example options for items per page
+                  itemsPerPageOptions={ [10, 15, 20] } // Example options for items per page
                   itemsPerPage={ itemsPerPage }
                   currentPage={ currentPage }
                   totalPages={ totalPages }
                   onItemsPerPageChange={ (_value) => {
-                    // handle items per page change
-                  } }
+                    handlePerItem(_value);
+                } }
                   onNextPage={ handleNextPage }
                   onPrevPage={ handlePrevPage }
                 />

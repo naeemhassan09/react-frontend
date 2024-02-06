@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchProductData } from 'src/store/thunks';
+import { downloadProductData, fetchProductData } from 'src/store/thunks';
 
 
   interface IInitialState {
    data: []|null,
+   downloadData:[]|null,
   }
   
   const INITIAL_STATE : IInitialState = {
    data:null,
+   downloadData:[],
   };
 
 
@@ -21,6 +23,10 @@ import { fetchProductData } from 'src/store/thunks';
       setProductListData: (state) => {
       state.data=null;
       },   
+
+      downloadProductsData: (state) => {
+        state.downloadData=null;
+        },   
     },
 
      // A "builder callback" function used to add more reducers
@@ -29,11 +35,25 @@ import { fetchProductData } from 'src/store/thunks';
     state.data=action.payload.products;
    
   });
+
+  builder.addCase(downloadProductData.fulfilled, (state, action) => {
+    console.log(state);
+    const csvData = action.payload;
+
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'products.csv');
+    document.body.appendChild(link);
+    link.click();
+   
+  });
 },
    
   });
   
-  export const { setProductListData } = productListEntitySlice.actions;
+  export const { setProductListData, downloadProductsData } = productListEntitySlice.actions;
   
   export const productListEntityReducer = productListEntitySlice.reducer;
   

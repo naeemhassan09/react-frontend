@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 import TypeWhiteSizelIconFalse from './type-white-sizel-icon-false';
 
@@ -15,6 +15,7 @@ const Heading = styled.div`
 
 const DownloadASimple = styled.span`
   text-decoration: underline;
+  cursor: pointer;
 `;
 
 const ToSeeAn = styled.span`
@@ -66,32 +67,80 @@ const CsvModalRoot = styled.div`
   font-family: var(--text-base-leading-6-font-medium);
 `;
 
-const CSVModal: FunctionComponent<CSVModalType> = () => (
-  <CsvModalRoot>
-    <LeadingContent>
-      <Text1>
-        <Heading>Import Product by CSV</Heading>
-        <Detail>
-          <DownloadASimple>Download a simple CSV template</DownloadASimple>
-          <ToSeeAn> to see an example of the format required</ToSeeAn>
-        </Detail>
-      </Text1>
-    </LeadingContent>
-    <TypeWhiteSizelIconFalse
-      text='Select file'
-      typeWhiteSizelIconFalseBackgroundColor='#b81226'
-      typeWhiteSizelIconFalseBorder='unset'
-      typeWhiteSizelIconFalseAlignSelf='stretch'
-      textColor='#fff'
-    />
-    <TypeWhiteSizelIconFalse
-      text='Cancel'
-      typeWhiteSizelIconFalseBackgroundColor='#fff'
-      typeWhiteSizelIconFalseBorder='2px solid var(--color-firebrick)'
-      typeWhiteSizelIconFalseAlignSelf='stretch'
-      textColor='#b81226'
-    />
-  </CsvModalRoot>
-);
+const CSVModal: FunctionComponent<CSVModalType> = ({ onClose }) => {
+  const [csvFile, setCsvFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
+    
+    if (files && files.length > 0) {
+      const [selectedFile] = files;
+      setCsvFile(selectedFile);
+  
+      const reader = new FileReader();
+
+      reader.onload = (eventD) => {
+        if (eventD.target) {
+          const result = eventD.target.result as string;
+          console.log(result);
+
+         // const data = result.split('\n').map(row => row.split(','));
+        //   setCsvData(result);
+        }
+      };
+
+      if (onClose) onClose();
+      reader.readAsText(selectedFile);
+
+      
+    }
+  };
+  
+
+  return (
+    <CsvModalRoot>
+      <LeadingContent>
+        <Text1>
+          <Heading>Import Product by CSV</Heading>
+          <Detail>
+            <DownloadASimple>
+              <a 
+                href='https://cdn.shopify.com/s/files/1/0769/7003/3471/files/product_template.csv.csv?v=1692170829'>
+                Download a simple CSV template
+              </a>
+            </DownloadASimple>
+            <ToSeeAn> to see an example of the format required</ToSeeAn>
+          </Detail>
+        </Text1>
+      </LeadingContent>
+      <input
+        id='fileInput'
+        type='file'
+        accept='.csv'
+        onChange={ handleFileChange }
+        style={ { display: 'none' } }
+      />
+      <TypeWhiteSizelIconFalse
+        text='Select file'
+        typeWhiteSizelIconFalseBackgroundColor='#b81226'
+        typeWhiteSizelIconFalseBorder='unset'
+        typeWhiteSizelIconFalseAlignSelf='stretch'
+        textColor='black'
+        onClick={ () => {
+          const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+          fileInput.click();
+        } }
+      />
+      <TypeWhiteSizelIconFalse
+        text='Cancel'
+        typeWhiteSizelIconFalseBackgroundColor='#fff'
+        typeWhiteSizelIconFalseBorder='2px solid var(--color-firebrick)'
+        typeWhiteSizelIconFalseAlignSelf='stretch'
+        textColor='#b81226'
+        onClick={ onClose }
+      />
+    </CsvModalRoot>
+  );
+};
 
 export default CSVModal;

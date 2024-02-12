@@ -3,9 +3,10 @@ import { DASHBORD_ROUTE, SIDEBAR_ROUTES, PROFILE_ROUTE, ORDERS_ROUTE, PRODUCTLIS
   ACTIVITYSTREAM_ROUTE, ROLESPERMISSION_ROUTE, 
   NEWORDER_ROUTE,
   SETTINGS_ROUTE,
-  SETTINGSVENDOR_ROUTE} from 'src/constants/navigation-routes';
+  SETTINGSVENDOR_ROUTE,
+  EMAILTEMPLATE_ROUTE} from 'src/constants/navigation-routes';
 
-import { Dashboard,  Orders,  Profile, ProductList, UserManagement, ActivityStream, RolesPermission, NewOrder } from 'src/pages';
+import { Dashboard,  Orders,  Profile, ProductList, UserManagement, ActivityStream, RolesPermission, NewOrder, EmailTemplate } from 'src/pages';
 import { ROLE_TYPE } from '../constants/roles';
 import { Settings } from 'src/pages/settings';
 import SettingsVendor from 'src/pages/settings-vendor';
@@ -102,6 +103,15 @@ export default [
         component: SettingsVendor,
         path: SETTINGSVENDOR_ROUTE,
         title: 'Settings Vendor',
+        permission: [
+          // ROLE_TYPE.ADMIN,
+          // ROLE_TYPE.COMPANY_OWNER,
+        ],
+      },
+      {
+        component: EmailTemplate,
+        path: EMAILTEMPLATE_ROUTE,
+        title: 'Email Template',
         permission: [
           // ROLE_TYPE.ADMIN,
           // ROLE_TYPE.COMPANY_OWNER,

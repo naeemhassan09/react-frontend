@@ -7,6 +7,7 @@ import { UserManagement } from './usermanagment';
 import { ActivityStream } from './activitystream';
 import { RolesPermission } from './roles-permission';
 import { NewOrder } from './neworder/index';
+import { EmailTemplate } from './email-templete/index';
 
 export {
   Dashboard,
@@ -18,4 +19,5 @@ export {
   ActivityStream, 
   RolesPermission,
   NewOrder,
+  EmailTemplate,
 };

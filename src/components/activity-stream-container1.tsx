@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { 
   ACTIVITYSTREAM_ROUTE, 
-  APP, ROLESPERMISSION_ROUTE, 
+  APP, EMAILTEMPLATE_ROUTE, ROLESPERMISSION_ROUTE, 
   SETTINGSVENDOR_ROUTE, 
   USERMANAGEMENT_ROUTE 
 } from 'src/constants/navigation-routes';
@@ -198,6 +198,9 @@ const ActivityStreamContainer1: FunctionComponent = () => {
             </Links1>
             <Links1  to={ `${APP}${SETTINGSVENDOR_ROUTE}` } >
               <ActivityStream>Vendor</ActivityStream>
+            </Links1>
+            <Links1  to={ `${APP}${EMAILTEMPLATE_ROUTE}` } >
+              <ActivityStream>Email Template</ActivityStream>
             </Links1>
           </NavLinks>
           <FrameParent>

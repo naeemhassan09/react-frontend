@@ -1,3 +1,4 @@
+import { EmailTemplate } from '../pages/email-templete/index';
 export enum ROUTES {
   LOGIN = 'LOGIN',
   REGISTER = 'REGISTER',
@@ -24,6 +25,7 @@ export const ROLESPERMISSION_ROUTE = '/rolespermission';
 export const NEWORDER_ROUTE = '/neworder';
 export const SETTINGS_ROUTE = '/settings';
 export const SETTINGSVENDOR_ROUTE = '/settingsvendor';
+export const EMAILTEMPLATE_ROUTE = '/email-templete';
 // Sidebar Route Names
 export enum SIDEBAR_NAMES {
   DASHBOARD = 'Dashboard',

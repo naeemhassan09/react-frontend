@@ -1,5 +1,6 @@
 import { FunctionComponent, useState, useCallback } from 'react';
 import { TextField, InputAdornment, Icon, IconButton } from '@mui/material';
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import styled from 'styled-components';
 import CreateVendorModal from './create-vendor-modal';
 import PortalDrawer from './portal-drawer';
@@ -89,7 +90,7 @@ const NewCardForm: FunctionComponent = () => {
             InputProps={ {
               endAdornment: (
                 <InputAdornment position='end'>
-                  <Icon>search_sharp</Icon>
+                  <SearchSharpIcon/>
                 </InputAdornment>
               ),
             } }

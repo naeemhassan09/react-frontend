@@ -6,15 +6,12 @@ import ActivityStreamContainer from 'src/components/activity-stream-container';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 
 import Pagination from 'src/components/pagination';
-import { fetchUserData, logout, createUser, deleteUser } from 'src/store/thunks';
+import { fetchUserData } from 'src/store/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserData } from 'src/store/selectors/entities/userManagement';
 import {
     TextField,
     InputAdornment,
-    Icon,
-    IconButton,
-    Autocomplete,
   } from '@mui/material';
 import CreateUserModal from 'src/components/create-user-modal';
 import PortalDrawer from 'src/components/portal-drawer';

@@ -23,7 +23,6 @@ export class OrderService extends HttpService {
 
       fetchVarients = async (baseAuthUrl: string, token: string): Promise<IPrepareResponse<AxiosResponse>> => {
         
-        console.log(token,`${baseAuthUrl}/api/v1/orders/product_drowdown`);
 
             try {
               const apiResponse = await this.get(
@@ -32,7 +31,6 @@ export class OrderService extends HttpService {
                     Authorization: `${token}`
                   }}
               );
-              console.log('api response',apiResponse);
               return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
             } catch (error) {
               throw prepareErrorResponse(error);

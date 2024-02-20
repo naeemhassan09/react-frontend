@@ -7,6 +7,7 @@ import NewCardForm from 'src/components/new-card-form';
 import ActivityStreamForm from 'src/components/activity-stream-form';
 import { APP, DASHBORD_ROUTE, ORDERS_ROUTE, PRODUCTLIST_ROUTE, SETTINGS_ROUTE } from 'src/constants/navigation-routes';
 import { Link } from 'react-router-dom';
+import VendorForm from 'src/components/vendor-form';
 
 const AlchemativeLogo1Icon = styled.img`
   width: 10.44rem;
@@ -261,36 +262,7 @@ const SubHeader = styled.div`
   }
 `;
 
-const Vendor = styled.div`
-  height: 1.69rem;
-  flex: 1;
-  position: relative;
-  font-weight: 500;
-  display: inline-block;
-  cursor: pointer;
-`;
 
-const VendorWrapper = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const ActivityStreamHeadingContai = styled.div`
-  align-self: stretch;
-  background-color: var(--color-white);
-  backdrop-filter: blur(50px);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 1.81rem var(--padding-6xl);
-  text-align: center;
-  font-size: 1.13rem;
-  color: #393e46;
-`;
 
 const ActivityStreamContentContai = styled.div`
   flex: 1;
@@ -401,13 +373,8 @@ const SettingsVendor: FunctionComponent = () => {
                 onClick={ openSideMenuOfSubMenu }
               />
             </SubHeader>
-            <NewCardForm />
-            <ActivityStreamHeadingContai>
-              <VendorWrapper>
-                <Vendor>Vendor</Vendor>
-              </VendorWrapper>
-            </ActivityStreamHeadingContai>
-            <ActivityStreamForm />
+            
+            <VendorForm />
           </ActivityStreamContentContai>
         </ActivityStreamMainContainer>
       </SettingsVendorRoot>

@@ -6,6 +6,7 @@ import { productListEntityReducer } from './productList';
 import { orderEntityReducer } from './orders';
 import { activeStreamReducer } from './activityStream';
 import { userManagementReducer } from './userManagement';
+import { vendorReducer } from './vendor';
 
 const entitiesReducer = combineReducers({
   app: appEntityReducer,
@@ -15,6 +16,7 @@ const entitiesReducer = combineReducers({
   orderData: orderEntityReducer,
   activityStream: activeStreamReducer,
   userManagement: userManagementReducer,
+  vendors: vendorReducer,
 });
 
 export { entitiesReducer };

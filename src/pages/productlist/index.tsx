@@ -422,7 +422,6 @@ export const ProductList: FunctionComponent = () => {
   const [completeProductList, setCompleteProductList]=useState(productList);
   const [isCSVModalPopupOpen, setCSVModalPopupOpen] = useState(false);
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
-  const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
   const [totalPages, setTotalPages]=useState<number>(0);
   const [currentPage, setCurrentPage]=useState<number>(0);
   const [selectedProductArray, setSelectedProductArray]=useState<any>([]);
@@ -623,8 +622,12 @@ const handlePerItem=((_value: any)=>{
                   onChange={ onHandleSearchText }
                   sx={ { '& .MuiInputBase-root': { height: '36px' } } }
                 />
+
                 <ImportButton onClick={ openCSVModalPopup }>
-                  <Import>Import</Import>
+                  <Import>Import Inventory</Import>
+                </ImportButton>
+                <ImportButton onClick={ openCSVModalPopup }>
+                  <Import>Import Products</Import>
                 </ImportButton>
                 <ExportButton onClick={ openExportCSV }>
                   <Import>Export</Import>

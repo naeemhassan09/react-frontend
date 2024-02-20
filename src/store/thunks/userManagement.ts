@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {  USER_CREATE, USER_FETCH, USER_DELETE,USER_UPDATE } from 'src/store/action-types';
+import {  USER_CREATE, USER_FETCH, USER_DELETE,USER_UPDATE, USER_UPDATE_PASSWORD } from 'src/store/action-types';
 import { UserManagementService } from 'src/services';
 import { getAuthToken } from 'src/store/selectors/features';
 import { getBaseUrl } from '../selectors/features/app';
@@ -49,6 +49,16 @@ export const deleteUser = createAsyncThunk<TObject, TObject, IActionOptions>(
     const baseUrl = getBaseUrl(thunkAPI.getState());
     const token=getAuthToken(thunkAPI.getState());
     const { data } = await userService.deleteUser(baseUrl, token, _requestPayload);
+    return thunkAPI.fulfillWithValue(data);
+  }
+);
+
+export const updatePasswordUser = createAsyncThunk<TObject, TObject, IActionOptions>(
+    USER_UPDATE_PASSWORD,
+  async ( _requestPayload: Record<string, string>,thunkAPI) => {
+    const baseUrl = getBaseUrl(thunkAPI.getState());
+    const token=getAuthToken(thunkAPI.getState());
+    const { data } = await userService.updatePaswordUser(baseUrl, token, _requestPayload);
     return thunkAPI.fulfillWithValue(data);
   }
 );

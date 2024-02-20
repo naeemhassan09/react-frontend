@@ -20,6 +20,7 @@ import CreateUserModal from 'src/components/create-user-modal';
 import PortalDrawer from 'src/components/portal-drawer';
 import DeleteUserModal from 'src/components/delete-user-modal';
 import EditUserModal from 'src/components/edit-user-modal';
+import UpdateUserModal from 'src/components/update-user-password-modal';
 
 const Users = styled.div`
   flex: 1;
@@ -296,6 +297,7 @@ export const UserManagement: FunctionComponent = () => {
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
   const [isModalEditOpen, setModalEditOpen] = useState(false);
+  const [isModalPasswordOpen, setModalPasswordOpen] = useState(false);
   const [isTableUpdated, setIsTableUpdated]=useState(false);
   const [selectRow, setSelectRow]=useState({});
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -332,8 +334,10 @@ export const UserManagement: FunctionComponent = () => {
     setCurrentPage(page);
   };
 
-  const onHandleChangePassword= ()=> {  console.log('password') };
-
+  const onHandleChangePassword= (user: any)=> {  
+    setModalPasswordOpen(true);
+    setSelectRow(user);
+  }; 
 
   const onHandleEdit= (user: any)=> {  
     setModalEditOpen(true);
@@ -374,7 +378,7 @@ export const UserManagement: FunctionComponent = () => {
               <Colum>  
                 <div style={ { display: 'flex', flexDirection: 'column' } } >
                   <div style={ { cursor: 'pointer'} } onClick={ ()=>onHandleDelete(user) }>Delete</div>
-                  <div style={ { cursor: 'pointer'} } onClick={ onHandleChangePassword }>Change Password</div>
+                  <div style={ { cursor: 'pointer'} } onClick={ ()=>onHandleChangePassword(user) }>Change Password</div>
                   <div style={ { cursor: 'pointer'} } onClick={ ()=>onHandleEdit(user) }>Edit</div>
                 </div>  
               </Colum> : null  }
@@ -406,7 +410,8 @@ export const UserManagement: FunctionComponent = () => {
                 <RoleFrame> 
                   <div style={ { display: 'flex', flexDirection: 'column' } } >
                     <div style={ { cursor: 'pointer'} } onClick={ ()=>onHandleDelete(user) }>Delete</div>
-                    <div style={ { cursor: 'pointer'} } onClick={ onHandleChangePassword }>Change Password</div>
+                    <div style={ { cursor: 'pointer'} } onClick={ ()=>onHandleChangePassword(user) }>Change Password
+                    </div>
                     <div style={ { cursor: 'pointer'} } onClick={ ()=>onHandleEdit(user) }>Edit</div>
                   </div>  
                 </RoleFrame> 
@@ -575,7 +580,19 @@ useEffect(()=>{
         </PortalDrawer>
        
       ) }
-    
+
+      { isModalPasswordOpen && (
+        <PortalDrawer
+        overlayColor='rgba(113, 113, 113, 0.3)'
+        placement='Right'
+        onOutsideClick={ ()=>{ setModalPasswordOpen(false) } }
+        >
+          <UpdateUserModal 
+                      setIsTableUpdate={ setIsTableUpdated }
+                      onClose={ setModalPasswordOpen } formData={ selectRow }/>
+        </PortalDrawer>
+       
+      ) }
     </>
   );
 };

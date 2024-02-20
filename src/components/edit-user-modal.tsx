@@ -168,7 +168,6 @@ const EditUserModal: FunctionComponent<EditUserModalType> = ({ setIsTableUpdate,
  
 
   const onSubmit=((data : any)=> {
-    console.log(data);
     let role_permission_id=0;
     if (data.role_permission_id==='Admin')
     role_permission_id=1;

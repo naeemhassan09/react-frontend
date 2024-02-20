@@ -65,4 +65,19 @@ export class UserManagementService extends HttpService {
     }
   };
  
+  updatePaswordUser = async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.post(baseAuthUrl +'/api/v1/members/change_password?saas_account=' 
+      +window.location.hostname,payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+  
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
 }

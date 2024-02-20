@@ -292,7 +292,6 @@ export const NewOrder: FunctionComponent = () => {
  const dispatch=useDispatch();
 
  useEffect(()=>{
-    console.log('working');
     dispatch(fetchProductVarient({}));
  },[]);
 

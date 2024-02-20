@@ -39,7 +39,6 @@ import { downloadProductData, fetchProductData } from 'src/store/thunks';
   builder.addCase(downloadProductData.fulfilled, (state, action) => {
     console.log(state);
     const csvData = action.payload;
-
     const blob = new Blob([csvData], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');

@@ -565,8 +565,6 @@ const handlePerItem=((_value: any)=>{
    useEffect(()=>{setCompleteProductList(productList)},[productList]);
 
    useEffect(()=>{
-    console.log(completeProductList);
-
     if (completeProductList && completeProductList.length>0)
     {
         const pages=Math.ceil(completeProductList.length/itemsPerPage);

@@ -8,3 +8,4 @@ export { PricingService } from './pricing';
 export { MovService } from './mov';
 export { OrderService } from './orders';
 export { ActivityStreamsService } from './activityStream';
+export { UserManagementService } from './userManagement';

@@ -477,13 +477,13 @@ export const ProductList: FunctionComponent = () => {
     ) : <></>
   );
 
-  const openAfterLoginMenu = useCallback(() => {
-    setAfterLoginMenuOpen(true);
-  }, []);
+//   const openAfterLoginMenu = useCallback(() => {
+//     setAfterLoginMenuOpen(true);
+//   }, []);
 
-  const closeAfterLoginMenu = useCallback(() => {
-    setAfterLoginMenuOpen(false);
-  }, []);
+//   const closeAfterLoginMenu = useCallback(() => {
+//     setAfterLoginMenuOpen(false);
+//   }, []);
 
   const openCSVModalPopup = useCallback(() => {
     setCSVModalPopupOpen(true);
@@ -510,6 +510,10 @@ export const ProductList: FunctionComponent = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
   const handleChangeOrderStatus = (selectedValue: any ) => {
 
     if (selectedValue !== null) {
@@ -529,10 +533,6 @@ export const ProductList: FunctionComponent = () => {
 
 };
 
-
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
 
   const onHandleSearchText=((event: any)=>{
    const searchText= event.target.value.toLowerCase();

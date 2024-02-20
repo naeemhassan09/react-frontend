@@ -315,11 +315,9 @@ export const UserManagement: FunctionComponent = () => {
     setModalPopupOpen(false);
   }, []);
 
-  const itemsPerPage = 10;
+  const [itemsPerPage,setItemsPerPage] = useState(10);
 
-  const handleLogout = () => {
-    dispatch(logout({}));
-  };
+
 
   const handleNextPage = () => {
     if (currentPage < totalPages)
@@ -328,10 +326,6 @@ export const UserManagement: FunctionComponent = () => {
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
   };
 
   const onHandleChangePassword= (user: any)=> {  
@@ -348,6 +342,29 @@ export const UserManagement: FunctionComponent = () => {
     setModalDeleteOpen(true);
     setSelectRow(user);
   };
+
+  const handlePerItem=((_value: any)=>{
+    const value=parseInt(_value);
+    if (value===0)
+    setItemsPerPage(10);
+    else
+    setItemsPerPage(_value);
+});
+
+const onHandleSearchText=((event: any)=>{
+    const searchText= event.target.value.toLowerCase();
+     let filterObject: any= [];
+ 
+     if (completeUserList && searchText!=='')    
+     {
+         filterObject=usersData?.filter((item:any)=> item.email.trim().toLowerCase().includes(searchText));
+         setCompleteUserList(filterObject);
+     }  
+ 
+     else 
+     if (usersData)
+     setCompleteUserList(usersData);
+ });
   
   const renderTable = () => (
     selectedUserArray?.length > 0 ? (
@@ -428,28 +445,47 @@ export const UserManagement: FunctionComponent = () => {
   
 
 useEffect(()=>{
-    console.log(usersData);
     setCompleteUserList(usersData);
-    setSelectedUserArray(usersData);
+    setIsTableUpdated(false);
+
 },[usersData]);
 
 useEffect(()=>{ 
-
-
-    if (isTableUpdated)
+        if (isTableUpdated)
      {
-    console.log('is table updated',isTableUpdated);
-
         dispatch(fetchUserData({}));
-        setIsTableUpdated(false);
      }
 },[isTableUpdated]);
+
+useEffect(()=>{
+    if (completeUserList && completeUserList.length>0)
+    {
+        const pages=Math.ceil(completeUserList.length/itemsPerPage);
+        setTotalPages(pages);
+        setCurrentPage(1);
+    }
+
+    else {
+        setTotalPages(1);
+        setCurrentPage(1);
+    }
+
+   },[completeUserList, itemsPerPage]);
+
+   useEffect(() => {
+    if (completeUserList && completeUserList !== null    && completeUserList.length>itemsPerPage) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const nextItems = completeUserList.slice(startIndex, endIndex);
+      setSelectedUserArray(nextItems);
+    }
+    else  setSelectedUserArray(completeUserList);
+  }, [completeUserList, currentPage, itemsPerPage]);
+
 
   useEffect(()=>{
     dispatch(fetchUserData({}));
   },[]);
-
-
 
   return (
     <>
@@ -483,6 +519,7 @@ useEffect(()=>{
                     ),
                   } }
                   sx={ { '& .MuiInputBase-root': { height: '36px' } } }
+                  onChange={ onHandleSearchText }
                 />
                
               </FrameParent>
@@ -525,13 +562,13 @@ useEffect(()=>{
                 imageId='/icons8back50-1@2x.png'
                 imageCode='/icons8forward50-1@2x.png'
                 imageDimensions='/double-right1@2x.png'
-                itemsPerPageOptions={ [10, 20, 30] } // Example options for items per page
+                itemsPerPageOptions={ [10, 15, 20] }
                 itemsPerPage={ itemsPerPage }
                 currentPage={ currentPage }
                 totalPages={ totalPages }
-                onItemsPerPageChange={ (_value) => {
-                    // handle items per page change
-                } }
+                onItemsPerPageChange={ (_value) => 
+                    handlePerItem(_value)
+                 }
                 onNextPage={ handleNextPage }
                 onPrevPage={ handlePrevPage }
               />

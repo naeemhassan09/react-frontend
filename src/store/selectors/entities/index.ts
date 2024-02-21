@@ -4,3 +4,4 @@ export * from './dashboard';
 export * from './productList';
 export * from './orders';
 export * from './activityStream';
+export * from './vendors';

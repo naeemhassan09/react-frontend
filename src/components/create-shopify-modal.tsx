@@ -261,7 +261,7 @@ const CreateShopifyModal: FunctionComponent<CreateShopifyModalType> = () => {
         type={ showPassword ? 'text' : 'text' }
         InputProps={ {
           endAdornment: (
-            <InputAdornment position='end'>
+            <InputAdornment position='end' >
               <IconButton
                 onClick={ handleShowPasswordClick }
                 aria-label='toggle password visibility'

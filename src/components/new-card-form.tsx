@@ -1,8 +1,13 @@
 import { FunctionComponent, useState, useCallback } from 'react';
 import { TextField, InputAdornment, Icon, IconButton } from '@mui/material';
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import styled from 'styled-components';
 import CreateVendorModal from './create-vendor-modal';
 import PortalDrawer from './portal-drawer';
+
+type NewCardFormType = {
+   setSearchWord: any;
+  };
 
 const FrameChild = styled(TextField)`
   border: none;
@@ -65,7 +70,7 @@ const ActivityStreamContentContaiInnerRoot = styled.div`
   }
 `;
 
-const NewCardForm: FunctionComponent = () => {
+const NewCardForm: FunctionComponent<NewCardFormType> = ({ setSearchWord }) => {
   const [isCreateVendorModalOpen, setCreateVendorModalOpen] = useState(false);
 
   const openCreateVendorModal = useCallback(() => {
@@ -89,11 +94,12 @@ const NewCardForm: FunctionComponent = () => {
             InputProps={ {
               endAdornment: (
                 <InputAdornment position='end'>
-                  <Icon>search_sharp</Icon>
+                  <SearchSharpIcon/>
                 </InputAdornment>
               ),
             } }
             sx={ { '& .MuiInputBase-root': { height: '36px' } } }
+            onChange={ (event)=>setSearchWord(event?.target.value) }
           />
           <NewButton onClick={ openCreateVendorModal }>
             <New>+ New</New>

@@ -422,7 +422,6 @@ export const ProductList: FunctionComponent = () => {
   const [completeProductList, setCompleteProductList]=useState(productList);
   const [isCSVModalPopupOpen, setCSVModalPopupOpen] = useState(false);
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
-  const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
   const [totalPages, setTotalPages]=useState<number>(0);
   const [currentPage, setCurrentPage]=useState<number>(0);
   const [selectedProductArray, setSelectedProductArray]=useState<any>([]);
@@ -477,13 +476,13 @@ export const ProductList: FunctionComponent = () => {
     ) : <></>
   );
 
-  const openAfterLoginMenu = useCallback(() => {
-    setAfterLoginMenuOpen(true);
-  }, []);
+//   const openAfterLoginMenu = useCallback(() => {
+//     setAfterLoginMenuOpen(true);
+//   }, []);
 
-  const closeAfterLoginMenu = useCallback(() => {
-    setAfterLoginMenuOpen(false);
-  }, []);
+//   const closeAfterLoginMenu = useCallback(() => {
+//     setAfterLoginMenuOpen(false);
+//   }, []);
 
   const openCSVModalPopup = useCallback(() => {
     setCSVModalPopupOpen(true);
@@ -510,6 +509,10 @@ export const ProductList: FunctionComponent = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
   const handleChangeOrderStatus = (selectedValue: any ) => {
 
     if (selectedValue !== null) {
@@ -529,10 +532,6 @@ export const ProductList: FunctionComponent = () => {
 
 };
 
-
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
 
   const onHandleSearchText=((event: any)=>{
    const searchText= event.target.value.toLowerCase();
@@ -565,8 +564,6 @@ const handlePerItem=((_value: any)=>{
    useEffect(()=>{setCompleteProductList(productList)},[productList]);
 
    useEffect(()=>{
-    console.log(completeProductList);
-
     if (completeProductList && completeProductList.length>0)
     {
         const pages=Math.ceil(completeProductList.length/itemsPerPage);
@@ -625,8 +622,12 @@ const handlePerItem=((_value: any)=>{
                   onChange={ onHandleSearchText }
                   sx={ { '& .MuiInputBase-root': { height: '36px' } } }
                 />
+
                 <ImportButton onClick={ openCSVModalPopup }>
-                  <Import>Import</Import>
+                  <Import>Import Inventory</Import>
+                </ImportButton>
+                <ImportButton onClick={ openCSVModalPopup }>
+                  <Import>Import Products</Import>
                 </ImportButton>
                 <ExportButton onClick={ openExportCSV }>
                   <Import>Export</Import>

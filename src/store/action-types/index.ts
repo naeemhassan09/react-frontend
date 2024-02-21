@@ -7,3 +7,5 @@ export * from './sku';
 export * from './dashboard';
 export * from './orders';
 export * from './activityStream';
+export * from './userManagement';
+export * from './vendors';

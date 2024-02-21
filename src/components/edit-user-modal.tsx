@@ -9,17 +9,17 @@ import {
   FormControlLabel,
   
 } from '@mui/material';
-import { createUser } from 'src/store/thunks';
 import styled, { keyframes } from 'styled-components';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { getValue } from '@mui/system';
+import { updateUser } from 'src/store/thunks';
 
-type CreateUserModalType = {
-  onClose?: () => void;
-  userCreate?: any;
+type EditUserModalType = {
+  
+  setIsTableUpdate?: any;
   setClose?: any;
+  formData: any;
 };
 
 const animationSlideInRight = keyframes`
@@ -33,7 +33,7 @@ const animationSlideInRight = keyframes`
     }
 `;
 
-const CreateUserName = styled.div`
+const EditUserName = styled.div`
   position: relative;
   font-weight: 500;
 `;
@@ -51,7 +51,7 @@ const CloseWrapper = styled.div`
   color: var(--white);
 `;
 
-const CreateUserNameParent = styled.div`
+const EditUserNameParent = styled.div`
   align-self: stretch;
   display: flex;
   flex-direction: row;
@@ -61,7 +61,7 @@ const CreateUserNameParent = styled.div`
   gap: var(--gap-5xl);
 `;
 
-const CreateUserModalChild = styled(TextField)`
+const EditUserModalChild = styled(TextField)`
   border: none;
   background-color: transparent;
   align-self: stretch;
@@ -132,7 +132,7 @@ const FrameParent = styled.div`
   color: var(--white);
 `;
 
-const CreateUserModalRoot = styled.form`
+const EditUserModalRoot = styled.form`
   background-color: var(--white);
   display: flex;
   flex-direction: column;
@@ -154,27 +154,18 @@ const CreateUserModalRoot = styled.form`
   }
 `;
 
-const CreateUserModal: FunctionComponent<CreateUserModalType> = ({ onClose, userCreate, setClose }) => {
+const EditUserModal: FunctionComponent<EditUserModalType> = ({ setIsTableUpdate, setClose, formData }) => {
 
     const {
         register,
         handleSubmit,
         setValue,
+        getValues,
         formState: { errors }
       } = useForm();
 
   const dispatch=useDispatch();
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setConfirmShowPassword] = useState<boolean>(false);
-
-
-  const handleShowPasswordClick = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleShowConfirmPasswordClick = () => {
-    setConfirmShowPassword(!showConfirmPassword);
-  };
+ 
 
   const onSubmit=((data : any)=> {
     let role_permission_id=0;
@@ -185,14 +176,13 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = ({ onClose, user
     else
     role_permission_id=3;
 
-    const payload={first_name: data.first_name, last_name: data.last_name, username: data.userName, 
-        is_active: data.is_active, password: data.password, confirm_password: data.confirm_password, 
-        role_permission_id:role_permission_id, email:data.email};
+    const payload={first_name: data.first_name, last_name: data.last_name, username: formData.username, 
+        is_active: data.is_active, 
+        role_permission_id:role_permission_id, id: formData.id};
 
-    dispatch(createUser(payload));
-    userCreate(true);
+    dispatch(updateUser({payload}));
+    setIsTableUpdate(true);
     setClose(false);
-    
    });
 
   useEffect(() => {
@@ -225,16 +215,30 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = ({ onClose, user
       }
     };
   }, []);
+
+  useEffect(()=>{
+    setValue('first_name', formData.first_name);
+    setValue('last_name', formData.last_name);
+    setValue('is_active', formData.is_active);
+    if (formData.role_permission_id===1)
+    setValue('role_permission_id', 'Admin');
+    else  if (formData.role_permission_id===2)
+    setValue('role_permission_id', 'Vendor');
+    else
+    setValue('role_permission_id', 'Order Manager');
+},[]);
+
+
   return (
     <>
-      <CreateUserModalRoot data-animate-on-scroll onSubmit={ handleSubmit(onSubmit) }>
-        <CreateUserNameParent>
-          <CreateUserName>Create User Name</CreateUserName>
-          <CloseWrapper onClick={ onClose }>
-            <CreateUserName >Close</CreateUserName>
+      <EditUserModalRoot data-animate-on-scroll onSubmit={ handleSubmit(onSubmit) }>
+        <EditUserNameParent>
+          <EditUserName>Create User Name</EditUserName>
+          <CloseWrapper onClick={ ()=>setClose(false) }>
+            <EditUserName >Close</EditUserName>
           </CloseWrapper>
-        </CreateUserNameParent>
-        <CreateUserModalChild
+        </EditUserNameParent>
+        <EditUserModalChild
             { ...register('first_name') } 
             color='primary'
             label='First Name'
@@ -246,7 +250,7 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = ({ onClose, user
             type='text'
             sx={ { '& .MuiInputBase-root': { height: '36px' } } }
         />
-        <CreateUserModalChild
+        <EditUserModalChild
             { ...register('last_name') } 
             color='primary'
             label='Last Name'
@@ -256,33 +260,13 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = ({ onClose, user
             variant='outlined'
             sx={ { '& .MuiInputBase-root': { height: '36px' } } }
         />
-        <CreateUserModalChild
-            { ...register('userName') }
-            color='primary'
-            label='User Name'
-            size='small'
-            placeholder='@username'
-            required
-            variant='outlined'
-            sx={ { '& .MuiInputBase-root': { height: '36px' } } }
-        />
-        <CreateUserModalChild
-            { ...register('email') }
-            color='primary'
-            label='Email'
-            size='small'
-            placeholder='Email Address'
-            required
-            fullWidth
-            variant='outlined'
-            type='email'
-            sx={ { '& .MuiInputBase-root': { height: '36px' } } }
-        />
+   
         <FrameAutocomplete
             size='small'
             sx={ { width: '100%' } }
             disablePortal
             options={ ['Admin', 'Vendor','Order Manager'] }
+            value={ getValues().role_permission_id }
             renderInput={ (params: any) => (
               <TextField
                 { ...params }
@@ -291,74 +275,33 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = ({ onClose, user
                 variant='outlined'
                 placeholder=''
                 helperText=''
+                value={ getValues().role_permission_id }
                 required
                 { ...register('role_permission_id') }
                 />
         ) }
       />
-        <CreateUserModalChild
-            { ...register('password') }
-            color='primary'
-            label='Password'
-            size='small'
-            placeholder='Password'
-            fullWidth
-            autoComplete={ 'false' }
-            variant='outlined'
-            type={ showPassword ? 'text' : 'password' }
-            InputProps={ {
-            endAdornment: (
-              <InputAdornment position='end'>
-                <IconButton
-                    onClick={ handleShowPasswordClick }
-                    aria-label='toggle password visibility'
-                 >
-                  <Icon>{ showPassword ? <VisibilityIcon/> :  <VisibilityOffIcon/> }</Icon>
-                </IconButton>
-              </InputAdornment>
-            ),
-            } }
-            sx={ { '& .MuiInputBase-root': { height: '36px' } } }
-        />
-        <CreateUserModalChild
-            { ...register('confirm_password') } 
-            color='primary'
-            label='Confirm Password'
-            size='small'
-            placeholder='Confirm Password'
-            autoComplete={ 'false' }
-            required
-            variant='outlined'
-            type={ showConfirmPassword ? 'text' : 'password' }
-            InputProps={ {
-            endAdornment: (
-              <InputAdornment position='end'>
-                <IconButton
-                  onClick={ handleShowConfirmPasswordClick }
-                  aria-label='toggle password visibility'
-                >
-                  <Icon>{ showConfirmPassword ? <VisibilityIcon/> :  <VisibilityOffIcon/> }</Icon>
-                </IconButton>
-              </InputAdornment>
-            ),
-            } }
-            sx={ { '& .MuiInputBase-root': { height: '36px' } } }
-        />
+
         <CheckboxParent>
-          <Checkbox1 label='' { ...register('is_active') } control={ <Checkbox id='small' color='primary'/> } />
+          <Checkbox1 
+          label='' { ...register('is_active') } 
+          control={ <Checkbox 
+          id='small' color='primary'  
+          defaultChecked={ formData.is_active } /> } 
+         />
           <Enabled>Enabled</Enabled>
         </CheckboxParent>
         <FrameParent>
-          <CreateWrapper type='submit'>
-            <CreateUserName>Create</CreateUserName>
+          <CreateWrapper disabled={ formData.role_permission_id===3?true:false } type='submit'>
+            <EditUserName >Update User</EditUserName>
           </CreateWrapper>
-          <CloseContainer  onClick={ onClose }>
-            <CreateUserName>Close</CreateUserName>
+          <CloseContainer  onClick={  ()=>setClose(false) }>
+            <EditUserName>Close</EditUserName>
           </CloseContainer>
         </FrameParent>
-      </CreateUserModalRoot>
+      </EditUserModalRoot>
     </>
   );
 };
 
-export default CreateUserModal;
+export default EditUserModal;

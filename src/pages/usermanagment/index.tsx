@@ -303,6 +303,7 @@ export const UserManagement: FunctionComponent = () => {
   const [selectedUserArray, setSelectedUserArray]=useState<any>([]);
   const [actionOpen, setActionOpen]= useState(false);
   const [selectedRow, setSelectedRow]=useState('');
+  const [itemsPerPage,setItemsPerPage] = useState(10);
 
   const openModalPopup = useCallback(() => {
     setModalPopupOpen(true);
@@ -311,9 +312,6 @@ export const UserManagement: FunctionComponent = () => {
   const closeModalPopup = useCallback(() => {
     setModalPopupOpen(false);
   }, []);
-
-  const [itemsPerPage,setItemsPerPage] = useState(10);
-
 
 
   const handleNextPage = () => {
@@ -622,8 +620,8 @@ useEffect(()=>{
         onOutsideClick={ ()=>{ setModalPasswordOpen(false) } }
         >
           <UpdateUserModal 
-                      setIsTableUpdate={ setIsTableUpdated }
-                      onClose={ setModalPasswordOpen } formData={ selectRow }/>
+          setIsTableUpdate={ setIsTableUpdated }
+          onClose={ setModalPasswordOpen } formData={ selectRow }/>
         </PortalDrawer>
        
       ) }

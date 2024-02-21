@@ -137,7 +137,8 @@ const VendorForm: FunctionComponent = () => {
   const [totalPages,setTotalPages]=useState<number>(0);
   const [completeVendorList, setCompleteVendorList]=useState(vendorsList);
   const [selectedVendorArray, setSelectedVendorArray]=useState<any>([]);
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+  const [searchWord, setSearchWord]=useState('');
 
   const openModalPopup = useCallback(() => {
     setModalPopupOpen(true);
@@ -238,17 +239,71 @@ const VendorForm: FunctionComponent = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  const handlePerItem=((_value: any)=>{
+    const value=parseInt(_value);
+    if (value===0)
+    setItemsPerPage(10);
+    else
+    setItemsPerPage(_value);
+});
+
+const onHandleSearchText=(()=>{
+    const searchText= searchWord.toLowerCase();
+    let filterObject: any= [];
+    
+    if (completeVendorList && searchText!=='')    
+    {
+        filterObject=vendorsList?.filter((item:any)=> item.vendor_email.trim().toLowerCase().includes(searchText));
+        setCompleteVendorList(filterObject);
+    }  
+    
+    else 
+    if (vendorsList)
+    setCompleteVendorList(vendorsList);
+});
+
+ useEffect(()=>{
+    onHandleSearchText();
+ },[searchWord]);
+
   useEffect(()=>{
     setSelectedVendorArray(vendorsList);
     setCompleteVendorList(vendorsList);
   },[vendorsList]);
 
   useEffect(()=>{
+    if (completeVendorList && completeVendorList.length>0)
+    {
+        const pages=Math.ceil(completeVendorList.length/itemsPerPage);
+        setTotalPages(pages);
+        setCurrentPage(1);
+    }
+
+    else {
+        setTotalPages(1);
+        setCurrentPage(1);
+    }
+
+   },[completeVendorList, itemsPerPage]);
+
+   useEffect(() => {
+    if (completeVendorList && completeVendorList !== null    && completeVendorList.length>itemsPerPage) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const nextItems = completeVendorList.slice(startIndex, endIndex);
+      setSelectedVendorArray(nextItems);
+    }
+    else  setSelectedVendorArray(completeVendorList);
+  }, [completeVendorList, currentPage, itemsPerPage]);
+
+
+
+  useEffect(()=>{
     dispatch(fetchVendorData({}));
   },[]);
   return (
     <>
-      <NewCardForm />
+      <NewCardForm setSearchWord={ setSearchWord }/>
       <ActivityStreamHeadingContai>
         <VendorWrapper>
           <Vendor>Vendor</Vendor>
@@ -306,9 +361,9 @@ const VendorForm: FunctionComponent = () => {
         itemsPerPage={ itemsPerPage }
         currentPage={ currentPage }
         totalPages={ totalPages }
-        onItemsPerPageChange={ (_value) => {
-            // handle items per page change
-        } }
+        onItemsPerPageChange={ (_value) => 
+            handlePerItem(_value)
+         }
         onNextPage={ handleNextPage }
         onPrevPage={ handlePrevPage }
         />

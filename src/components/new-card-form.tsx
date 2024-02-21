@@ -5,6 +5,10 @@ import styled from 'styled-components';
 import CreateVendorModal from './create-vendor-modal';
 import PortalDrawer from './portal-drawer';
 
+type NewCardFormType = {
+   setSearchWord: any;
+  };
+
 const FrameChild = styled(TextField)`
   border: none;
   background-color: transparent;
@@ -66,7 +70,7 @@ const ActivityStreamContentContaiInnerRoot = styled.div`
   }
 `;
 
-const NewCardForm: FunctionComponent = () => {
+const NewCardForm: FunctionComponent<NewCardFormType> = ({ setSearchWord }) => {
   const [isCreateVendorModalOpen, setCreateVendorModalOpen] = useState(false);
 
   const openCreateVendorModal = useCallback(() => {
@@ -95,6 +99,7 @@ const NewCardForm: FunctionComponent = () => {
               ),
             } }
             sx={ { '& .MuiInputBase-root': { height: '36px' } } }
+            onChange={ (event)=>setSearchWord(event?.target.value) }
           />
           <NewButton onClick={ openCreateVendorModal }>
             <New>+ New</New>

@@ -170,19 +170,19 @@ const CreateVendorModal: FunctionComponent<CreateVendorModalType> = ({ onClose, 
     
     const onSubmit=((data: any)=>{
 
-        const payload={
-            address: data.address, 
-            commission_type: data.commission_type && isCommission? data.commission_type.toLowerCase() : 'percentage',
-            commission_value: data.commission_value && isCommission? Number(data.commission_value) : 0,
-            company_name: data.company_name,
-            is_active: isEnable,
-            is_commission: isCommission,
-            social_media_link: data.social_media_link,
-            vat_number: data.vat_number,
-            vendor_contact_number: data.vendor_contact_number,
-            vendor_email: data.vendor_email,
-            vendor_name: data.vendor_name,
-            website: data.website,
+    const payload={
+        address: data.address, 
+        commission_type: data.commission_type && isCommission? data.commission_type.toLowerCase() : 'percentage',
+        commission_value: data.commission_value && isCommission? Number(data.commission_value) : 0,
+        company_name: data.company_name,
+        is_active: isEnable,
+        is_commission: isCommission,
+        social_media_link: data.social_media_link,
+        vat_number: data.vat_number,
+        vendor_contact_number: data.vendor_contact_number,
+        vendor_email: data.vendor_email,
+        vendor_name: data.vendor_name,
+        website: data.website,
         };
 
         if (isEdit)
@@ -404,7 +404,7 @@ const CreateVendorModal: FunctionComponent<CreateVendorModalType> = ({ onClose, 
       </CheckboxParent>
       <FrameParent>
         <CreateWrapper type='submit'>
-          <CreateVendor >Create Vendor</CreateVendor>
+          <CreateVendor >{ isEdit? 'Update Vendor': 'Create Vendor' }</CreateVendor>
         </CreateWrapper>
         <CloseContainer >
           <CreateVendor onClick={ onClose }>Close</CreateVendor>

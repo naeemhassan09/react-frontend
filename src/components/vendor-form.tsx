@@ -7,6 +7,8 @@ import { getVendorsData } from 'src/store/selectors/entities';
 import moment from 'moment';
 import Pagination from './pagination';
 import NewCardForm from './new-card-form';
+import UpdateStatusVendor from './update-vendor-status-modal';
+import PortalDrawer from './portal-drawer';
 
 const FullName = styled.b`
   flex: 1;
@@ -150,6 +152,7 @@ const VendorForm: FunctionComponent = () => {
   const [actionOpen, setActionOpen]= useState(false);
   const [selectedRow, setSelectedRow]=useState<any>({});
   const [isEditOpen, setIsEditOpen]=useState(false);
+  const [isStatusOpen, setIsStatusOpen]=useState(false);
 
   const openModalPopup = useCallback(() => {
     setModalPopupOpen(true);
@@ -157,6 +160,11 @@ const VendorForm: FunctionComponent = () => {
 
   const closeModalPopup = useCallback(() => {
     setModalPopupOpen(false);
+  }, []);
+
+
+  const closeStatusModalPopup = useCallback(() => {
+    setIsStatusOpen(false);
   }, []);
 
   const renderTable = () => (
@@ -202,7 +210,10 @@ const VendorForm: FunctionComponent = () => {
             {  vendor.id === selectedRow?.id && actionOpen ? 
               <Colum>  
                 <div style={ { display: 'flex', flexDirection: 'column' } } >
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Change Status</div>
+                  <div 
+                    style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>setIsStatusOpen(!isStatusOpen) }>
+                    Change Status
+                  </div>
                   <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Change Password</div>
                   <div 
                   style={ { cursor: 'pointer', padding: '2px' } } 
@@ -254,7 +265,10 @@ const VendorForm: FunctionComponent = () => {
             {  vendor.id === selectedRow.id && actionOpen ? 
               <Colum>  
                 <div style={ { display: 'flex', flexDirection: 'column' } } >
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Change Status</div>
+                  <div 
+                    style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>setIsStatusOpen(!isStatusOpen) }>
+                    Change Status
+                  </div>
                   <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Change Password</div>
                   <div 
                   style={ { cursor: 'pointer', padding: '2px' } } 
@@ -418,6 +432,15 @@ const onHandleSearchText=(()=>{
         onPrevPage={ handlePrevPage }
         />
       </ActivityStreamContainerRoot>
+      { isStatusOpen && (
+        <PortalDrawer
+          overlayColor='rgba(113, 113, 113, 0.3)'
+          placement='Right'
+          onOutsideClick={ closeModalPopup }
+        >
+          <UpdateStatusVendor onClose={ closeStatusModalPopup } selectedRow={ selectedRow }/>
+        </PortalDrawer>
+      ) }
     </>
   );
 };

@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {  VendorsService } from 'src/services';
 import { getAuthToken } from 'src/store/selectors/features';
 import { getBaseUrl } from '../selectors/features/app';
-import { VENDOR_CREATE, VENDOR_FETCH, VENDOR_UPDATE } from '../action-types';
+import { VENDOR_CREATE, VENDOR_FETCH, VENDOR_UPDATE, VENDOR_UPDATE_STATUS } from '../action-types';
 
 // import { showAlert } from '../slices/features/alert';
 /**
@@ -39,6 +39,16 @@ export const updateVendor = createAsyncThunk<TObject, TObject, IActionOptions>(
     const baseUrl = getBaseUrl(thunkAPI.getState());
     const token=getAuthToken(thunkAPI.getState());
     const { data } = await vendorServices.updateVendor(baseUrl, token, _requestPayload);
+    return thunkAPI.fulfillWithValue(data);
+  }
+);
+
+export const updateStatusVendor = createAsyncThunk<TObject, TObject, IActionOptions>(
+    VENDOR_UPDATE_STATUS,
+  async ( _requestPayload: Record<string, string>,thunkAPI) => {
+    const baseUrl = getBaseUrl(thunkAPI.getState());
+    const token=getAuthToken(thunkAPI.getState());
+    const { data } = await vendorServices.updateStatusVendor(baseUrl, token, _requestPayload);
     return thunkAPI.fulfillWithValue(data);
   }
 );

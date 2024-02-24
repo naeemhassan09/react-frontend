@@ -1,12 +1,16 @@
-import { FunctionComponent, useState, useCallback } from 'react';
-import { TextField, InputAdornment, Icon, IconButton } from '@mui/material';
+import { FunctionComponent, useState, useCallback, useEffect } from 'react';
+import { TextField, InputAdornment} from '@mui/material';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import styled from 'styled-components';
 import CreateVendorModal from './create-vendor-modal';
 import PortalDrawer from './portal-drawer';
 
+
 type NewCardFormType = {
    setSearchWord: any;
+   selectedRow: any;
+   isEdit: boolean;
+   setIsEdit: any;
   };
 
 const FrameChild = styled(TextField)`
@@ -70,8 +74,10 @@ const ActivityStreamContentContaiInnerRoot = styled.div`
   }
 `;
 
-const NewCardForm: FunctionComponent<NewCardFormType> = ({ setSearchWord }) => {
+const NewCardForm: FunctionComponent<NewCardFormType> = ({ setSearchWord, isEdit, selectedRow, setIsEdit }) => {
+
   const [isCreateVendorModalOpen, setCreateVendorModalOpen] = useState(false);
+
 
   const openCreateVendorModal = useCallback(() => {
     setCreateVendorModalOpen(true);
@@ -79,7 +85,13 @@ const NewCardForm: FunctionComponent<NewCardFormType> = ({ setSearchWord }) => {
 
   const closeCreateVendorModal = useCallback(() => {
     setCreateVendorModalOpen(false);
+    setIsEdit(false);
   }, []);
+
+  useEffect(()=>{
+    if (isEdit)
+    openCreateVendorModal();
+  },[isEdit]);
 
   return (
     <>
@@ -112,7 +124,7 @@ const NewCardForm: FunctionComponent<NewCardFormType> = ({ setSearchWord }) => {
           placement='Right'
           onOutsideClick={ closeCreateVendorModal }
         >
-          <CreateVendorModal onClose={ closeCreateVendorModal } />
+          <CreateVendorModal onClose={ closeCreateVendorModal } isEdit={ isEdit } selectedRow={ selectedRow }/>
         </PortalDrawer>
       ) }
     </>

@@ -17,7 +17,37 @@ export class VendorsService extends HttpService {
     } catch (error) {
       throw prepareErrorResponse(error);
     }
-  };}
+  };
+
+  createNewVendor = async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.post(baseAuthUrl + '/api/v1/vendors',payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  updateVendor = async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.put(baseAuthUrl + '/api/v1/vendors/'+payload.id,payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+}
+
 
 //   createNewUser = async (baseAuthUrl: string, token: string, payload: any): 
 //   Promise<IPrepareResponse<AxiosResponse>> => {

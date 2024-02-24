@@ -128,6 +128,14 @@ const VendorWrapper = styled.div`
   justify-content: space-between;
 `;
 
+const MenuVerticalIcon = styled.img`
+  position: relative;
+  width: 1.5rem;
+  height: 1.05rem;
+  object-fit: contain;
+  cursor: pointer;
+`;
+
 const VendorForm: FunctionComponent = () => {
 
   const dispatch=useDispatch();
@@ -139,6 +147,9 @@ const VendorForm: FunctionComponent = () => {
   const [selectedVendorArray, setSelectedVendorArray]=useState<any>([]);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [searchWord, setSearchWord]=useState('');
+  const [actionOpen, setActionOpen]= useState(false);
+  const [selectedRow, setSelectedRow]=useState<any>({});
+  const [isEditOpen, setIsEditOpen]=useState(false);
 
   const openModalPopup = useCallback(() => {
     setModalPopupOpen(true);
@@ -183,6 +194,25 @@ const VendorForm: FunctionComponent = () => {
                 <FullName1>{ `${vendor.is_active}` ? 'true': 'false' }</FullName1>
               </FullNameContainer>     
             </Colum>
+            <Colum>
+              <FullNameContainer onClick={ ()=>{ {setActionOpen(!actionOpen); setSelectedRow(vendor) } } }>
+                <MenuVerticalIcon alt='' src='/menu-vertical@2x.png' />
+              </FullNameContainer>     
+            </Colum>
+            {  vendor.id === selectedRow?.id && actionOpen ? 
+              <Colum>  
+                <div style={ { display: 'flex', flexDirection: 'column' } } >
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Change Status</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Change Password</div>
+                  <div 
+                  style={ { cursor: 'pointer', padding: '2px' } } 
+                  onClick={ ()=>setIsEditOpen(!isEditOpen) }>Edit</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>View Import Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Inventory</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Order Details</div>
+                </div>  
+              </Colum> : null  }
           </ActivityStreamSheet>
         ) : (
           <ActivityStreamSheet key={ index }>
@@ -216,7 +246,25 @@ const VendorForm: FunctionComponent = () => {
                 <FullName1>{ `${vendor.is_active}` ? 'true': 'false' }</FullName1>
               </FullNameFrame>         
             </Colum>
-           
+            <Colum>
+              <FullNameFrame onClick={ ()=>{ {setActionOpen(!actionOpen); setSelectedRow(vendor) } } }>
+                <MenuVerticalIcon alt='' src='/menu-vertical@2x.png' />
+              </FullNameFrame>    
+            </Colum>
+            {  vendor.id === selectedRow.id && actionOpen ? 
+              <Colum>  
+                <div style={ { display: 'flex', flexDirection: 'column' } } >
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Change Status</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Change Password</div>
+                  <div 
+                  style={ { cursor: 'pointer', padding: '2px' } } 
+                  onClick={ ()=>setIsEditOpen(!isEditOpen) }>Edit</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>View Import Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Inventory</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Order Details</div>    
+                </div>  
+              </Colum> : null  }
           </ActivityStreamSheet>
         )
       ))
@@ -303,7 +351,11 @@ const onHandleSearchText=(()=>{
   },[]);
   return (
     <>
-      <NewCardForm setSearchWord={ setSearchWord }/>
+      <NewCardForm 
+      setSearchWord={ setSearchWord } 
+      selectedRow={ selectedRow } 
+      isEdit={ isEditOpen } 
+      setIsEdit={ setIsEditOpen }/>
       <ActivityStreamHeadingContai>
         <VendorWrapper>
           <Vendor>Vendor</Vendor>
@@ -315,13 +367,6 @@ const onHandleSearchText=(()=>{
             <FullNameWrapper>
               <FullName>Name</FullName>
             </FullNameWrapper>
-            { /* <FullNameContainer>
-              <FullName1>Full Name</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Full Name</FullName1>
-            </FullNameFrame>
-           */ }
           </Colum>
           <Colum>
             <FullNameWrapper>
@@ -346,6 +391,11 @@ const onHandleSearchText=(()=>{
           <Colum>
             <FullNameWrapper>
               <FullName>Enable</FullName>
+            </FullNameWrapper>
+          </Colum>
+          <Colum>
+            <FullNameWrapper>
+              <FullName>Action</FullName>
             </FullNameWrapper>
           </Colum>
         </ActivityStreamSheet>

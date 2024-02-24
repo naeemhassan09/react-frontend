@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {  VendorsService } from 'src/services';
 import { getAuthToken } from 'src/store/selectors/features';
 import { getBaseUrl } from '../selectors/features/app';
-import { VENDOR_FETCH } from '../action-types';
+import { VENDOR_CREATE, VENDOR_FETCH, VENDOR_UPDATE } from '../action-types';
 
 // import { showAlert } from '../slices/features/alert';
 /**
@@ -23,25 +23,25 @@ export const fetchVendorData = createAsyncThunk<TObject, TObject, IActionOptions
   }
 );
 
-// export const createUser = createAsyncThunk<TObject, TObject, IActionOptions>(
-//     USER_CREATE,
-//   async ( _requestPayload: Record<string, string>,thunkAPI) => {
-//     const baseUrl = getBaseUrl(thunkAPI.getState());
-//     const token=getAuthToken(thunkAPI.getState());
-//     const { data } = await userService.createNewUser(baseUrl, token, _requestPayload);
-//     return thunkAPI.fulfillWithValue(data);
-//   }
-// );
+export const createVendor= createAsyncThunk<TObject, TObject, IActionOptions>(
+    VENDOR_CREATE,
+  async ( _requestPayload: Record<string, string>,thunkAPI) => {
+    const baseUrl = getBaseUrl(thunkAPI.getState());
+    const token=getAuthToken(thunkAPI.getState());
+    const { data } = await vendorServices.createNewVendor(baseUrl, token, _requestPayload);
+    return thunkAPI.fulfillWithValue(data);
+  }
+);
 
-// export const updateUser = createAsyncThunk<TObject, TObject, IActionOptions>(
-//     USER_UPDATE,
-//   async ( _requestPayload: Record<string, string>,thunkAPI) => {
-//     const baseUrl = getBaseUrl(thunkAPI.getState());
-//     const token=getAuthToken(thunkAPI.getState());
-//     const { data } = await userService.updateUser(baseUrl, token, _requestPayload);
-//     return thunkAPI.fulfillWithValue(data);
-//   }
-// );
+export const updateVendor = createAsyncThunk<TObject, TObject, IActionOptions>(
+    VENDOR_UPDATE,
+  async ( _requestPayload: Record<string, string>,thunkAPI) => {
+    const baseUrl = getBaseUrl(thunkAPI.getState());
+    const token=getAuthToken(thunkAPI.getState());
+    const { data } = await vendorServices.updateVendor(baseUrl, token, _requestPayload);
+    return thunkAPI.fulfillWithValue(data);
+  }
+);
 
 // export const deleteUser = createAsyncThunk<TObject, TObject, IActionOptions>(
 //     USER_DELETE,

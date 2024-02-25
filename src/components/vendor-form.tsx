@@ -9,6 +9,9 @@ import Pagination from './pagination';
 import NewCardForm from './new-card-form';
 import UpdateStatusVendor from './update-vendor-status-modal';
 import PortalDrawer from './portal-drawer';
+import UpdateVendorPasswwordModal from './update-vendor-password-modal';
+import PortalPopup from './portal-popup';
+import { VendorOrderDetail } from './vendor-order-details-Modal';
 
 const FullName = styled.b`
   flex: 1;
@@ -64,24 +67,6 @@ display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-`;
-
-const FullNameWrapper1 = styled.div`
-  flex: 1;
-  background-color: var(--color-lavenderblush-100);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-xl) var(--padding-3xs);
-`;
-
-const FrameParent = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
 `;
 
 const ActivityStreamContainerRoot = styled.div`
@@ -142,7 +127,6 @@ const VendorForm: FunctionComponent = () => {
 
   const dispatch=useDispatch();
   const vendorsList=useSelector(getVendorsData);
-  const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages,setTotalPages]=useState<number>(0);
   const [completeVendorList, setCompleteVendorList]=useState(vendorsList);
@@ -151,21 +135,26 @@ const VendorForm: FunctionComponent = () => {
   const [searchWord, setSearchWord]=useState('');
   const [actionOpen, setActionOpen]= useState(false);
   const [selectedRow, setSelectedRow]=useState<any>({});
-  const [isEditOpen, setIsEditOpen]=useState(false);
-  const [isStatusOpen, setIsStatusOpen]=useState(false);
+  const [isEditModelOpen, setIsEditModelOpen]=useState(false);
+  const [isStatusModelOpen, setIsStatusModelOpen]=useState(false);
+  const [isUpdatePasswordModelOpen, setIsUpdatePasswordModelOpen]=useState(false);
+  const [isOrderDetailModelOpen, setIsOrderDetailModelOpen]=useState(false);
 
-  const openModalPopup = useCallback(() => {
-    setModalPopupOpen(true);
-  }, []);
 
-  const closeModalPopup = useCallback(() => {
-    setModalPopupOpen(false);
+  const closeUpadtePasswordModalPopup = useCallback(() => {
+    setIsUpdatePasswordModelOpen(false);
   }, []);
 
 
   const closeStatusModalPopup = useCallback(() => {
-    setIsStatusOpen(false);
+    setIsStatusModelOpen(false);
   }, []);
+
+  const closeOrderDetailModalPopup = useCallback(() => {
+    setIsOrderDetailModelOpen(false);
+  }, []);
+
+  
 
   const renderTable = () => (
     selectedVendorArray?.length > 0 ? (
@@ -211,17 +200,27 @@ const VendorForm: FunctionComponent = () => {
               <Colum>  
                 <div style={ { display: 'flex', flexDirection: 'column' } } >
                   <div 
-                    style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>setIsStatusOpen(!isStatusOpen) }>
+                    style={ { cursor: 'pointer', padding: '2px' } } 
+                    onClick={ ()=>setIsStatusModelOpen(!isStatusModelOpen) }>
                     Change Status
                   </div>
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Change Password</div>
+                  <div 
+                    style={ { cursor: 'pointer', padding: '2px' } } 
+                    onClick={ ()=>setIsUpdatePasswordModelOpen(!isUpdatePasswordModelOpen) }>
+                    Change Password
+                  </div>
                   <div 
                   style={ { cursor: 'pointer', padding: '2px' } } 
-                  onClick={ ()=>setIsEditOpen(!isEditOpen) }>Edit</div>
+                  onClick={ ()=>setIsEditModelOpen(!isEditModelOpen) }>Edit</div>
+                
                   <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Products</div>
                   <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>View Import Products</div>
                   <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Inventory</div>
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Order Details</div>
+                  <div 
+                  style={ { cursor: 'pointer', padding: '2px' } } 
+                  onClick={ ()=>setIsOrderDetailModelOpen(!isOrderDetailModelOpen) }>
+                    Order Details
+                  </div>     
                 </div>  
               </Colum> : null  }
           </ActivityStreamSheet>
@@ -266,17 +265,26 @@ const VendorForm: FunctionComponent = () => {
               <Colum>  
                 <div style={ { display: 'flex', flexDirection: 'column' } } >
                   <div 
-                    style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>setIsStatusOpen(!isStatusOpen) }>
+                    style={ { cursor: 'pointer', padding: '2px' } } 
+                    onClick={ ()=>setIsStatusModelOpen(!isStatusModelOpen) }>
                     Change Status
                   </div>
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Change Password</div>
+                  <div 
+                    style={ { cursor: 'pointer', padding: '2px' } } 
+                    onClick={ ()=>setIsUpdatePasswordModelOpen(!isUpdatePasswordModelOpen) }>
+                    Change Password
+                  </div>
                   <div 
                   style={ { cursor: 'pointer', padding: '2px' } } 
-                  onClick={ ()=>setIsEditOpen(!isEditOpen) }>Edit</div>
+                  onClick={ ()=>setIsEditModelOpen(!isEditModelOpen) }>Edit</div>
                   <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Products</div>
                   <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>View Import Products</div>
                   <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Inventory</div>
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Order Details</div>    
+                  <div 
+                  style={ { cursor: 'pointer', padding: '2px' } } 
+                  onClick={ ()=>setIsOrderDetailModelOpen(!isOrderDetailModelOpen) }>
+                    Order Details
+                  </div>    
                 </div>  
               </Colum> : null  }
           </ActivityStreamSheet>
@@ -368,8 +376,8 @@ const onHandleSearchText=(()=>{
       <NewCardForm 
       setSearchWord={ setSearchWord } 
       selectedRow={ selectedRow } 
-      isEdit={ isEditOpen } 
-      setIsEdit={ setIsEditOpen }/>
+      isEdit={ isEditModelOpen } 
+      setIsEdit={ setIsEditModelOpen }/>
       <ActivityStreamHeadingContai>
         <VendorWrapper>
           <Vendor>Vendor</Vendor>
@@ -432,14 +440,33 @@ const onHandleSearchText=(()=>{
         onPrevPage={ handlePrevPage }
         />
       </ActivityStreamContainerRoot>
-      { isStatusOpen && (
+      { isStatusModelOpen && (
         <PortalDrawer
           overlayColor='rgba(113, 113, 113, 0.3)'
           placement='Right'
-          onOutsideClick={ closeModalPopup }
+          onOutsideClick={ closeStatusModalPopup }
         >
           <UpdateStatusVendor onClose={ closeStatusModalPopup } selectedRow={ selectedRow }/>
         </PortalDrawer>
+      ) }
+
+      { isUpdatePasswordModelOpen && (
+        <PortalDrawer
+          overlayColor='rgba(113, 113, 113, 0.3)'
+          placement='Right'
+          onOutsideClick={ closeUpadtePasswordModalPopup }
+        >
+          <UpdateVendorPasswwordModal onClose={ closeUpadtePasswordModalPopup } formData={ selectedRow }/>
+        </PortalDrawer>
+      ) }
+
+      { isOrderDetailModelOpen && (
+        <PortalPopup
+          overlayColor='rgba(113, 113, 113, 0.3)'
+          onOutsideClick={ closeOrderDetailModalPopup }
+        >
+          <VendorOrderDetail onClose={ closeOrderDetailModalPopup } id={ selectedRow.id }/>
+        </PortalPopup>
       ) }
     </>
   );

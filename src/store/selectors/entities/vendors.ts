@@ -11,3 +11,6 @@ const vendorSelector = (state: TReduxState) => state.entities.vendors;
 
 export const getVendorsData = createSelector(vendorSelector, (app) => get(app, 'data', null));
 
+export const getVendorsOrderDetails = createSelector(vendorSelector, (app) => get(app, 'orderDetails', null));
+
+

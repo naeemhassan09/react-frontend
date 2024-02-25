@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {  fetchVendorData } from 'src/store/thunks';
+import {  fetchVendorData, fetchVendorOrderDetails } from 'src/store/thunks';
 
 
   interface IInitialState {
    data: []|null,
+   orderDetails: []|null, 
   }
   
   const INITIAL_STATE : IInitialState = {
    data:null,
+   orderDetails: null,
   };
 
 
@@ -20,7 +22,10 @@ import {  fetchVendorData } from 'src/store/thunks';
     reducers: {
       setVendorData: (state) => {
       state.data=null;
-      },   
+      },  
+      setVendorOrderDetails: (state)=>{
+        state.orderDetails=null;
+      } 
     },
 
      // A "builder callback" function used to add more reducers
@@ -28,11 +33,14 @@ import {  fetchVendorData } from 'src/store/thunks';
     builder.addCase(fetchVendorData.fulfilled, (state, action) => {
         state.data=action.payload.vendors;   
   });
+  builder.addCase(fetchVendorOrderDetails.fulfilled, (state, action) => {
+   state.orderDetails=action.payload.orders;
+});
 },
    
   });
   
-  export const { setVendorData } = vendorSlice.actions;
+  export const { setVendorData , setVendorOrderDetails} = vendorSlice.actions;
   
   export const vendorReducer = vendorSlice.reducer;
   

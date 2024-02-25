@@ -2,41 +2,19 @@ import { FunctionComponent, useState, useCallback, useEffect } from 'react';
 import {
   TextField,
   InputAdornment,
-  Icon,
-  IconButton,
-  Autocomplete,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from 'src/components/modal';
 import PortalPopup from 'src/components/portal-popup';
-import FormContainer from 'src/components/form-container';
-import OrderHeaderContainer from 'src/components/order-header-container';
 import Pagination from 'src/components/pagination';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrderData } from 'src/store/selectors/entities';
-import { fetchOrderData } from 'src/store/thunks';
+import {  getVendorsOrderDetails } from 'src/store/selectors/entities';
+import {  fetchVendorOrderDetails } from 'src/store/thunks';
 import { APP, NEWORDER_ROUTE } from 'src/constants/navigation-routes';
 
-const Orders1 = styled.div`
-  position: relative;
-  font-weight: 600;
-  cursor: pointer;
-`;
 
-const SubHeader = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-5xl) var(--padding-6xl);
-  color: var(--color-gray-200);
-  @media screen and (max-width: 960px) {
-    display: flex;
-  }
-`;
 
 const FrameChild = styled(TextField)`
   border: none;
@@ -127,43 +105,6 @@ const OrderSheetHeadingContainer = styled.div`
   color: var(--color-darkslategray-200);
 `;
 
-const FrameItem = styled(Autocomplete)`
-  flex: 1;
-  @media screen and (max-width: 350px) {
-    flex: unset;
-    align-self: stretch;
-  }
-`;
-
-const FrameGroup = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 1.44rem;
-  max-width: 18.75rem;
-  @media screen and (max-width: 350px) {
-    flex-direction: column;
-  }
-`;
-
-const FilterBarContainer = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: var(--padding-5xl) var(--padding-6xl);
-  @media screen and (max-width: 420px) {
-    align-items: center;
-    justify-content: center;
-  }
-  @media screen and (max-width: 350px) {
-    align-items: center;
-    justify-content: center;
-  }
-`;
 
 const OrderNumber = styled.div`
   flex: 1;
@@ -188,25 +129,6 @@ const Div = styled.div`
   font-weight: 500;
 `;
 
-const Wrapper = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-xl) 0rem;
-`;
-
-const Container1 = styled.div`
-  align-self: stretch;
-  background-color: var(--color-lavenderblush-100);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-xl) 0rem;
-`;
-
 const Colum = styled.div`
   flex: 1;
   display: flex;
@@ -228,68 +150,7 @@ const OrderStatusWrapper = styled.div`
   font-family: var(--font-poppins);
 `;
 
-const ShippedWrapper = styled.div`
-  border-radius: var(--br-3xs);
-  background-color: #00b3ff;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-11xs) var(--padding-3xs);
-`;
 
-const Colum3Inner = styled.div`
-  align-self: stretch;
-  height: 3.63rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-2xl) 0rem;
-  box-sizing: border-box;
-`;
-
-const CanceldWrapper = styled.div`
-  border-radius: var(--br-3xs);
-  background-color: var(--color-red);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-11xs) var(--padding-3xs);
-`;
-
-const Colum3Child = styled.div`
-  align-self: stretch;
-  background-color: var(--color-lavenderblush-100);
-  height: 3.63rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-2xl) 0rem;
-  box-sizing: border-box;
-`;
-
-const PendingWrapper = styled.div`
-  border-radius: var(--br-3xs);
-  background-color: var(--color-gold);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-11xs) var(--padding-3xs);
-`;
-
-const DeliveredWrapper = styled.div`
-  border-radius: var(--br-3xs);
-  background-color: var(--color-lime);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-11xs) var(--padding-5xs);
-`;
 
 const Colum1 = styled.div`
   flex: 1;
@@ -335,39 +196,6 @@ const DashboardSheetContainer = styled.div`
   }
 `;
 
-const OpenInWindowWrapper = styled.div`
-  border-radius: var(--br-8xs);
-  background-color: var(--color-brown-100);
-  height: 2.25rem;
-  display: none;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-3xs) var(--padding-xl);
-  box-sizing: border-box;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--color-crimson);
-    cursor: pointer;
-  }
-  @media screen and (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-const ModalButton = styled.div`
-  align-self: stretch;
-  background-color: var(--white);
-  overflow: hidden;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-30xl) var(--padding-2xl);
-  @media screen and (max-width: 768px) {
-    display: flex;
-  }
-`;
 
 const OrdersContentContainer = styled.div`
   align-self: stretch;
@@ -408,9 +236,14 @@ const OrdersRoot = styled.div`
   font-family: var(--font-poppins);
 `;
 
-export const Orders: FunctionComponent = () => {
+type UpdateOrderModalType = {
+    onClose?: any;
+    id? : string;
+  };
 
-  const orderData=useSelector(getOrderData);
+export const VendorOrderDetail: FunctionComponent<UpdateOrderModalType> = ({id}) => {
+
+  const orderData=useSelector(getVendorsOrderDetails);
   const dispatch=useDispatch();
  
   const [totalPages, setTotalPages]=useState<number>(0);
@@ -419,29 +252,8 @@ export const Orders: FunctionComponent = () => {
   const [itemsPerPage,setItemsPerPage]=useState(10);
 
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
-  const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
   const [completeOrderData,setCompleteOrderData]=useState(orderData);
-  const [orderNumberOptions, setOrderNumberOptions]=useState([]);
-  
-  const options = [
-    { value: 'canceled', label: 'Canceled' },
-    { value: 'shipped', label: 'Shipped' },
-    { value: 'pending', label: 'Pending' },
-    { value: 'delivered', label: 'Delivered' },
-    { value: 'active', label: 'Active' },
-  ];
 
-  const openAfterLoginMenu = useCallback(() => {
-    setAfterLoginMenuOpen(true);
-  }, []);
-
-  const closeAfterLoginMenu = useCallback(() => {
-    setAfterLoginMenuOpen(false);
-  }, []);
-
-  const openModalPopup = useCallback(() => {
-    setModalPopupOpen(true);
-  }, []);
 
   const closeModalPopup = useCallback(() => {
     setModalPopupOpen(false);
@@ -472,40 +284,6 @@ export const Orders: FunctionComponent = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  const handleChangeOrderNumber = (selectedValue: any ) => {
-
-    if (selectedValue !== null) {
-        let filterObject: any= [];
-
-        if (completeOrderData && selectedValue!=='')    
-        {
-            filterObject=orderData?.filter((item:any)=> item.order_number.trim().toLowerCase()
-            .includes(selectedValue.value));
-            setCompleteOrderData(filterObject);
-        }  
-    } else
-    {
-      setCompleteOrderData(orderData);
-    }
-};
-
-  const handleChangeOrderStatus = (selectedValue: any ) => {
-
-        if (selectedValue !== null) {
-        let filterObject: any= [];
-
-        if (completeOrderData && selectedValue!=='')    
-        {
-            filterObject=orderData?.filter((item:any)=> item.fulfillment_status.trim().toLowerCase()
-            .includes(selectedValue.value));
-            setCompleteOrderData(filterObject);
-        }  
-    } else
-    {
-      setCompleteOrderData(orderData);
-    }
-};
-
   const handleOrderNumberArray=((orders:any)=>{
  
     if (orders && orders.length>0)
@@ -515,7 +293,6 @@ export const Orders: FunctionComponent = () => {
             value: order_item.order_number,
           }));
 
-        setOrderNumberOptions(orderNumberArray);
     }
   });
 
@@ -557,8 +334,8 @@ export const Orders: FunctionComponent = () => {
 },[orderData]);
 
   useEffect(()=>{
-    dispatch(fetchOrderData({}));
-  },[]); 
+    dispatch(fetchVendorOrderDetails(id));
+  },[id]); 
 
   const renderTable = () => (
     selectedOrderArray?.length > 0 ? (
@@ -604,16 +381,14 @@ export const Orders: FunctionComponent = () => {
   return (
     <>
       <OrdersRoot>
+        <OrderSheetHeadingContainer>
+          <OrderSheetWrapper>
+            <OrderSheet>Order Sheet</OrderSheet>
+          </OrderSheetWrapper>
+        </OrderSheetHeadingContainer>
         <OrdersMainContainer>
-          <FormContainer
-            dimensions='/alchemativelogo-12@2x.png'
-            alchemativeLogo1IconBackgroundImage="url('/sidemenubar6@3x.png')"
-          />
+         
           <OrdersContentContainer>
-            <OrderHeaderContainer pageTitle='Orders' />
-            <SubHeader>
-              <Orders1>Orders</Orders1>
-            </SubHeader>
             <SearchBarContainer>
               <FrameParent>
                 <FrameChild
@@ -637,50 +412,8 @@ export const Orders: FunctionComponent = () => {
                 </NewButton>
               </FrameParent>
             </SearchBarContainer>
-            <OrderSheetHeadingContainer>
-              <OrderSheetWrapper>
-                <OrderSheet>Order Sheet</OrderSheet>
-              </OrderSheetWrapper>
-            </OrderSheetHeadingContainer>
-            <FilterBarContainer>
-              <FrameGroup>
-                <FrameItem
-                  size='small'
-                  sx={ { width: '100%' } }
-                  disablePortal
-                  options={ orderNumberOptions }
-                  onChange={ (_event, value) => handleChangeOrderNumber(value) }
-                  renderInput={ (params: any) => (
-                    <TextField
-                      { ...params }
-                      color='primary'
-                      label='Order No'
-                      variant='outlined'
-                      placeholder='Order No'
-                      helperText=''
-                    />
-                  ) }
-                />
-                <FrameItem
-                  size='small'
-                  sx={ { width: '100%' } }
-                  disablePortal
-                  options={ options }
-                  onChange={ (_event, value) => handleChangeOrderStatus(value) }
-
-                  renderInput={ (params: any) => (
-                    <TextField
-                      { ...params }
-                      color='primary'
-                      label='Order Status'
-                      variant='outlined'
-                      placeholder='Order Status'
-                      helperText=''
-                    />
-                  ) }
-                />
-              </FrameGroup>
-            </FilterBarContainer>
+           
+           
             <DashboardSheetContainer>
               <DashboardSheet>
                 <OrderSheetContainer>
@@ -739,11 +472,7 @@ export const Orders: FunctionComponent = () => {
                 />
               </DashboardSheet>
             </DashboardSheetContainer>
-            <ModalButton>
-              <OpenInWindowWrapper onClick={ openModalPopup }>
-                <New>Open In Window</New>
-              </OpenInWindowWrapper>
-            </ModalButton>
+            
           </OrdersContentContainer>
         </OrdersMainContainer>
       </OrdersRoot>

@@ -151,7 +151,6 @@ const UpdateStatusVendor: FunctionComponent<CreateVendorModalType> = ({ onClose,
         remarks:null,
     };
 
-    console.log(payload);
     dispatch(updateStatusVendor({payload}));
 
     onClose();

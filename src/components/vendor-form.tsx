@@ -7,6 +7,11 @@ import { getVendorsData } from 'src/store/selectors/entities';
 import moment from 'moment';
 import Pagination from './pagination';
 import NewCardForm from './new-card-form';
+import UpdateStatusVendor from './update-vendor-status-modal';
+import PortalDrawer from './portal-drawer';
+import UpdateVendorPasswwordModal from './update-vendor-password-modal';
+import PortalPopup from './portal-popup';
+import { VendorOrderDetail } from './vendor-order-details-Modal';
 
 const FullName = styled.b`
   flex: 1;
@@ -64,24 +69,6 @@ display: flex;
   justify-content: space-between;
 `;
 
-const FullNameWrapper1 = styled.div`
-  flex: 1;
-  background-color: var(--color-lavenderblush-100);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-xl) var(--padding-3xs);
-`;
-
-const FrameParent = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
-
 const ActivityStreamContainerRoot = styled.div`
   align-self: stretch;
   display: flex;
@@ -128,25 +115,46 @@ const VendorWrapper = styled.div`
   justify-content: space-between;
 `;
 
+const MenuVerticalIcon = styled.img`
+  position: relative;
+  width: 1.5rem;
+  height: 1.05rem;
+  object-fit: contain;
+  cursor: pointer;
+`;
+
 const VendorForm: FunctionComponent = () => {
 
   const dispatch=useDispatch();
   const vendorsList=useSelector(getVendorsData);
-  const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages,setTotalPages]=useState<number>(0);
   const [completeVendorList, setCompleteVendorList]=useState(vendorsList);
   const [selectedVendorArray, setSelectedVendorArray]=useState<any>([]);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [searchWord, setSearchWord]=useState('');
+  const [actionOpen, setActionOpen]= useState(false);
+  const [selectedRow, setSelectedRow]=useState<any>({});
+  const [isEditModelOpen, setIsEditModelOpen]=useState(false);
+  const [isStatusModelOpen, setIsStatusModelOpen]=useState(false);
+  const [isUpdatePasswordModelOpen, setIsUpdatePasswordModelOpen]=useState(false);
+  const [isOrderDetailModelOpen, setIsOrderDetailModelOpen]=useState(false);
 
-  const openModalPopup = useCallback(() => {
-    setModalPopupOpen(true);
+
+  const closeUpadtePasswordModalPopup = useCallback(() => {
+    setIsUpdatePasswordModelOpen(false);
   }, []);
 
-  const closeModalPopup = useCallback(() => {
-    setModalPopupOpen(false);
+
+  const closeStatusModalPopup = useCallback(() => {
+    setIsStatusModelOpen(false);
   }, []);
+
+  const closeOrderDetailModalPopup = useCallback(() => {
+    setIsOrderDetailModelOpen(false);
+  }, []);
+
+  
 
   const renderTable = () => (
     selectedVendorArray?.length > 0 ? (
@@ -183,6 +191,38 @@ const VendorForm: FunctionComponent = () => {
                 <FullName1>{ `${vendor.is_active}` ? 'true': 'false' }</FullName1>
               </FullNameContainer>     
             </Colum>
+            <Colum>
+              <FullNameContainer onClick={ ()=>{ {setActionOpen(!actionOpen); setSelectedRow(vendor) } } }>
+                <MenuVerticalIcon alt='' src='/menu-vertical@2x.png' />
+              </FullNameContainer>     
+            </Colum>
+            {  vendor.id === selectedRow?.id && actionOpen ? 
+              <Colum>  
+                <div style={ { display: 'flex', flexDirection: 'column' } } >
+                  <div 
+                    style={ { cursor: 'pointer', padding: '2px' } } 
+                    onClick={ ()=>setIsStatusModelOpen(!isStatusModelOpen) }>
+                    Change Status
+                  </div>
+                  <div 
+                    style={ { cursor: 'pointer', padding: '2px' } } 
+                    onClick={ ()=>setIsUpdatePasswordModelOpen(!isUpdatePasswordModelOpen) }>
+                    Change Password
+                  </div>
+                  <div 
+                  style={ { cursor: 'pointer', padding: '2px' } } 
+                  onClick={ ()=>setIsEditModelOpen(!isEditModelOpen) }>Edit</div>
+                
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>View Import Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Inventory</div>
+                  <div 
+                  style={ { cursor: 'pointer', padding: '2px' } } 
+                  onClick={ ()=>setIsOrderDetailModelOpen(!isOrderDetailModelOpen) }>
+                    Order Details
+                  </div>     
+                </div>  
+              </Colum> : null  }
           </ActivityStreamSheet>
         ) : (
           <ActivityStreamSheet key={ index }>
@@ -216,7 +256,37 @@ const VendorForm: FunctionComponent = () => {
                 <FullName1>{ `${vendor.is_active}` ? 'true': 'false' }</FullName1>
               </FullNameFrame>         
             </Colum>
-           
+            <Colum>
+              <FullNameFrame onClick={ ()=>{ {setActionOpen(!actionOpen); setSelectedRow(vendor) } } }>
+                <MenuVerticalIcon alt='' src='/menu-vertical@2x.png' />
+              </FullNameFrame>    
+            </Colum>
+            {  vendor.id === selectedRow.id && actionOpen ? 
+              <Colum>  
+                <div style={ { display: 'flex', flexDirection: 'column' } } >
+                  <div 
+                    style={ { cursor: 'pointer', padding: '2px' } } 
+                    onClick={ ()=>setIsStatusModelOpen(!isStatusModelOpen) }>
+                    Change Status
+                  </div>
+                  <div 
+                    style={ { cursor: 'pointer', padding: '2px' } } 
+                    onClick={ ()=>setIsUpdatePasswordModelOpen(!isUpdatePasswordModelOpen) }>
+                    Change Password
+                  </div>
+                  <div 
+                  style={ { cursor: 'pointer', padding: '2px' } } 
+                  onClick={ ()=>setIsEditModelOpen(!isEditModelOpen) }>Edit</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>View Import Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Inventory</div>
+                  <div 
+                  style={ { cursor: 'pointer', padding: '2px' } } 
+                  onClick={ ()=>setIsOrderDetailModelOpen(!isOrderDetailModelOpen) }>
+                    Order Details
+                  </div>    
+                </div>  
+              </Colum> : null  }
           </ActivityStreamSheet>
         )
       ))
@@ -303,7 +373,11 @@ const onHandleSearchText=(()=>{
   },[]);
   return (
     <>
-      <NewCardForm setSearchWord={ setSearchWord }/>
+      <NewCardForm 
+      setSearchWord={ setSearchWord } 
+      selectedRow={ selectedRow } 
+      isEdit={ isEditModelOpen } 
+      setIsEdit={ setIsEditModelOpen }/>
       <ActivityStreamHeadingContai>
         <VendorWrapper>
           <Vendor>Vendor</Vendor>
@@ -315,13 +389,6 @@ const onHandleSearchText=(()=>{
             <FullNameWrapper>
               <FullName>Name</FullName>
             </FullNameWrapper>
-            { /* <FullNameContainer>
-              <FullName1>Full Name</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Full Name</FullName1>
-            </FullNameFrame>
-           */ }
           </Colum>
           <Colum>
             <FullNameWrapper>
@@ -348,6 +415,11 @@ const onHandleSearchText=(()=>{
               <FullName>Enable</FullName>
             </FullNameWrapper>
           </Colum>
+          <Colum>
+            <FullNameWrapper>
+              <FullName>Action</FullName>
+            </FullNameWrapper>
+          </Colum>
         </ActivityStreamSheet>
         <>
           { renderTable() }
@@ -368,6 +440,34 @@ const onHandleSearchText=(()=>{
         onPrevPage={ handlePrevPage }
         />
       </ActivityStreamContainerRoot>
+      { isStatusModelOpen && (
+        <PortalDrawer
+          overlayColor='rgba(113, 113, 113, 0.3)'
+          placement='Right'
+          onOutsideClick={ closeStatusModalPopup }
+        >
+          <UpdateStatusVendor onClose={ closeStatusModalPopup } selectedRow={ selectedRow }/>
+        </PortalDrawer>
+      ) }
+
+      { isUpdatePasswordModelOpen && (
+        <PortalDrawer
+          overlayColor='rgba(113, 113, 113, 0.3)'
+          placement='Right'
+          onOutsideClick={ closeUpadtePasswordModalPopup }
+        >
+          <UpdateVendorPasswwordModal onClose={ closeUpadtePasswordModalPopup } formData={ selectedRow }/>
+        </PortalDrawer>
+      ) }
+
+      { isOrderDetailModelOpen && (
+        <PortalPopup
+          overlayColor='rgba(113, 113, 113, 0.3)'
+          onOutsideClick={ closeOrderDetailModalPopup }
+        >
+          <VendorOrderDetail onClose={ closeOrderDetailModalPopup } id={ selectedRow.id }/>
+        </PortalPopup>
+      ) }
     </>
   );
 };

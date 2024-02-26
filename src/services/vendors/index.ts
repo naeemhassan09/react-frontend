@@ -17,7 +17,82 @@ export class VendorsService extends HttpService {
     } catch (error) {
       throw prepareErrorResponse(error);
     }
-  };}
+  };
+
+  createNewVendor = async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.post(baseAuthUrl + '/api/v1/vendors',payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  updateVendor = async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.put(baseAuthUrl + '/api/v1/vendors/'+payload.id,payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  updateStatusVendor = async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    const payloadData=payload.payload;
+    try {
+      const apiResponse = await this.post(baseAuthUrl + '/api/v1/vendors/change_status',payloadData, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  updatePasswordVendor = async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.post(baseAuthUrl + '/api/v1/vendors/change_password',payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  getVendorOrder = async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.get(baseAuthUrl + '/api/v1/vendors/vendor_order_detail?id='+payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+}
+
+
+
 
 //   createNewUser = async (baseAuthUrl: string, token: string, payload: any): 
 //   Promise<IPrepareResponse<AxiosResponse>> => {

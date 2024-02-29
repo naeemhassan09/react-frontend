@@ -105,7 +105,8 @@ const CSVModal: FunctionComponent<CSVModalType> = ({ onClose }) => {
           <Detail>
             <DownloadASimple>
               <a 
-                href='https://cdn.shopify.com/s/files/1/0769/7003/3471/files/product_template.csv.csv?v=1692170829'>
+                href='https://cdn.shopify.com/s/files/1/0769/7003/3471/files/product_template.csv.csv?v=1692170829'
+              >
                 Download a simple CSV template
               </a>
             </DownloadASimple>

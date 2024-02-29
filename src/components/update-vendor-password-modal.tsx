@@ -215,7 +215,7 @@ const UpdateVendorPasswwordModal: FunctionComponent<UpdatePasswwordModalType> = 
                 <IconButton
                     onClick={ handleShowPasswordClick }
                     aria-label='toggle password visibility'
-                 >
+                >
                   <Icon>{ showPassword ? <VisibilityIcon/> :  <VisibilityOffIcon/> }</Icon>
                 </IconButton>
               </InputAdornment>

@@ -356,7 +356,9 @@ const CreateVendorModal: FunctionComponent<CreateVendorModalType> = ({ onClose, 
         id='small' color='primary' 
         checked={ isCommission }
         onClick=
-          { ()=>setIsCommission(!isCommission) }/> }/>
+          { ()=>setIsCommission(!isCommission) }
+                  /> }
+        />
         <Enabled>Commission</Enabled>
       </CheckboxParent>
       {  
@@ -390,7 +392,7 @@ const CreateVendorModal: FunctionComponent<CreateVendorModalType> = ({ onClose, 
                 required
               />
       ) }
-    />
+          />
         </>
       }
       <CheckboxParent>
@@ -399,7 +401,9 @@ const CreateVendorModal: FunctionComponent<CreateVendorModalType> = ({ onClose, 
         checked={ isEnable }
         control={ <Checkbox  
         id='small' color='primary' 
-        onClick={ ()=>setIsEnable(!isEnable) }/> } />
+        onClick={ ()=>setIsEnable(!isEnable) }
+                  /> }
+        />
         <Enabled>Enabled</Enabled>
       </CheckboxParent>
       <FrameParent>

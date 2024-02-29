@@ -278,17 +278,18 @@ const EditUserModal: FunctionComponent<EditUserModalType> = ({ setIsTableUpdate,
                 value={ getValues().role_permission_id }
                 required
                 { ...register('role_permission_id') }
-                />
+              />
         ) }
-      />
+        />
 
         <CheckboxParent>
           <Checkbox1 
           label='' { ...register('is_active') } 
           control={ <Checkbox 
           id='small' color='primary'  
-          defaultChecked={ formData.is_active } /> } 
-         />
+          defaultChecked={ formData.is_active }
+                    /> }
+          />
           <Enabled>Enabled</Enabled>
         </CheckboxParent>
         <FrameParent>

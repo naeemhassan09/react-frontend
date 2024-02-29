@@ -595,7 +595,8 @@ useEffect(()=>{
         >
           <DeleteUserModal 
           setIsTableUpdate={ setIsTableUpdated } 
-          setClose={ setModalDeleteOpen } payload={ selectRow }/>
+          setClose={ setModalDeleteOpen } payload={ selectRow }
+          />
         </PortalDrawer>
        
       ) }
@@ -608,7 +609,8 @@ useEffect(()=>{
         >
           <EditUserModal 
                       setIsTableUpdate={ setIsTableUpdated }
-                      setClose={ setModalEditOpen } formData={ selectRow }/>
+                      setClose={ setModalEditOpen } formData={ selectRow }
+          />
         </PortalDrawer>
        
       ) }
@@ -621,7 +623,8 @@ useEffect(()=>{
         >
           <UpdateUserModal 
           setIsTableUpdate={ setIsTableUpdated }
-          onClose={ setModalPasswordOpen } formData={ selectRow }/>
+          onClose={ setModalPasswordOpen } formData={ selectRow }
+          />
         </PortalDrawer>
        
       ) }

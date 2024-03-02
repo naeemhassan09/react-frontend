@@ -89,6 +89,48 @@ export class VendorsService extends HttpService {
       throw prepareErrorResponse(error);
     }
   };
+
+  getVendorAllocateInventory = async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.get(baseAuthUrl + '/api/v1/products/view_imported_variants?vendor_id='+payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  getVendorAllocateProduct= async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.get(baseAuthUrl + '/api/v1/products/drowdown?vendor_id='+payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  getVendorImportProduct = async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.get(baseAuthUrl + '/api/v1/products/view_imported_products?vendor_id='+payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
 }
 
 

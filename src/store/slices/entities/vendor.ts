@@ -1,15 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {  fetchVendorData, fetchVendorOrderDetails } from 'src/store/thunks';
+import {  fetchVendorAllocateInventory, 
+    fetchVendorAllocateProduct, 
+    fetchVendorData, fetchVendorImportProduct, 
+    fetchVendorOrderDetails } from 'src/store/thunks';
 
 
   interface IInitialState {
    data: []|null,
    orderDetails: []|null, 
+   allocateInventory: []|null,
+   allocateProductsList: []|null,
+   allocatedProductsListIds: []|null,
+   importViewProducts: []|null,
   }
   
   const INITIAL_STATE : IInitialState = {
    data:null,
    orderDetails: null,
+   allocateInventory: null,
+   importViewProducts:null,
+   allocateProductsList: null,
+   allocatedProductsListIds: null,
+
   };
 
 
@@ -25,7 +37,19 @@ import {  fetchVendorData, fetchVendorOrderDetails } from 'src/store/thunks';
       },  
       setVendorOrderDetails: (state)=>{
         state.orderDetails=null;
+      },
+      setVendorAllocateInventory: (state)=>{
+        state.allocateInventory=null;
+      },
+      setVendorAllocateProduct: (state)=>{
+        state.allocateProductsList=null;
+        state.allocatedProductsListIds=null;
+
+      },
+      setVendorImportProduct: (state)=>{
+        state.importViewProducts=null;
       } 
+
     },
 
      // A "builder callback" function used to add more reducers
@@ -36,6 +60,18 @@ import {  fetchVendorData, fetchVendorOrderDetails } from 'src/store/thunks';
   builder.addCase(fetchVendorOrderDetails.fulfilled, (state, action) => {
    state.orderDetails=action.payload.orders;
 });
+
+  builder.addCase(fetchVendorAllocateInventory.fulfilled, (state, action) => {
+    state.allocateInventory=action.payload.vendor_product_variants;
+ });
+
+ builder.addCase(fetchVendorAllocateProduct.fulfilled, (state, action) => {
+    state.allocateProductsList=action.payload.products;
+    state.allocatedProductsListIds=action.payload.shopify_product_ids;
+ });
+ builder.addCase(fetchVendorImportProduct.fulfilled, (state, action) => {
+    state.importViewProducts=action.payload.products;
+ });
 },
    
   });

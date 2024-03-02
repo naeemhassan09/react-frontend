@@ -293,9 +293,9 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = ({ onClose, user
                 helperText=''
                 required
                 { ...register('role_permission_id') }
-                />
+              />
         ) }
-      />
+        />
         <CreateUserModalChild
             { ...register('password') }
             color='primary'
@@ -312,7 +312,7 @@ const CreateUserModal: FunctionComponent<CreateUserModalType> = ({ onClose, user
                 <IconButton
                     onClick={ handleShowPasswordClick }
                     aria-label='toggle password visibility'
-                 >
+                >
                   <Icon>{ showPassword ? <VisibilityIcon/> :  <VisibilityOffIcon/> }</Icon>
                 </IconButton>
               </InputAdornment>

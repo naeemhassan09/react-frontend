@@ -217,12 +217,14 @@ const VendorForm: FunctionComponent = () => {
                 <div style={ { display: 'flex', flexDirection: 'column' } } >
                   <div 
                     style={ { cursor: 'pointer', padding: '2px' } } 
-                    onClick={ ()=>setIsStatusModelOpen(!isStatusModelOpen) }>
+                    onClick={ ()=>setIsStatusModelOpen(!isStatusModelOpen) }
+                  >
                     Change Status
                   </div>
                   <div 
                     style={ { cursor: 'pointer', padding: '2px' } } 
-                    onClick={ ()=>setIsUpdatePasswordModelOpen(!isUpdatePasswordModelOpen) }>
+                    onClick={ ()=>setIsUpdatePasswordModelOpen(!isUpdatePasswordModelOpen) }
+                  >
                     Change Password
                   </div>
                   <div 
@@ -236,7 +238,8 @@ const VendorForm: FunctionComponent = () => {
                     Allocate Inventory</div>
                   <div 
                   style={ { cursor: 'pointer', padding: '2px' } } 
-                  onClick={ ()=>setIsOrderDetailModelOpen(!isOrderDetailModelOpen) }>
+                  onClick={ ()=>setIsOrderDetailModelOpen(!isOrderDetailModelOpen) }
+                  >
                     Order Details
                   </div>     
                 </div>  
@@ -284,12 +287,14 @@ const VendorForm: FunctionComponent = () => {
                 <div style={ { display: 'flex', flexDirection: 'column' } } >
                   <div 
                     style={ { cursor: 'pointer', padding: '2px' } } 
-                    onClick={ ()=>setIsStatusModelOpen(!isStatusModelOpen) }>
+                    onClick={ ()=>setIsStatusModelOpen(!isStatusModelOpen) }
+                  >
                     Change Status
                   </div>
                   <div 
                     style={ { cursor: 'pointer', padding: '2px' } } 
-                    onClick={ ()=>setIsUpdatePasswordModelOpen(!isUpdatePasswordModelOpen) }>
+                    onClick={ ()=>setIsUpdatePasswordModelOpen(!isUpdatePasswordModelOpen) }
+                  >
                     Change Password
                   </div>
                   <div 
@@ -303,7 +308,8 @@ const VendorForm: FunctionComponent = () => {
                     Allocate Inventory</div>
                   <div 
                   style={ { cursor: 'pointer', padding: '2px' } } 
-                  onClick={ ()=>setIsOrderDetailModelOpen(!isOrderDetailModelOpen) }>
+                  onClick={ ()=>setIsOrderDetailModelOpen(!isOrderDetailModelOpen) }
+                  >
                     Order Details
                   </div>    
                 </div>  
@@ -398,7 +404,8 @@ const onHandleSearchText=(()=>{
       setSearchWord={ setSearchWord } 
       selectedRow={ selectedRow } 
       isEdit={ isEditModelOpen } 
-      setIsEdit={ setIsEditModelOpen }/>
+      setIsEdit={ setIsEditModelOpen }
+      />
       <ActivityStreamHeadingContai>
         <VendorWrapper>
           <Vendor>Vendor</Vendor>

@@ -1,4 +1,3 @@
-/* eslint-disable padding-line-between-statements */
 import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchAllCompanies,
@@ -12,7 +11,7 @@ import {
 interface IResponse {
   id: number;
   name: string;
-  [key: string] : any;
+  [key: string] : unknown;
 }
 
 interface IAppData {
@@ -49,11 +48,13 @@ export const appEntitySlice = createSlice({
   extraReducers: (builder) => {
       builder.addCase(fetchAllCompanies.fulfilled, (state, action) => {
       const { companies } = action.payload;
+
       if (!state.data) {
         state.data = {
           companies: [],
         };
       }
+
       state.data.companies = companies;
       state.data.businessUnits = undefined;
       state.data.locations = undefined;
@@ -66,17 +67,20 @@ export const appEntitySlice = createSlice({
           businessUnits: [],
         };
       }
+
       state.data.businessUnits = action.payload;
       state.data.locations = undefined;
     });
 
     builder.addCase(fetchAllLocations.fulfilled, (state, action) => {
       const { locations } = action.payload;
+
       if (!state.data) {
         state.data = {
           locations: [],
         };
       }
+
       state.data.locations = locations;
     });
   },

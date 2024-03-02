@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { FunctionComponent, useEffect, useState } from 'react';
 import {
   TextField,
@@ -228,7 +229,7 @@ const UpdateStatusVendor: FunctionComponent<CreateVendorModalType> = ({ onClose,
                 value={ getValues().vendor_status }
               />
         ) }
-        />
+      />
     
   
       <FrameParent>

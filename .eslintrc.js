@@ -19,6 +19,7 @@ module.exports = {
     // React
     'react/display-name': 0,
     'react/jsx-boolean-value': 1,
+    '@typescript-eslint/no-explicit-any': 0,
     'react/jsx-closing-bracket-location': 1,
     'react/jsx-first-prop-new-line': [2, 'multiline'],
     'react/jsx-no-undef': 2,

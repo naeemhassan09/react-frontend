@@ -1,4 +1,4 @@
-/* eslint-disable padding-line-between-statements */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosResponse } from 'axios';
 import { HttpService } from '../http';
 import { prepareErrorResponse, prepareResponseObject } from '../http/response';
@@ -13,6 +13,7 @@ export class VendorsService extends HttpService {
           Authorization: token
         }
       });
+
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);
@@ -27,6 +28,7 @@ export class VendorsService extends HttpService {
           Authorization: token
         }
       });
+
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);
@@ -41,6 +43,7 @@ export class VendorsService extends HttpService {
           Authorization: token
         }
       });
+
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);
@@ -50,12 +53,14 @@ export class VendorsService extends HttpService {
   updateStatusVendor = async (baseAuthUrl: string, token: string, payload: any): 
   Promise<IPrepareResponse<AxiosResponse>> => {
     const payloadData=payload.payload;
+
     try {
       const apiResponse = await this.post(baseAuthUrl + '/api/v1/vendors/change_status',payloadData, {
         headers: {
           Authorization: token
         }
       });
+
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);
@@ -70,6 +75,7 @@ export class VendorsService extends HttpService {
           Authorization: token
         }
       });
+
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);
@@ -84,6 +90,7 @@ export class VendorsService extends HttpService {
           Authorization: token
         }
       });
+
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);
@@ -98,6 +105,7 @@ export class VendorsService extends HttpService {
           Authorization: token
         }
       });
+
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);
@@ -112,6 +120,7 @@ export class VendorsService extends HttpService {
           Authorization: token
         }
       });
+
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);
@@ -126,6 +135,7 @@ export class VendorsService extends HttpService {
           Authorization: token
         }
       });
+      
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
     } catch (error) {
       throw prepareErrorResponse(error);

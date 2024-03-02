@@ -19,4 +19,18 @@ export class ActivityStreamsService extends HttpService {
       throw prepareErrorResponse(error);
     }
   };
+
+  dowbloadData  = async (baseAuthUrl: string, token: string,queryParams: TObject): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+        try {
+          const apiResponse = await this.get(
+            `${baseAuthUrl}/web_api/v2/activity_streams/download_selected_activity_stream?start_date=` + 
+            queryParams.startDate + '&end_date=' + queryParams.endDate, {
+          headers: {Authorization: token}}
+          );
+          return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+        } catch (error) {
+          throw prepareErrorResponse(error);
+        }
+      };
 }

@@ -1,484 +1,33 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/react-in-jsx-scope */
-import {
-  TextField,
-  Icon,
-  InputAdornment,
-  Autocomplete,
-} from '@mui/material';
+
 import { FunctionComponent, useState, useCallback, useEffect } from 'react';
-// import { TextField, Icon } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs  } from '@mui/x-date-pickers/AdapterDayjs';
 import styled from 'styled-components';
 import Modal from 'src/components/modal';
 import PortalPopup from 'src/components/portal-popup';
-import MiniSideBar from 'src/components/mini-side-bar';
-import PortalDrawer from 'src/components/portal-drawer';
-// import SubMenuBar from 'src/components/sub-menu-bar';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchActivityData } from 'src/store/thunks';
+import { downloadActiveData, fetchActivityData } from 'src/store/thunks';
 import { getAuthToken } from 'src/store/selectors/features';
-
-const ClipPathGroup = styled.img`
-  position: relative;
-  width: 9.38rem;
-  height: 1.5rem;
-  object-fit: cover;
-`;
-
-const WebLogo = styled.div`
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-`;
-
-const VectorIcon = styled.img`
-  position: absolute;
-  top: 0rem;
-  left: 0rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  object-fit: cover;
-`;
-
-const Dashboard = styled.div`
-  position: absolute;
-  top: 0.09rem;
-  left: 2.13rem;
-  font-weight: 600;
-  cursor: pointer;
-`;
-
-const VectorParent = styled.div`
-  position: relative;
-  width: 7.13rem;
-  height: 1.5rem;
-`;
-
-// const Frame = styled(Link)`
-//   cursor: pointer;
-//   text-decoration: none;
-//   align-self: stretch;
-//   background-color: var(--color-gray-300);
-//   overflow: hidden;
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: flex-start;
-//   padding: var(--padding-3xs) var(--padding-7xl);
-//   color: inherit;
-//   &:hover {
-//     background-color: var(--color-gray-200);
-//     transition: 0.1s;
-//   }
-// `;
-
-const GroupIcon = styled.img`
-  position: relative;
-  width: 1.47rem;
-  height: 1.58rem;
-  object-fit: cover;
-`;
-
-const Orders = styled.div`
-  position: relative;
-  font-weight: 600;
-  cursor: pointer;
-`;
-
-// const Layer1 = styled(Link)`
-//   cursor: pointer;
-//   text-decoration: none;
-//   align-self: stretch;
-//   background-color: var(--color-gray-300);
-//   overflow: hidden;
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: flex-start;
-//   padding: var(--padding-3xs) var(--padding-7xl);
-//   gap: var(--gap-3xs);
-//   color: inherit;
-//   &:hover {
-//     background-color: var(--color-gray-200);
-//     transition: 0.1s;
-//   }
-// `;
-
-const VectorIcon1 = styled.img`
-  position: relative;
-  width: 1.38rem;
-  height: 1.38rem;
-  object-fit: cover;
-`;
-
-// const Frame1 = styled(Link)`
-//   cursor: pointer;
-//   text-decoration: none;
-//   align-self: stretch;
-//   background-color: var(--color-gray-300);
-//   overflow: hidden;
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: flex-start;
-//   padding: var(--padding-3xs) var(--padding-7xl);
-//   gap: var(--gap-3xs);
-//   color: inherit;
-//   &:hover {
-//     background-color: var(--color-gray-200);
-//     transition: 0.1s;
-//   }
-// `;
-
-const TransparentRectangleIcon = styled.img`
-  position: relative;
-  width: 1.5rem;
-  height: 1.5rem;
-  object-fit: cover;
-  z-index: 0;
-`;
-
-const VectorIcon2 = styled.img`
-  position: absolute;
-  margin: 0 !important;
-  height: 12.5%;
-  width: 12.5%;
-  top: 68.75%;
-  right: 21.67%;
-  bottom: 18.75%;
-  left: 65.83%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-  object-fit: cover;
-  z-index: 1;
-`;
-
-const VectorIcon3 = styled.img`
-  position: absolute;
-  margin: 0 !important;
-  height: 37.5%;
-  width: 50%;
-  top: 56.25%;
-  right: 2.92%;
-  bottom: 6.25%;
-  left: 47.08%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-  object-fit: cover;
-  z-index: 2;
-`;
-
-const VectorIcon4 = styled.img`
-  position: absolute;
-  margin: 0 !important;
-  height: 33.75%;
-  width: 37.5%;
-  top: 31.25%;
-  right: 31.25%;
-  bottom: 35%;
-  left: 31.25%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-  object-fit: cover;
-  z-index: 3;
-`;
-
-const VectorIcon5 = styled.img`
-  position: absolute;
-  margin: 0 !important;
-  height: 87.5%;
-  width: 85%;
-  top: 6.25%;
-  right: 7.5%;
-  bottom: 6.25%;
-  left: 7.5%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-  object-fit: cover;
-  z-index: 4;
-`;
-
-const Icon1 = styled.div`
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  position: relative;
-  gap: var(--gap-3xs);
-`;
-
-// const IconParent = styled(Link)`
-//   cursor: pointer;
-//   text-decoration: none;
-//   align-self: stretch;
-//   background-color: var(--color-gray-300);
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: flex-start;
-//   padding: var(--padding-3xs) var(--padding-7xl);
-//   gap: var(--gap-3xs);
-//   color: inherit;
-//   &:hover {
-//     background-color: var(--color-gray-200);
-//     transition: 0.1s;
-//   }
-// `;
-
-const FrameParent = styled.div`
-  width: 11.56rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: var(--padding-8xl) 0rem;
-  box-sizing: border-box;
-  gap: var(--gap-xs);
-`;
-
-const WebLogoParent = styled.div`
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: var(--gap-23xl);
-`;
-
-const SideMenuBar = styled.div`
-  align-self: stretch;
-  background: linear-gradient(180deg, #fe3d50, #860266);
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: var(--padding-16xl) 0rem;
-  @media screen and (max-width: 960px) {
-    display: none;
-  }
-`;
-
-const RolesPermission = styled.div`
-  position: relative;
-  font-weight: 600;
-`;
-
-// const Link1 = styled(Link)`
-//   cursor: pointer;
-//   text-decoration: none;
-//   border-radius: var(--br-31xl);
-//   flex-shrink: 0;
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: center;
-//   padding: var(--padding-3xs);
-//   color: inherit;
-//   &:hover {
-//     background-color: var(--color-gray-200);
-//     transition: 0.1s;
-//   }
-// `;
-
-// const Links3 = styled(Link)`
-//   cursor: pointer;
-//   text-decoration: none;
-//   border-radius: var(--br-31xl);
-//   flex-shrink: 0;
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: center;
-//   padding: var(--padding-3xs);
-//   color: inherit;
-//   &:hover {
-//     background-color: var(--color-gray-200);
-//     transform: 0.1s;
-//   }
-// `;
-
-const NavLinks = styled.div`
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  @media screen and (max-width: 960px) {
-    display: none;
-  }
-`;
-
-const IconsoliduserCircle = styled.img`
-  position: relative;
-  width: 2.5rem;
-  height: 2.5rem;
-  overflow: hidden;
-  flex-shrink: 0;
-  object-fit: cover;
-`;
-
-const IconsolidmenuAlt3 = styled.img`
-  position: relative;
-  width: 2.5rem;
-  height: 2.5rem;
-  overflow: hidden;
-  flex-shrink: 0;
-  object-fit: cover;
-  display: none;
-  cursor: pointer;
-  @media screen and (max-width: 960px) {
-    display: flex;
-  }
-`;
-
-const IconsoliduserCircleParent = styled.div`
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  @media screen and (max-width: 960px) {
-    flex: 1;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--gap-0);
-  }
-`;
-
-const NavLinksParent = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Header = styled.div`
-  align-self: stretch;
-  border-radius: 0px 0px var(--br-31xl) var(--br-31xl);
-  background: linear-gradient(269.96deg, #ff3d50 0.55%, #fb3b51 0.56%, #d22758);
-  box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.1);
-  height: 5.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-5xl) var(--padding-16xl);
-  box-sizing: border-box;
-  @media screen and (max-width: 960px) {
-    border-radius: 0px;
-    border-bottom-right-radius: var(--br-31xl);
-    border-bottom-left-radius: var(--br-31xl);
-  }
-`;
-
-// const ProductListWrapper = styled(Link)`
-//   cursor: pointer;
-//   text-decoration: none;
-//   border-radius: var(--br-31xl);
-//   flex-shrink: 0;
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: center;
-//   padding: var(--padding-3xs);
-//   color: inherit;
-//   &:hover {
-//     background-color: var(--color-lightpink);
-//     cursor: pointer;
-//   }
-//   @media screen and (max-width: 768px) {
-//     display: none;
-//   }
-// `;
-
-const ProductList2 = styled.div`
-  position: relative;
-  font-weight: 600;
-  cursor: pointer;
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-// const ProductListContainer = styled(Link)`
-//   cursor: pointer;
-//   text-decoration: none;
-//   border-radius: var(--br-31xl);
-//   flex-shrink: 0;
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: center;
-//   padding: var(--padding-3xs);
-//   color: inherit;
-//   &:hover {
-//     background-color: var(--color-lightpink);
-//     cursor: pointer;
-//   }
-// `;
-
-const FrameGroup = styled.div`
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: var(--gap-mini);
-  @media screen and (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-const Layer3Icon = styled.img`
-  border-radius: var(--br-31xl);
-  width: 2.13rem;
-  height: 2.13rem;
-  overflow: hidden;
-  flex-shrink: 0;
-  object-fit: contain;
-  display: none;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--color-crimson);
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  @media screen and (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-const SubHeader = styled.div`
-  align-self: stretch;
-  display: none;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--padding-6xl) var(--padding-26xl);
-  color: var(--color-gray-100);
-  @media screen and (max-width: 960px) {
-    display: flex;
-  }
-`;
-
 import FormContainer from 'src/components/form-container';
 import ActivityStreamContainer1 from 'src/components/activity-stream-container1';
 import ActivityStreamContainer from 'src/components/activity-stream-container';
-import CreateShopifyStoreCard from 'src/components/create-shopify-store-card';
 import ActivityStreamForm from 'src/components/activity-stream-form';
-
+import { getActivityStream } from 'src/store/selectors/entities';
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
+import {
+    InputAdornment,TextField
+  } from '@mui/material';
 const Datepicker1 = styled(DatePicker)``;
+
+const FrameParent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--padding-8xl) 1rem;
+  box-sizing: border-box;
+  gap: var(--gap-xs);
+`;
 
 const Date1 = styled.div`
   flex: 1;
@@ -502,7 +51,7 @@ const DateParent = styled.div`
   }
 `;
 
-const GenerateTransactions = styled.div`
+const GenerateTransactions = styled.button`
   position: relative;
   font-weight: 500;
 `;
@@ -563,17 +112,6 @@ const GTButtonParent = styled.div`
   }
 `;
 
-// const FrameParent = styled.div`
-//   flex: 1;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   gap: var(--gap-xl);
-//   @media screen and (max-width: 420px) {
-//     flex-direction: column;
-//   }
-// `;
 
 const ActivityStreamContentContaiInner = styled.div`
   align-self: stretch;
@@ -583,7 +121,6 @@ const ActivityStreamContentContaiInner = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  padding: var(--padding-11xl) var(--padding-6xl);
   @media screen and (max-width: 420px) {
     flex-direction: row;
   }
@@ -689,17 +226,44 @@ const SettingsActivityStreamRoot = styled.div`
   font-family: var(--font-poppins);
 `;
 
+
+const SearchBarContainer = styled.div`
+  align-self: stretch;
+  background-color: var(--white);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  @media screen and (max-width: 420px) {
+    flex-direction: row;
+  }
+`;
+
+const FrameChild = styled(TextField)`
+  border: none;
+  background-color: transparent;
+  flex: 1;
+  @media screen and (max-width: 420px) {
+    flex: unset;
+    align-self: stretch;
+  }
+`;
+
 export const ActivityStream: FunctionComponent = () => {
  
   const dispatch=useDispatch();
   const token=useSelector(getAuthToken);
+  const activeData=useSelector(getActivityStream);
 
-  const [dateDateTimePickerValue, setDateDateTimePickerValue] = useState<
-    string | null
+  const [activeDataArray, setActiveDataArray]= useState([]);
+  const [isButtonDisable, setIsButtonDisable]=useState(true);
+
+  const [startDateValue, setStartDateValue] = useState<
+    any
   >('');
 
-  const [dateDateTimePicker1Value, setDateDateTimePicker1Value] =
-    useState<string | null>('');
+  const [endDateValue, setEndDateValue] =
+    useState<any>('');
 
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
 
@@ -725,14 +289,52 @@ export const ActivityStream: FunctionComponent = () => {
     return [year, month, day].join('-');
   };
 
-  useEffect(()=>{
-    const s='01/10/20024', e='01/15/20024';
-    const startDate=formatDate(s);
-    const endDate=formatDate(e);
+  const handleGenerateTransactions=(()=>{
+
+    const startDate=formatDate(startDateValue.toISOString().slice(0, 10));
+    const endDate=formatDate(endDateValue.toISOString().slice(0, 10));
     dispatch(fetchActivityData({startDate, endDate}));
+    
+  });
 
-  },[]);
+  const handleDownloadTransactions=(()=>{
 
+    const startDate=formatDate(startDateValue.toISOString().slice(0, 10));
+    const endDate=formatDate(endDateValue.toISOString().slice(0, 10));
+    dispatch(downloadActiveData({startDate, endDate}));
+  });
+
+  const onHandleSearchText=((event: any)=>{
+    const searchText= event.target.value.toLowerCase();
+    let filterObject: any= [];
+
+    if (activeDataArray && searchText!=='')    
+    {
+        filterObject=activeDataArray?.filter((item:any)=> item.email.trim().toLowerCase().includes(searchText));
+        setActiveDataArray(filterObject);
+    }  
+
+    else 
+    if (activeData)
+    setActiveDataArray(activeData);
+ });
+
+ useEffect(()=>{
+    if (activeData)
+    setActiveDataArray(activeData); 
+ },[activeData]);
+
+ useEffect(()=>{ 
+
+    if (startDateValue && endDateValue)
+    setIsButtonDisable(false);
+
+    else
+    setIsButtonDisable(true);
+
+ }, [startDateValue, endDateValue]);
+
+ 
   return (
     <LocalizationProvider dateAdapter={ AdapterDayjs }>
       <>
@@ -750,21 +352,17 @@ export const ActivityStream: FunctionComponent = () => {
                 propBorderRadius1='50px'
                 propBorderRadius2='50px'
               />
-              <CreateShopifyStoreCard
-                actionButtonText='+ New'
-                propPadding='var(--padding-11xl) var(--padding-6xl)'
-              />
+           
               <ActivityStreamContentContaiInner>
                 <FrameParent>
                   <DateParent>
                     <Date1>
                       <Datepicker1
                         label='Start Date'
-                        value={ dateDateTimePickerValue }
+                        value={ startDateValue }
                         onChange={ (newValue: any) => {
-                          setDateDateTimePickerValue(newValue);
+                          setStartDateValue(newValue);
                         } }
-                        sx={ {} }
                         slotProps={ {
                           textField: {
                             variant: 'outlined',
@@ -785,11 +383,10 @@ export const ActivityStream: FunctionComponent = () => {
                     <Date1>
                       <Datepicker1
                         label='End Date'
-                        value={ dateDateTimePicker1Value }
+                        value={ endDateValue }
                         onChange={ (newValue: any) => {
-                          setDateDateTimePicker1Value(newValue);
+                          setEndDateValue(newValue);
                         } }
-                        sx={ {} }
                         slotProps={ {
                           textField: {
                             variant: 'outlined',
@@ -810,24 +407,46 @@ export const ActivityStream: FunctionComponent = () => {
                   </DateParent>
                   <GTButtonParent>
                     <GTButton>
-                      <GenerateTransactions>
+                      <GenerateTransactions disabled={ isButtonDisable } onClick={ handleGenerateTransactions }>
                         Generate Transactions
                       </GenerateTransactions>
                     </GTButton>
                     <DTButton>
-                      <GenerateTransactions>
+                      <GenerateTransactions disabled={ isButtonDisable } onClick={ handleDownloadTransactions } >
                         Download Transactions
                       </GenerateTransactions>
                     </DTButton>
                   </GTButtonParent>
                 </FrameParent>
               </ActivityStreamContentContaiInner>
+              <SearchBarContainer>
+                <FrameParent>
+                  <FrameChild
+                    color='primary'
+                    label='Search'
+                    size='small'
+                    fullWidth
+                    variant='standard'
+                    InputProps={ {
+                        endAdornment: (
+                          <InputAdornment position='end'>
+                            <SearchSharpIcon />
+                          </InputAdornment>
+                        ),
+                    } }
+                    onChange={ onHandleSearchText }
+                    sx={ { '& .MuiInputBase-root': { height: '36px' } } }
+                  />            
+                </FrameParent>
+              </SearchBarContainer>
               <ActivityStreamHeadingContai>
                 <ActivityStreamWrapper>
                   <ActivityStream1>Activity Stream</ActivityStream1>
                 </ActivityStreamWrapper>
               </ActivityStreamHeadingContai>
-              <ActivityStreamForm />
+             
+              <ActivityStreamForm data={ activeDataArray }/>
+
               <ModalButton>
                 <OpenInWindowWrapper onClick={ openModalPopup }>
                   <GenerateTransactions>Open In Window</GenerateTransactions>

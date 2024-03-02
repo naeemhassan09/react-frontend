@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-bind */
-import { FunctionComponent, useCallback, useState } from 'react';
+import { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { logout } from 'src/store/thunks';
@@ -94,8 +94,13 @@ const ActivityStreamContainerRoot = styled.div`
   }
 `;
 
-const ActivityStreamForm: FunctionComponent = () => {
+type ActiveStremFormType = {
+   data: any;
+  };
 
+const ActivityStreamForm: FunctionComponent<ActiveStremFormType> = ({ data }) => {
+
+  
   const dispatch=useDispatch();
 
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
@@ -108,15 +113,55 @@ const ActivityStreamForm: FunctionComponent = () => {
     setModalPopupOpen(false);
   }, []);
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages,setTotalPages]=useState<number>(0);
-  
-  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalPages, setTotalPages]=useState<number>(0);
+  const [selectedActiveArray, setSelectedActiveArray]=useState<any>([]);
+  const [itemsPerPage,setItemsPerPage]=useState(50);
+  const [completeActiveData,setCompleteActiveData]=useState(data);
 
   const handleLogout = () => {
     dispatch(logout({}));
   };
 
+  const renderActiveItem = () => (
+    <>
+      { selectedActiveArray && selectedActiveArray.map((item: any, index: number) => (
+        <ActivityStreamSheet key={ index } >
+          <Colum>
+            <FullNameContainer>
+              <FullName1>{ item.full_name }</FullName1>
+            </FullNameContainer>
+          </Colum>
+          <Colum>
+            <FullNameContainer>
+              <FullName1>{ item.role_name }</FullName1>
+            </FullNameContainer>
+          </Colum>
+          <Colum>
+            <FullNameContainer>
+              <FullName1>{ item.email }</FullName1>
+            </FullNameContainer>
+          </Colum>
+          <Colum>
+            <FullNameContainer>
+              <FullName1>{ item.action_performed }</FullName1>
+            </FullNameContainer>
+          </Colum>
+          <Colum>
+            <FullNameContainer>
+              <FullName1>{ item.ip_address }</FullName1>
+            </FullNameContainer>
+          </Colum>
+          <Colum>
+            <FullNameContainer>
+              <FullName1>{ item.action_time }</FullName1>
+            </FullNameContainer>
+          </Colum>
+        </ActivityStreamSheet>
+      )) }
+    </>
+  );
+  
   const handleNextPage = () => {
     if (currentPage < totalPages)
     setCurrentPage((prevPage) => prevPage + 1);
@@ -126,6 +171,48 @@ const ActivityStreamForm: FunctionComponent = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  const handlePerItem=((_value: any)=>{
+    const value=parseInt(_value);
+    if (value===0)
+    setItemsPerPage(10);
+    else
+    setItemsPerPage(_value);
+});
+
+
+  
+
+   useEffect(()=>{setCompleteActiveData(data)},[data]);
+
+   useEffect(()=>{
+    if (completeActiveData && completeActiveData.length>0)
+    {
+        const pages=Math.ceil(completeActiveData.length/itemsPerPage);
+        setTotalPages(pages);
+        setCurrentPage(1);
+    }
+
+    else {
+        setTotalPages(1);
+        setCurrentPage(1);
+    }
+
+   },[completeActiveData, itemsPerPage]);
+
+   useEffect(() => {
+    if (completeActiveData && completeActiveData !== null    && completeActiveData.length>itemsPerPage) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const nextItems = completeActiveData.slice(startIndex, endIndex);
+      setSelectedActiveArray(nextItems);
+    }
+
+    else  setSelectedActiveArray(completeActiveData);
+
+  }, [completeActiveData, currentPage, itemsPerPage]);
+
+
+ 
   return (
     <>
       <ActivityStreamContainerRoot>
@@ -133,195 +220,50 @@ const ActivityStreamForm: FunctionComponent = () => {
           <Colum>
             <FullNameWrapper>
               <FullName>Full Name</FullName>
-            </FullNameWrapper>
-            <FullNameContainer>
-              <FullName1>Full Name</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Full Name</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Full Name</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Full Name</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Full Name</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Full Name</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Full Name</FullName1>
-            </FullNameContainer>
+            </FullNameWrapper>        
           </Colum>
           <Colum>
             <FullNameWrapper>
               <FullName>Role Name</FullName>
             </FullNameWrapper>
-            <FullNameContainer>
-              <FullName1>Role Name</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Role Name</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Role Name</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Role Name</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Role Name</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Role Name</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Role Name</FullName1>
-            </FullNameContainer>
           </Colum>
           <Colum>
             <FullNameWrapper>
               <FullName>Email</FullName>
             </FullNameWrapper>
-            <FullNameContainer>
-              <FullName1>Email</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Email</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Email</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Email</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Email</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Email</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Email</FullName1>
-            </FullNameContainer>
           </Colum>
           <Colum>
             <FullNameWrapper>
               <FullName>Action Performed</FullName>
             </FullNameWrapper>
-            <FullNameContainer>
-              <FullName1>Action Performed</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Action Performed</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Action Performed</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Action Performed</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Action Performed</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>Action Performed</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>Action Performed</FullName1>
-            </FullNameContainer>
           </Colum>
           <Colum>
             <FullNameWrapper>
               <FullName>IP Address</FullName>
             </FullNameWrapper>
-            <FullNameContainer>
-              <FullName1>IP Address</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>IP Address</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>IP Address</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>IP Address</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>IP Address</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>IP Address</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>IP Address</FullName1>
-            </FullNameContainer>
           </Colum>
           <Colum>
             <FullNameWrapper>
               <FullName>DateTime</FullName>
-            </FullNameWrapper>
-            <FullNameContainer>
-              <FullName1>DateTime</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>DateTime</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>DateTime</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>DateTime</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>DateTime</FullName1>
-            </FullNameContainer>
-            <FullNameFrame>
-              <FullName1>DateTime</FullName1>
-            </FullNameFrame>
-            <FullNameContainer>
-              <FullName1>DateTime</FullName1>
-            </FullNameContainer>
+            </FullNameWrapper>  
           </Colum>
         </ActivityStreamSheet>
-        <FrameParent>
-          <FullNameWrapper1>
-            <FullName1>Full Name</FullName1>
-          </FullNameWrapper1>
-          <FullNameWrapper1>
-            <FullName1>Role Name</FullName1>
-          </FullNameWrapper1>
-          <FullNameWrapper1>
-            <FullName1>Email</FullName1>
-          </FullNameWrapper1>
-          <FullNameWrapper1>
-            <FullName1>Action Performed</FullName1>
-          </FullNameWrapper1>
-          <FullNameWrapper1>
-            <FullName1>IP Address</FullName1>
-          </FullNameWrapper1>
-          <FullNameWrapper1>
-            <FullName1>DateTime</FullName1>
-          </FullNameWrapper1>
-        </FrameParent>
+        { renderActiveItem() }
         <Pagination
-        imageAltText='/double-right@2x.png'
-        imageId='/icons8back50-1@2x.png'
-        imageCode='/icons8forward50-1@2x.png'
-        imageDimensions='/double-right1@2x.png'
-        itemsPerPageOptions={ [10, 20, 30] } // Example options for items per page
-        itemsPerPage={ itemsPerPage }
-        currentPage={ currentPage }
-        totalPages={ totalPages }
-        onItemsPerPageChange={ (_value) => {
-            // handle items per page change
+            imageAltText='/double-right@2x.png'
+            imageId='/icons8back50-1@2x.png'
+            imageCode='/icons8forward50-1@2x.png'
+            imageDimensions='/double-right1@2x.png'
+            itemsPerPageOptions={ [50, 100, 150] } 
+            itemsPerPage={ itemsPerPage }
+            currentPage={ currentPage }
+            totalPages={ totalPages }
+            onItemsPerPageChange={ (_value) => {
+            handlePerItem(_value);
         } }
-        onNextPage={ handleNextPage }
-        onPrevPage={ handlePrevPage }
-        />
+            onNextPage={ handleNextPage }
+            onPrevPage={ handlePrevPage }
+     />
       </ActivityStreamContainerRoot>
     </>
   );

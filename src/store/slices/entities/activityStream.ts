@@ -4,10 +4,12 @@ import { fetchActivityData } from 'src/store/thunks';
 
   interface IInitialState {
    data: []|null,
+   downloadData: []|null,
   }
   
   const INITIAL_STATE : IInitialState = {
    data:null,
+downloadData: null,
   };
 
 
@@ -21,12 +23,16 @@ import { fetchActivityData } from 'src/store/thunks';
       setActivityData: (state) => {
       state.data=null;
       },   
+
+      downloadActiveData: (state) => {
+        state.downloadData=null;
+        }, 
     },
 
      // A "builder callback" function used to add more reducers
   extraReducers: (builder) => {
     builder.addCase(fetchActivityData.fulfilled, (state, action) => {
-        console.log(action, state);
+        state.data=action.payload.user_activities;
    
   });
 },

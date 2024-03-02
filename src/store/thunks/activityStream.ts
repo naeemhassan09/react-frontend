@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ACTIVITY_FETCH } from 'src/store/action-types';
+import { ACTIVITY_BULK_DOWNLOAD, ACTIVITY_FETCH } from 'src/store/action-types';
 import { ActivityStreamsService } from 'src/services';
 import { getAuthToken } from 'src/store/selectors/features';
 import { getBaseUrl } from '../selectors/features/app';
@@ -19,6 +19,19 @@ export const fetchActivityData = createAsyncThunk<TObject, TObject, IActionOptio
     const baseUrl = getBaseUrl(thunkAPI.getState());
     const token=getAuthToken(thunkAPI.getState());
     const { data } = await ActivityServices.fetchAllActivities(baseUrl, _requestPayload, token);
+    return thunkAPI.fulfillWithValue(data);
+  }
+
+  
+);
+
+export const downloadActiveData = createAsyncThunk<TObject, TObject, IActionOptions>(
+    ACTIVITY_BULK_DOWNLOAD,
+  async ( _requestPayload: Record<string, string>,thunkAPI) => {
+    const baseUrl = getBaseUrl(thunkAPI.getState());
+    const token =getAuthToken(thunkAPI.getState());
+
+    const { data } = await ActivityServices.dowbloadData(baseUrl, token, _requestPayload);
     return thunkAPI.fulfillWithValue(data);
   }
 );

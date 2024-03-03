@@ -7,6 +7,7 @@ export const VENDOR_ORDER_DETAIL='vendors/orderDetails';
 export const VENDOR_ALLOCATE_INVENTORY='vendors/allocateInventory';
 export const VENDOR_IMPORT_PRODUCT='vendors/productImport';
 export const VENDOR_ALLOCATE_PRODUCT='vendors/allocateProduct';
+export const VENDOR_UPDATE_ALLOCATE_PRODUCT_ID='vendors/upadteAllocateProductID';
 
 
 

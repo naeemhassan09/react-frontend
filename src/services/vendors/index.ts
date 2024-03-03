@@ -141,6 +141,22 @@ export class VendorsService extends HttpService {
       throw prepareErrorResponse(error);
     }
   };
+
+  updateVendorAllocateProductIds = async (baseAuthUrl: string, token: string, payload: any): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.post(baseAuthUrl + '/api/v1/products/allocate_vendor?vendor_id='+payload.id, 
+      payload.idArray, {
+        headers: {
+          Authorization: token
+        }
+      });
+      
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
 }
 
 

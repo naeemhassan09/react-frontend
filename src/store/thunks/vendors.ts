@@ -8,6 +8,7 @@ import { VENDOR_ALLOCATE_INVENTORY,
     VENDOR_IMPORT_PRODUCT, 
     VENDOR_ORDER_DETAIL, 
     VENDOR_UPDATE, 
+    VENDOR_UPDATE_ALLOCATE_PRODUCT_ID, 
     VENDOR_UPDATE_PASSWORD, 
     VENDOR_UPDATE_STATUS } from '../action-types';
 
@@ -108,6 +109,16 @@ export const fetchVendorAllocateProduct = createAsyncThunk<TObject, TObject, IAc
     const baseUrl = getBaseUrl(thunkAPI.getState());
     const token=getAuthToken(thunkAPI.getState());
     const { data } = await vendorServices.getVendorAllocateProduct(baseUrl, token, _requestPayload);
+    return thunkAPI.fulfillWithValue(data);
+  }
+);
+
+export const updateVendorAllocateProductID = createAsyncThunk<TObject, TObject, IActionOptions>(
+    VENDOR_UPDATE_ALLOCATE_PRODUCT_ID,
+  async ( _requestPayload: Record<string, string>,thunkAPI) => {
+    const baseUrl = getBaseUrl(thunkAPI.getState());
+    const token=getAuthToken(thunkAPI.getState());
+    const { data } = await vendorServices.updateVendorAllocateProductIds(baseUrl, token, _requestPayload);
     return thunkAPI.fulfillWithValue(data);
   }
 );

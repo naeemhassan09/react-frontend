@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVendorAllocateInventory, fetchVendorAllocateProduct, 
     fetchVendorData, fetchVendorImportProduct, 
-    logout } from 'src/store/thunks';
+    logout, 
+    updateVendorAllocateProductID} from 'src/store/thunks';
 import {   getVendorsAllocateProductList, getVendorsData } from 'src/store/selectors/entities';
 import moment from 'moment';
 import Pagination from './pagination';
@@ -168,8 +169,11 @@ const VendorForm: FunctionComponent = () => {
   });
 
   // this function is tempory as ui ready need to finish it 
-  const handleAllocateProducts = (()=>{
+  const handleAllocateProducts = (()=>
+  {
     dispatch(fetchVendorAllocateProduct(selectedRow.id));
+    //this function use when link save in the ui
+    dispatch(updateVendorAllocateProductID({id: selectedRow.id, idArray: {product_list:[45,2]}}));
   });  
 
   const renderTable = () => (
@@ -299,7 +303,7 @@ const VendorForm: FunctionComponent = () => {
                   </div>
                   <div 
                   style={ { cursor: 'pointer', padding: '2px' } } 
-                  onClick={ ()=>setIsEditModelOpen(!isEditModelOpen) }>Edit</div>
+                  onClick={ ()=>setIsEditModelOpen( !isEditModelOpen ) }>Edit</div>
                   <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ handleAllocateProducts }>
                     Allocate Products</div>
                   <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ handleViewImprotProduct }>

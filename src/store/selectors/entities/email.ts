@@ -9,5 +9,5 @@ import { createSelector } from 'reselect';
 
 const emailTemplateSelector = (state: TReduxState) => state.entities.emailTemplate;
 
-export const getEmailTemplate = createSelector(emailTemplateSelector, (app) => get(app, 'data', null));
+export const getEmailTemplates = createSelector(emailTemplateSelector, (app) => get(app, 'data', null));
 

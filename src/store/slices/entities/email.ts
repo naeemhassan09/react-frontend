@@ -26,7 +26,7 @@ import { fetchEmailData } from 'src/store/thunks';
      // A "builder callback" function used to add more reducers
   extraReducers: (builder) => {
     builder.addCase(fetchEmailData.fulfilled, (state, action) => {
-        state.data=action.payload.user_activities;
+        state.data=action.payload.email_templates;
    
   });
 },

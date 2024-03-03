@@ -15,10 +15,12 @@ import PortalDrawer from 'src/components/portal-drawer';
 import SideMenuOfSubMenu from 'src/components/side-menu-of-sub-menu';
 import EmailTemplateModal from 'src/components/email-template-modal';
 import Pagination from 'src/components/pagination';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchEmailData, logout } from 'src/store/thunks';
 import { APP, DASHBORD_ROUTE, ORDERS_ROUTE, PRODUCTLIST_ROUTE, SETTINGS_ROUTE } from 'src/constants/navigation-routes';
 import ActivityStreamContainer1 from 'src/components/activity-stream-container1';
+import { getEmailTemplates } from 'src/store/selectors/entities';
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 
 const AlchemativeLogo1Icon = styled.img`
   width: 10.44rem;
@@ -749,10 +751,16 @@ const SettingsEmailTemplateRoot = styled.div`
 
 export const EmailTemplate: FunctionComponent = () => {
   const dispatch=useDispatch();
+  const emailTemplateData= useSelector(getEmailTemplates);
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
   const [isSideMenuOfSubMenuOpen, setSideMenuOfSubMenuOpen] = useState(false);
   const [isEmailTemplateModalOpen, setEmailTemplateModalOpen] = useState(false);
+  const [totalPages, setTotalPages]=useState<number>(0);
+  const [currentPage, setCurrentPage]=useState<number>(0);
+  const [selectedEmailTemplate, setSelectedEmailTemplate]=useState<any>([]);
+  const [itemsPerPage, setItemsPerPage]=useState(10);
+  const [completeEmailTemplate, setCompleteEmailTemplate]=useState(emailTemplateData);
 
   const openAfterLoginMenu = useCallback(() => {
     setAfterLoginMenuOpen(true);
@@ -787,16 +795,51 @@ export const EmailTemplate: FunctionComponent = () => {
   }, []);
 
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages,setTotalPages]=useState<number>(0);
-  
-  const itemsPerPage = 10;
-
   const handleLogout = () => {
     dispatch(logout({}));
   };
 
-  const handleNextPage = () => {
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const renderTable=(()=>(<>
+    {
+        completeEmailTemplate && completeEmailTemplate.length>0 && 
+        completeEmailTemplate.map((item: any, index: number)=>(
+          <>
+            <ActivityStreamSheet key={ index }>
+              <Colum>
+                <Colum3Inner>
+                  <TrueWrapper>
+                    <RolesPermission>{ item.title }</RolesPermission>
+                  </TrueWrapper>
+                </Colum3Inner>
+              </Colum>
+              <Colum>
+                <Colum3Inner>
+                  <TrueWrapper>
+                    <RolesPermission>{ item.trigger }</RolesPermission>
+                  </TrueWrapper>
+                </Colum3Inner>
+              </Colum>
+              <Colum>
+                <Colum3Inner>
+                  <TrueWrapper>
+                    <RolesPermission>{ item.is_active? 'True':'false' }</RolesPermission>
+                  </TrueWrapper>
+                </Colum3Inner>
+              </Colum>
+            </ActivityStreamSheet>
+          </>
+        
+        
+        ))
+    }
+  </>));
+
+ const handleNextPage = () => {
     if (currentPage < totalPages)
     setCurrentPage((prevPage) => prevPage + 1);
   };
@@ -805,14 +848,62 @@ export const EmailTemplate: FunctionComponent = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const onHandleSearchText=((event: any)=>{
+   const searchText= event.target.value.toLowerCase();
+    let filterObject: any= [];
+ 
+    if (completeEmailTemplate && searchText!=='')    
+    {
+        filterObject=emailTemplateData?.filter((item:any)=> item.title.trim().toLowerCase().includes(searchText));
+        console.log(filterObject);
+        setCompleteEmailTemplate(filterObject);
+    }  
+
+    else 
+    if (emailTemplateData)
+    setCompleteEmailTemplate(emailTemplateData);
+});
+
+const handlePerItem=((_value: any)=>{
+    const value=parseInt(_value);
+    if (value===0)
+    setItemsPerPage(10);
+    else
+    setItemsPerPage(_value);
+});
+
+
+useEffect(()=>{setCompleteEmailTemplate(emailTemplateData)},[emailTemplateData]);
+
+   useEffect(()=>{
+    if (completeEmailTemplate && completeEmailTemplate.length>0)
+    {
+        const pages=Math.ceil(completeEmailTemplate.length/itemsPerPage);
+        setTotalPages(pages);
+        setCurrentPage(1);
+    }
+
+    else {
+        setTotalPages(1);
+        setCurrentPage(1);
+    }
+
+   },[completeEmailTemplate, itemsPerPage]);
+
+   useEffect(() => {
+    if (completeEmailTemplate && completeEmailTemplate !== null    && completeEmailTemplate.length>itemsPerPage) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const nextItems = completeEmailTemplate.slice(startIndex, endIndex);
+      setSelectedEmailTemplate(nextItems);
+    }
+
+    else  setSelectedEmailTemplate(completeEmailTemplate);
+
+  }, [completeEmailTemplate, currentPage, itemsPerPage]);
 
   useEffect(()=>{
- 
     dispatch(fetchEmailData({}));
-
   },[]);
 
   return (
@@ -856,10 +947,11 @@ export const EmailTemplate: FunctionComponent = () => {
                   size='small'
                   fullWidth
                   variant='standard'
+                  onChange={ onHandleSearchText }
                   InputProps={ {
                     endAdornment: (
                       <InputAdornment position='end'>
-                        <Icon>search_sharp</Icon>
+                        <SearchSharpIcon />
                       </InputAdornment>
                     ),
                   } }
@@ -870,145 +962,37 @@ export const EmailTemplate: FunctionComponent = () => {
                 </NewButton>
               </FrameParent1>
             </ActivityStreamContentContaiInner>
-            <ActivityStreamHeadingContai>
-              <NavLinksParent>
-                <Vendor>Vendor</Vendor>
-              </NavLinksParent>
-            </ActivityStreamHeadingContai>
             <ActivityStreamContainer>
               <ActivityStreamSheet>
                 <Colum>
                   <TitleWrapper>
                     <Title>Title</Title>
                   </TitleWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
                 </Colum>
                 <Colum>
                   <TitleWrapper>
                     <Title>Status</Title>
                   </TitleWrapper>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
                 </Colum>
                 <Colum>
                   <TitleWrapper>
                     <Title>Actions</Title>
                   </TitleWrapper>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
                 </Colum>
               </ActivityStreamSheet>
+              { renderTable() }
               <Pagination
                 imageAltText='/double-right@2x.png'
                 imageId='/icons8back50-1@2x.png'
                 imageCode='/icons8forward50-1@2x.png'
                 imageDimensions='/double-right1@2x.png'
-                itemsPerPageOptions={ [10, 20, 30] } // Example options for items per page
+                itemsPerPageOptions={ [10, 15, 20] }
                 itemsPerPage={ itemsPerPage }
                 currentPage={ currentPage }
                 totalPages={ totalPages }
-                onItemsPerPageChange={ (_value) => {
-                    // handle items per page change
-                } }
+                onItemsPerPageChange={ (_value) => 
+                    handlePerItem(_value)
+                 }
                 onNextPage={ handleNextPage }
                 onPrevPage={ handlePrevPage }
               />

@@ -6,3 +6,4 @@ export { OrderService } from './orders';
 export { ActivityStreamsService } from './activityStream';
 export { UserManagementService } from './userManagement';
 export { VendorsService } from './vendors';
+export { EmailService } from './email'; 

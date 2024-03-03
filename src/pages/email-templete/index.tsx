@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useCallback } from 'react';
+import { FunctionComponent, useState, useCallback, useEffect } from 'react';
 import {
   TextField,
   InputAdornment,
@@ -16,7 +16,7 @@ import SideMenuOfSubMenu from 'src/components/side-menu-of-sub-menu';
 import EmailTemplateModal from 'src/components/email-template-modal';
 import Pagination from 'src/components/pagination';
 import { useDispatch } from 'react-redux';
-import { logout } from 'src/store/thunks';
+import { fetchEmailData, logout } from 'src/store/thunks';
 import { APP, DASHBORD_ROUTE, ORDERS_ROUTE, PRODUCTLIST_ROUTE, SETTINGS_ROUTE } from 'src/constants/navigation-routes';
 import ActivityStreamContainer1 from 'src/components/activity-stream-container1';
 
@@ -808,6 +808,12 @@ export const EmailTemplate: FunctionComponent = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+
+  useEffect(()=>{
+ 
+    dispatch(fetchEmailData({}));
+
+  },[]);
 
   return (
     <>

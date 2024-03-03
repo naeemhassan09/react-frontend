@@ -747,7 +747,17 @@ const SettingsEmailTemplateRoot = styled.div`
   font-size: var(--text-sm-leading-5-font-normal-size);
   color: var(--color-darkgray);
   font-family: var(--font-poppins);
+
+
 `;
+
+
+    import {  CKEditor   } from '@ckeditor/ckeditor5-react';
+    import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
+    import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
+    import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
+    import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
+    import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 
 export const EmailTemplate: FunctionComponent = () => {
   const dispatch=useDispatch();
@@ -906,141 +916,38 @@ useEffect(()=>{setCompleteEmailTemplate(emailTemplateData)},[emailTemplateData])
     dispatch(fetchEmailData({}));
   },[]);
 
-  return (
-    <>
-      <SettingsEmailTemplateRoot>
-        <ActivityStreamMainContainer>
-          <SideMenuBar>
-            <Logo>
-              <AlchemativeLogo1Icon alt='' src='/alchemativelogo-12@2x.png' />
-            </Logo>
-            <SideMenuBarInner>
-              <FrameParent>
-                <Frame to={ `${APP}${DASHBORD_ROUTE}` }>
-                  <DashboardSvgIcon alt='' src='/dashboardsvgicon-1.svg' />
-                  <DashboardWrapper>
-                    <Dashboard>Dashboard</Dashboard>
-                  </DashboardWrapper>
-                </Frame>
-                <Layer to={ `${APP}${ORDERS_ROUTE}` }>
-                  <OrderSvgIcon alt='' src='/ordersvgicon-1.svg' />
-                  <Orders>Orders</Orders>
-                </Layer>
-                <Frame to={ `${APP}${PRODUCTLIST_ROUTE}` }>
-                  <OrderSvgIcon alt='' src='/productlistsvgicon-1.svg' />
-                  <Orders>Product List</Orders>
-                </Frame>
-                <SettingsSvgIcon1Parent to={ `${APP}${SETTINGS_ROUTE}` }>
-                  <OrderSvgIcon alt='' src='/settingssvgicon-1.svg' />
-                  <Orders>Setiings</Orders>
-                </SettingsSvgIcon1Parent>
-              </FrameParent>
-            </SideMenuBarInner>
-          </SideMenuBar>
-          <ActivityStreamContentContai>
-            <ActivityStreamContainer1 />
-            <ActivityStreamContentContaiInner>
-              <FrameParent1>
-                <FrameItem
-                  color='primary'
-                  label='Search'
-                  size='small'
-                  fullWidth
-                  variant='standard'
-                  onChange={ onHandleSearchText }
-                  InputProps={ {
-                    endAdornment: (
-                      <InputAdornment position='end'>
-                        <SearchSharpIcon />
-                      </InputAdornment>
-                    ),
-                  } }
-                  sx={ { '& .MuiInputBase-root': { height: '36px' } } }
-                />
-                <NewButton onClick={ openEmailTemplateModal }>
-                  <RolesPermission>+ New</RolesPermission>
-                </NewButton>
-              </FrameParent1>
-            </ActivityStreamContentContaiInner>
-            <ActivityStreamContainer>
-              <ActivityStreamSheet>
-                <Colum>
-                  <TitleWrapper>
-                    <Title>Title</Title>
-                  </TitleWrapper>
-                </Colum>
-                <Colum>
-                  <TitleWrapper>
-                    <Title>Status</Title>
-                  </TitleWrapper>
-                </Colum>
-                <Colum>
-                  <TitleWrapper>
-                    <Title>Actions</Title>
-                  </TitleWrapper>
-                </Colum>
-              </ActivityStreamSheet>
-              { renderTable() }
-              <Pagination
-                imageAltText='/double-right@2x.png'
-                imageId='/icons8back50-1@2x.png'
-                imageCode='/icons8forward50-1@2x.png'
-                imageDimensions='/double-right1@2x.png'
-                itemsPerPageOptions={ [10, 15, 20] }
-                itemsPerPage={ itemsPerPage }
-                currentPage={ currentPage }
-                totalPages={ totalPages }
-                onItemsPerPageChange={ (_value) => 
-                    handlePerItem(_value)
-                 }
-                onNextPage={ handleNextPage }
-                onPrevPage={ handlePrevPage }
-              />
-            </ActivityStreamContainer>
-            <ModalButton>
-              <OpenInWindowWrapper onClick={ openModalPopup }>
-                <RolesPermission>Open In Window</RolesPermission>
-              </OpenInWindowWrapper>
-            </ModalButton>
-          </ActivityStreamContentContai>
-        </ActivityStreamMainContainer>
-      </SettingsEmailTemplateRoot>
-      { isAfterLoginMenuOpen && (
-        <PortalDrawer
-          overlayColor='rgba(113, 113, 113, 0.3)'
-          placement='Left'
-          onOutsideClick={ closeAfterLoginMenu }
-        >
-          <MiniSideBar onClose={ closeAfterLoginMenu } />
-        </PortalDrawer>
-      ) }
-      { isSideMenuOfSubMenuOpen && (
-        <PortalDrawer
-          overlayColor='rgba(113, 113, 113, 0.3)'
-          placement='Right'
-          onOutsideClick={ closeSideMenuOfSubMenu }
-        >
-          <SideMenuOfSubMenu onClose={ closeSideMenuOfSubMenu } />
-        </PortalDrawer>
-      ) }
-      { isEmailTemplateModalOpen && (
-        <PortalDrawer
-          overlayColor='rgba(113, 113, 113, 0.3)'
-          placement='Right'
-          onOutsideClick={ closeEmailTemplateModal }
-        >
-          <EmailTemplateModal onClose={ closeEmailTemplateModal } />
-        </PortalDrawer>
-      ) }
-      { isModalPopupOpen && (
-        <PortalPopup
-          overlayColor='rgba(113, 113, 113, 0.3)'
-          placement='Centered'
-          onOutsideClick={ closeModalPopup }
-        >
-          <Modal onClose={ closeModalPopup } />
-        </PortalPopup>
-      ) }
-    </>
+    
+    
+ 
+    
+      const editorConfiguration = { 
+        plugins: [Essentials, Bold, Italic, Paragraph],
+        toolbar: ['bold', 'italic'],
+        };
+    
+      return (
+        <div>
+          <h2>Using CKEditor 5 from source in React</h2>
+          <CKEditor
+            editor={ ClassicEditor  }
+            config={ editorConfiguration  }
+            data='<p>Hello from CKEditor 5!</p>'
+            onReady={ (editor) => { 
+              console.log('Editor is ready to use!', editor);
+              }  }
+            onChange={ (event, editor) => { 
+              const data = editor.getData();
+              console.log({  event, editor, data   });
+              }  }
+            onBlur={ (event, editor) => { 
+              console.log('Blur.', editor, event);
+              }  }
+            onFocus={ (event, editor) => { 
+              console.log('Focus.', editor, event);
+              }  }
+          />
+        </div>
+    
+    
   );
 };

@@ -9,3 +9,4 @@ export * from './orders';
 export * from './activityStream';
 export * from './userManagement';
 export * from './vendors';
+export * from './email';

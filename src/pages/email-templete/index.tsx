@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useCallback } from 'react';
+import { FunctionComponent, useState, useCallback, useEffect } from 'react';
 import {
   TextField,
   InputAdornment,
@@ -15,10 +15,12 @@ import PortalDrawer from 'src/components/portal-drawer';
 import SideMenuOfSubMenu from 'src/components/side-menu-of-sub-menu';
 import EmailTemplateModal from 'src/components/email-template-modal';
 import Pagination from 'src/components/pagination';
-import { useDispatch } from 'react-redux';
-import { logout } from 'src/store/thunks';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchEmailData, logout } from 'src/store/thunks';
 import { APP, DASHBORD_ROUTE, ORDERS_ROUTE, PRODUCTLIST_ROUTE, SETTINGS_ROUTE } from 'src/constants/navigation-routes';
 import ActivityStreamContainer1 from 'src/components/activity-stream-container1';
+import { getEmailTemplates } from 'src/store/selectors/entities';
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 
 const AlchemativeLogo1Icon = styled.img`
   width: 10.44rem;
@@ -745,14 +747,30 @@ const SettingsEmailTemplateRoot = styled.div`
   font-size: var(--text-sm-leading-5-font-normal-size);
   color: var(--color-darkgray);
   font-family: var(--font-poppins);
+
+
 `;
+
+
+    import {  CKEditor   } from '@ckeditor/ckeditor5-react';
+    import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
+    import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
+    import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
+    import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
+    import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 
 export const EmailTemplate: FunctionComponent = () => {
   const dispatch=useDispatch();
+  const emailTemplateData= useSelector(getEmailTemplates);
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
   const [isSideMenuOfSubMenuOpen, setSideMenuOfSubMenuOpen] = useState(false);
   const [isEmailTemplateModalOpen, setEmailTemplateModalOpen] = useState(false);
+  const [totalPages, setTotalPages]=useState<number>(0);
+  const [currentPage, setCurrentPage]=useState<number>(0);
+  const [selectedEmailTemplate, setSelectedEmailTemplate]=useState<any>([]);
+  const [itemsPerPage, setItemsPerPage]=useState(10);
+  const [completeEmailTemplate, setCompleteEmailTemplate]=useState(emailTemplateData);
 
   const openAfterLoginMenu = useCallback(() => {
     setAfterLoginMenuOpen(true);
@@ -787,16 +805,51 @@ export const EmailTemplate: FunctionComponent = () => {
   }, []);
 
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages,setTotalPages]=useState<number>(0);
-  
-  const itemsPerPage = 10;
-
   const handleLogout = () => {
     dispatch(logout({}));
   };
 
-  const handleNextPage = () => {
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const renderTable=(()=>(<>
+    {
+        completeEmailTemplate && completeEmailTemplate.length>0 && 
+        completeEmailTemplate.map((item: any, index: number)=>(
+          <>
+            <ActivityStreamSheet key={ index }>
+              <Colum>
+                <Colum3Inner>
+                  <TrueWrapper>
+                    <RolesPermission>{ item.title }</RolesPermission>
+                  </TrueWrapper>
+                </Colum3Inner>
+              </Colum>
+              <Colum>
+                <Colum3Inner>
+                  <TrueWrapper>
+                    <RolesPermission>{ item.trigger }</RolesPermission>
+                  </TrueWrapper>
+                </Colum3Inner>
+              </Colum>
+              <Colum>
+                <Colum3Inner>
+                  <TrueWrapper>
+                    <RolesPermission>{ item.is_active? 'True':'false' }</RolesPermission>
+                  </TrueWrapper>
+                </Colum3Inner>
+              </Colum>
+            </ActivityStreamSheet>
+          </>
+        
+        
+        ))
+    }
+  </>));
+
+ const handleNextPage = () => {
     if (currentPage < totalPages)
     setCurrentPage((prevPage) => prevPage + 1);
   };
@@ -805,252 +858,96 @@ export const EmailTemplate: FunctionComponent = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const onHandleSearchText=((event: any)=>{
+   const searchText= event.target.value.toLowerCase();
+    let filterObject: any= [];
+ 
+    if (completeEmailTemplate && searchText!=='')    
+    {
+        filterObject=emailTemplateData?.filter((item:any)=> item.title.trim().toLowerCase().includes(searchText));
+        console.log(filterObject);
+        setCompleteEmailTemplate(filterObject);
+    }  
 
-  return (
-    <>
-      <SettingsEmailTemplateRoot>
-        <ActivityStreamMainContainer>
-          <SideMenuBar>
-            <Logo>
-              <AlchemativeLogo1Icon alt='' src='/alchemativelogo-12@2x.png' />
-            </Logo>
-            <SideMenuBarInner>
-              <FrameParent>
-                <Frame to={ `${APP}${DASHBORD_ROUTE}` }>
-                  <DashboardSvgIcon alt='' src='/dashboardsvgicon-1.svg' />
-                  <DashboardWrapper>
-                    <Dashboard>Dashboard</Dashboard>
-                  </DashboardWrapper>
-                </Frame>
-                <Layer to={ `${APP}${ORDERS_ROUTE}` }>
-                  <OrderSvgIcon alt='' src='/ordersvgicon-1.svg' />
-                  <Orders>Orders</Orders>
-                </Layer>
-                <Frame to={ `${APP}${PRODUCTLIST_ROUTE}` }>
-                  <OrderSvgIcon alt='' src='/productlistsvgicon-1.svg' />
-                  <Orders>Product List</Orders>
-                </Frame>
-                <SettingsSvgIcon1Parent to={ `${APP}${SETTINGS_ROUTE}` }>
-                  <OrderSvgIcon alt='' src='/settingssvgicon-1.svg' />
-                  <Orders>Setiings</Orders>
-                </SettingsSvgIcon1Parent>
-              </FrameParent>
-            </SideMenuBarInner>
-          </SideMenuBar>
-          <ActivityStreamContentContai>
-            <ActivityStreamContainer1 />
-            <ActivityStreamContentContaiInner>
-              <FrameParent1>
-                <FrameItem
-                  color='primary'
-                  label='Search'
-                  size='small'
-                  fullWidth
-                  variant='standard'
-                  InputProps={ {
-                    endAdornment: (
-                      <InputAdornment position='end'>
-                        <Icon>search_sharp</Icon>
-                      </InputAdornment>
-                    ),
-                  } }
-                  sx={ { '& .MuiInputBase-root': { height: '36px' } } }
-                />
-                <NewButton onClick={ openEmailTemplateModal }>
-                  <RolesPermission>+ New</RolesPermission>
-                </NewButton>
-              </FrameParent1>
-            </ActivityStreamContentContaiInner>
-            <ActivityStreamHeadingContai>
-              <NavLinksParent>
-                <Vendor>Vendor</Vendor>
-              </NavLinksParent>
-            </ActivityStreamHeadingContai>
-            <ActivityStreamContainer>
-              <ActivityStreamSheet>
-                <Colum>
-                  <TitleWrapper>
-                    <Title>Title</Title>
-                  </TitleWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                  <WelcomeAbroadWrapper>
-                    <WelcomeAbroad>Welcome Abroad !</WelcomeAbroad>
-                  </WelcomeAbroadWrapper>
-                </Colum>
-                <Colum>
-                  <TitleWrapper>
-                    <Title>Status</Title>
-                  </TitleWrapper>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                  <Colum3Inner>
-                    <TrueWrapper>
-                      <RolesPermission>True</RolesPermission>
-                    </TrueWrapper>
-                  </Colum3Inner>
-                </Colum>
-                <Colum>
-                  <TitleWrapper>
-                    <Title>Actions</Title>
-                  </TitleWrapper>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                  <Colum5Inner>
-                    <MenuVerticalWrapper>
-                      <MenuVerticalIcon alt='' src='/menu-vertical2@2x.png' />
-                    </MenuVerticalWrapper>
-                  </Colum5Inner>
-                </Colum>
-              </ActivityStreamSheet>
-              <Pagination
-                imageAltText='/double-right@2x.png'
-                imageId='/icons8back50-1@2x.png'
-                imageCode='/icons8forward50-1@2x.png'
-                imageDimensions='/double-right1@2x.png'
-                itemsPerPageOptions={ [10, 20, 30] } // Example options for items per page
-                itemsPerPage={ itemsPerPage }
-                currentPage={ currentPage }
-                totalPages={ totalPages }
-                onItemsPerPageChange={ (_value) => {
-                    // handle items per page change
-                } }
-                onNextPage={ handleNextPage }
-                onPrevPage={ handlePrevPage }
-              />
-            </ActivityStreamContainer>
-            <ModalButton>
-              <OpenInWindowWrapper onClick={ openModalPopup }>
-                <RolesPermission>Open In Window</RolesPermission>
-              </OpenInWindowWrapper>
-            </ModalButton>
-          </ActivityStreamContentContai>
-        </ActivityStreamMainContainer>
-      </SettingsEmailTemplateRoot>
-      { isAfterLoginMenuOpen && (
-        <PortalDrawer
-          overlayColor='rgba(113, 113, 113, 0.3)'
-          placement='Left'
-          onOutsideClick={ closeAfterLoginMenu }
-        >
-          <MiniSideBar onClose={ closeAfterLoginMenu } />
-        </PortalDrawer>
-      ) }
-      { isSideMenuOfSubMenuOpen && (
-        <PortalDrawer
-          overlayColor='rgba(113, 113, 113, 0.3)'
-          placement='Right'
-          onOutsideClick={ closeSideMenuOfSubMenu }
-        >
-          <SideMenuOfSubMenu onClose={ closeSideMenuOfSubMenu } />
-        </PortalDrawer>
-      ) }
-      { isEmailTemplateModalOpen && (
-        <PortalDrawer
-          overlayColor='rgba(113, 113, 113, 0.3)'
-          placement='Right'
-          onOutsideClick={ closeEmailTemplateModal }
-        >
-          <EmailTemplateModal onClose={ closeEmailTemplateModal } />
-        </PortalDrawer>
-      ) }
-      { isModalPopupOpen && (
-        <PortalPopup
-          overlayColor='rgba(113, 113, 113, 0.3)'
-          placement='Centered'
-          onOutsideClick={ closeModalPopup }
-        >
-          <Modal onClose={ closeModalPopup } />
-        </PortalPopup>
-      ) }
-    </>
+    else 
+    if (emailTemplateData)
+    setCompleteEmailTemplate(emailTemplateData);
+});
+
+const handlePerItem=((_value: any)=>{
+    const value=parseInt(_value);
+    if (value===0)
+    setItemsPerPage(10);
+    else
+    setItemsPerPage(_value);
+});
+
+
+useEffect(()=>{setCompleteEmailTemplate(emailTemplateData)},[emailTemplateData]);
+
+   useEffect(()=>{
+    if (completeEmailTemplate && completeEmailTemplate.length>0)
+    {
+        const pages=Math.ceil(completeEmailTemplate.length/itemsPerPage);
+        setTotalPages(pages);
+        setCurrentPage(1);
+    }
+
+    else {
+        setTotalPages(1);
+        setCurrentPage(1);
+    }
+
+   },[completeEmailTemplate, itemsPerPage]);
+
+   useEffect(() => {
+    if (completeEmailTemplate && completeEmailTemplate !== null    && completeEmailTemplate.length>itemsPerPage) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const nextItems = completeEmailTemplate.slice(startIndex, endIndex);
+      setSelectedEmailTemplate(nextItems);
+    }
+
+    else  setSelectedEmailTemplate(completeEmailTemplate);
+
+  }, [completeEmailTemplate, currentPage, itemsPerPage]);
+
+  useEffect(()=>{
+    dispatch(fetchEmailData({}));
+  },[]);
+
+    
+    
+ 
+    
+      const editorConfiguration = { 
+        plugins: [Essentials, Bold, Italic, Paragraph],
+        toolbar: ['bold', 'italic'],
+        };
+    
+      return (
+        <div>
+          <h2>Using CKEditor 5 from source in React</h2>
+          <CKEditor
+            editor={ ClassicEditor  }
+            config={ editorConfiguration  }
+            data='<p>Hello from CKEditor 5!</p>'
+            onReady={ (editor) => { 
+              console.log('Editor is ready to use!', editor);
+              }  }
+            onChange={ (event, editor) => { 
+              const data = editor.getData();
+              console.log({  event, editor, data   });
+              }  }
+            onBlur={ (event, editor) => { 
+              console.log('Blur.', editor, event);
+              }  }
+            onFocus={ (event, editor) => { 
+              console.log('Focus.', editor, event);
+              }  }
+          />
+        </div>
+    
+    
   );
 };

@@ -13,4 +13,12 @@ export const getVendorsData = createSelector(vendorSelector, (app) => get(app, '
 
 export const getVendorsOrderDetails = createSelector(vendorSelector, (app) => get(app, 'orderDetails', null));
 
+export const getVendorsAllocateInventory = createSelector(vendorSelector, (app) => get(app, 'allocateInventory', null));
 
+export const getVendorsImportProduct = createSelector(vendorSelector, (app) => get(app, 'importViewProducts', null));
+
+export const getVendorsAllocateProductList = createSelector(vendorSelector, (app) => 
+get(app, 'allocateProductsList', null));
+
+export const getVendorsAllocateProductIds = createSelector(vendorSelector, (app) => 
+get(app, 'allocatedProductsListIds', null));

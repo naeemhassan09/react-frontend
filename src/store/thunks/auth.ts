@@ -18,7 +18,6 @@ export const login = createAsyncThunk<TObject, TObject, IActionOptions>(
   AUTH_LOGIN,
   async (_requestPayload: Record<string, string>, thunkAPI) => {
     const baseUrl = getBaseUrl(thunkAPI.getState());
-    console.log('baseUrl: ', baseUrl);
     const { data, error } = await authService.signIn(baseUrl, _requestPayload);
 
     if (error) {

@@ -82,7 +82,6 @@ const CSVModal: FunctionComponent<CSVModalType> = ({ onClose }) => {
       reader.onload = (eventD) => {
         if (eventD.target) {
           const result = eventD.target.result as string;
-          console.log(result);
 
          // const data = result.split('\n').map(row => row.split(','));
         //   setCsvData(result);
@@ -91,8 +90,6 @@ const CSVModal: FunctionComponent<CSVModalType> = ({ onClose }) => {
 
       if (onClose) onClose();
       reader.readAsText(selectedFile);
-
-      
     }
   };
   

@@ -265,8 +265,10 @@ export const VendorOrderDetail: FunctionComponent<UpdateOrderModalType> = ({id})
      let filterObject: any= []; 
      if (completeOrderData && searchText!=='')    
      {
-         filterObject=orderData?.filter((item:any)=> item.order_number.trim().toLowerCase().includes(searchText)||
-         item.email.trim().toLowerCase().includes(searchText));
+         filterObject=orderData?.filter((item:any)=> 
+         item.vendor_commission_type.trim().toLowerCase().includes(searchText)
+         ||
+         item.order_number.trim().toLowerCase().includes(searchText));
          setCompleteOrderData(filterObject);
      }  
  
@@ -284,17 +286,6 @@ export const VendorOrderDetail: FunctionComponent<UpdateOrderModalType> = ({id})
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  const handleOrderNumberArray=((orders:any)=>{
- 
-    if (orders && orders.length>0)
-    {
-        const orderNumberArray = orders.map((order_item: any) => ({
-            label: order_item.order_number,
-            value: order_item.order_number,
-          }));
-
-    }
-  });
 
   const handlePerItem=((_value: any)=>{
     const value=parseInt(_value);
@@ -330,7 +321,6 @@ export const VendorOrderDetail: FunctionComponent<UpdateOrderModalType> = ({id})
 
   useEffect(()=>{  
     setCompleteOrderData(orderData);
-    handleOrderNumberArray(orderData);
 },[orderData]);
 
   useEffect(()=>{
@@ -349,27 +339,27 @@ export const VendorOrderDetail: FunctionComponent<UpdateOrderModalType> = ({id})
             </Colum1>
             <Colum1>
               <OrderNumberWrapper>
-                <Div>{ item.email }</Div>
+                <Div>{ item.total_amount }</Div>
               </OrderNumberWrapper>
             </Colum1>
             <Colum1>
               <OrderNumberWrapper>
-                <Div>{ item.financial_status }</Div>
+                <Div>{ item.vendor_commission_type }</Div>
               </OrderNumberWrapper>
             </Colum1>
             <Colum1>
               <OrderNumberWrapper>
-                <Div>{ item.order_number }</Div>
+                <Div>{ item.vendor_commission_value }</Div>
               </OrderNumberWrapper>
             </Colum1>
             <Colum1>
               <OrderNumberWrapper>
-                <Div>{ item.fulfillment_status }</Div>
+                <Div>{ item.vendor_payment_status }</Div>
               </OrderNumberWrapper>
             </Colum1>
             <Colum1>
               <OrderNumberWrapper>
-                <Div>{ item.total_price }</Div>
+                <Div>{ item.total_commission }</Div>
               </OrderNumberWrapper>
             </Colum1>
           </OrderSheetContainer>
@@ -425,31 +415,31 @@ export const VendorOrderDetail: FunctionComponent<UpdateOrderModalType> = ({id})
                   </Colum>
                   <Colum>
                     <OrderNumberWrapper>
-                      <OrderNumber>Email</OrderNumber>
+                      <OrderNumber>Total Amount</OrderNumber>
                     </OrderNumberWrapper>
                    
                   </Colum>
                   <Colum1>
                     <OrderStatusWrapper>
-                      <OrderNumber>Order Status</OrderNumber>
+                      <OrderNumber>Commission Type</OrderNumber>
                     </OrderStatusWrapper>
                    
                   </Colum1>
                   <Colum>
                     <OrderNumberWrapper>
-                      <OrderNumber>Finalical</OrderNumber>
+                      <OrderNumber>	Comission Value</OrderNumber>
                     </OrderNumberWrapper>
                    
                   </Colum>
                   <Colum>
                     <OrderNumberWrapper>
-                      <OrderNumber>Fulfilment</OrderNumber>
+                      <OrderNumber>	Payment Status </OrderNumber>
                     </OrderNumberWrapper>
                    
                   </Colum>
                   <Colum>
                     <OrderNumberWrapper>
-                      <OrderNumber>Amount</OrderNumber>
+                      <OrderNumber>	Total Payabale Amount </OrderNumber>
                     </OrderNumberWrapper>
                    
                   </Colum>

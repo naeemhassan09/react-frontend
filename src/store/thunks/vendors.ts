@@ -2,7 +2,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {  VendorsService } from 'src/services';
 import { getAuthToken } from 'src/store/selectors/features';
 import { getBaseUrl } from '../selectors/features/app';
-import { VENDOR_CREATE, VENDOR_FETCH, VENDOR_ORDER_DETAIL, VENDOR_UPDATE, VENDOR_UPDATE_PASSWORD, 
+import { VENDOR_ALLOCATE_INVENTORY, 
+    VENDOR_ALLOCATE_PRODUCT, 
+    VENDOR_CREATE, VENDOR_FETCH, 
+    VENDOR_IMPORT_PRODUCT, 
+    VENDOR_ORDER_DETAIL, 
+    VENDOR_UPDATE, 
+    VENDOR_UPDATE_ALLOCATE_PRODUCT_ID, 
+    VENDOR_UPDATE_PASSWORD, 
     VENDOR_UPDATE_STATUS } from '../action-types';
 
 // import { showAlert } from '../slices/features/alert';
@@ -76,22 +83,44 @@ export const fetchVendorOrderDetails = createAsyncThunk<TObject, TObject, IActio
   }
 );
 
+export const fetchVendorAllocateInventory = createAsyncThunk<TObject, TObject, IActionOptions>(
+    VENDOR_ALLOCATE_INVENTORY,
+  async ( _requestPayload: Record<string, string>,thunkAPI) => {
+    const baseUrl = getBaseUrl(thunkAPI.getState());
+    const token=getAuthToken(thunkAPI.getState());
+    const { data } = await vendorServices.getVendorAllocateInventory(baseUrl, token, _requestPayload);
+    return thunkAPI.fulfillWithValue(data);
+  }
+);
 
-//     USER_DELETE,
-//   async ( _requestPayload: Record<string, string>,thunkAPI) => {
-//     const baseUrl = getBaseUrl(thunkAPI.getState());
-//     const token=getAuthToken(thunkAPI.getState());
-//     const { data } = await userService.deleteUser(baseUrl, token, _requestPayload);
-//     return thunkAPI.fulfillWithValue(data);
-//   }
-// );
+export const fetchVendorImportProduct = createAsyncThunk<TObject, TObject, IActionOptions>(
+    VENDOR_IMPORT_PRODUCT,
+  async ( _requestPayload: Record<string, string>,thunkAPI) => {
+    const baseUrl = getBaseUrl(thunkAPI.getState());
+    const token=getAuthToken(thunkAPI.getState());
+    const { data } = await vendorServices.getVendorImportProduct(baseUrl, token, _requestPayload);
+    return thunkAPI.fulfillWithValue(data);
+  }
+);
 
-// export const updatePasswordUser = createAsyncThunk<TObject, TObject, IActionOptions>(
-//     USER_UPDATE_PASSWORD,
-//   async ( _requestPayload: Record<string, string>,thunkAPI) => {
-//     const baseUrl = getBaseUrl(thunkAPI.getState());
-//     const token=getAuthToken(thunkAPI.getState());
-//     const { data } = await userService.updatePaswordUser(baseUrl, token, _requestPayload);
-//     return thunkAPI.fulfillWithValue(data);
-//   }
-// );
+export const fetchVendorAllocateProduct = createAsyncThunk<TObject, TObject, IActionOptions>(
+    VENDOR_ALLOCATE_PRODUCT,
+  async ( _requestPayload: Record<string, string>,thunkAPI) => {
+    const baseUrl = getBaseUrl(thunkAPI.getState());
+    const token=getAuthToken(thunkAPI.getState());
+    const { data } = await vendorServices.getVendorAllocateProduct(baseUrl, token, _requestPayload);
+    return thunkAPI.fulfillWithValue(data);
+  }
+);
+
+export const updateVendorAllocateProductID = createAsyncThunk<TObject, TObject, IActionOptions>(
+    VENDOR_UPDATE_ALLOCATE_PRODUCT_ID,
+  async ( _requestPayload: Record<string, string>,thunkAPI) => {
+    const baseUrl = getBaseUrl(thunkAPI.getState());
+    const token=getAuthToken(thunkAPI.getState());
+    const { data } = await vendorServices.updateVendorAllocateProductIds(baseUrl, token, _requestPayload);
+    return thunkAPI.fulfillWithValue(data);
+  }
+);
+
+

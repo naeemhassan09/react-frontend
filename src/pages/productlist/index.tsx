@@ -2,8 +2,6 @@ import { FunctionComponent, useState, useCallback, useEffect } from 'react';
 import {
   TextField,
   InputAdornment,
-  Icon,
-  IconButton,
   Autocomplete,
 } from '@mui/material';
 import styled from 'styled-components';
@@ -561,7 +559,7 @@ const handlePerItem=((_value: any)=>{
     dispatch(fetchProductData({}));
    }, []);
 
-   useEffect(()=>{setCompleteProductList(productList)},[productList]);
+useEffect(()=>{setCompleteProductList(productList)},[productList]);
 
    useEffect(()=>{
     if (completeProductList && completeProductList.length>0)

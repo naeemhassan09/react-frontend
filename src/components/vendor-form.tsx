@@ -2,8 +2,11 @@
 import { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVendorData, logout } from 'src/store/thunks';
-import { getVendorsData } from 'src/store/selectors/entities';
+import { fetchVendorAllocateInventory, fetchVendorAllocateProduct, 
+    fetchVendorData, fetchVendorImportProduct, 
+    logout, 
+    updateVendorAllocateProductID} from 'src/store/thunks';
+import {   getVendorsAllocateProductList, getVendorsData } from 'src/store/selectors/entities';
 import moment from 'moment';
 import Pagination from './pagination';
 import NewCardForm from './new-card-form';
@@ -154,7 +157,24 @@ const VendorForm: FunctionComponent = () => {
     setIsOrderDetailModelOpen(false);
   }, []);
 
-  
+
+// this function is tempory as ui ready need to finish it 
+  const handleAllocateInventory = (()=>{
+    dispatch(fetchVendorAllocateInventory(selectedRow.id));
+  });
+
+  // this function is tempory as ui ready need to finish it 
+  const handleViewImprotProduct = (()=>{
+    dispatch(fetchVendorImportProduct(selectedRow.id));
+  });
+
+  // this function is tempory as ui ready need to finish it 
+  const handleAllocateProducts = (()=>
+  {
+    dispatch(fetchVendorAllocateProduct(selectedRow.id));
+    //this function use when link save in the ui
+    dispatch(updateVendorAllocateProductID({id: selectedRow.id, idArray: {product_list:[45,2]}}));
+  });  
 
   const renderTable = () => (
     selectedVendorArray?.length > 0 ? (
@@ -213,12 +233,13 @@ const VendorForm: FunctionComponent = () => {
                   </div>
                   <div 
                   style={ { cursor: 'pointer', padding: '2px' } } 
-                  onClick={ ()=>setIsEditModelOpen(!isEditModelOpen) }
-                  >Edit</div>
-                
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Products</div>
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>View Import Products</div>
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Inventory</div>
+                  onClick={ ()=>setIsEditModelOpen(!isEditModelOpen) }>Edit</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ handleAllocateProducts }>
+                    Allocate Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ handleViewImprotProduct }>
+                    View Import Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ handleAllocateInventory }>
+                    Allocate Inventory</div>
                   <div 
                   style={ { cursor: 'pointer', padding: '2px' } } 
                   onClick={ ()=>setIsOrderDetailModelOpen(!isOrderDetailModelOpen) }
@@ -282,11 +303,13 @@ const VendorForm: FunctionComponent = () => {
                   </div>
                   <div 
                   style={ { cursor: 'pointer', padding: '2px' } } 
-                  onClick={ ()=>setIsEditModelOpen(!isEditModelOpen) }
-                  >Edit</div>
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Products</div>
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>View Import Products</div>
-                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ ()=>({}) }>Allocate Inventory</div>
+                  onClick={ ()=>setIsEditModelOpen( !isEditModelOpen ) }>Edit</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ handleAllocateProducts }>
+                    Allocate Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ handleViewImprotProduct }>
+                    View Import Products</div>
+                  <div style={ { cursor: 'pointer', padding: '2px' } } onClick={ handleAllocateInventory }>
+                    Allocate Inventory</div>
                   <div 
                   style={ { cursor: 'pointer', padding: '2px' } } 
                   onClick={ ()=>setIsOrderDetailModelOpen(!isOrderDetailModelOpen) }

@@ -22,6 +22,9 @@ import ActivityStreamContainer1 from 'src/components/activity-stream-container1'
 import { getEmailTemplates } from 'src/store/selectors/entities';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 const AlchemativeLogo1Icon = styled.img`
   width: 10.44rem;
   position: relative;
@@ -752,12 +755,7 @@ const SettingsEmailTemplateRoot = styled.div`
 `;
 
 
-    import {  CKEditor   } from '@ckeditor/ckeditor5-react';
-    import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-    import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-    import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-    import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
-    import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
+
 
 export const EmailTemplate: FunctionComponent = () => {
   const dispatch=useDispatch();
@@ -920,17 +918,13 @@ useEffect(()=>{setCompleteEmailTemplate(emailTemplateData)},[emailTemplateData])
     
  
     
-      const editorConfiguration = { 
-        plugins: [Essentials, Bold, Italic, Paragraph],
-        toolbar: ['bold', 'italic'],
-        };
+     
     
       return (
         <div>
-          <h2>Using CKEditor 5 from source in React</h2>
+          <h1>I am here</h1>
           <CKEditor
             editor={ ClassicEditor  }
-            config={ editorConfiguration  }
             data='<p>Hello from CKEditor 5!</p>'
             onReady={ (editor) => { 
               console.log('Editor is ready to use!', editor);

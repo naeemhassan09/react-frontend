@@ -157,9 +157,9 @@ const ActivityStreamContainer: FunctionComponent<
 ActivityStreamContainerType
 > = ({
   showSubHeader,
-  propBorderRadius,
-  propBorderRadius1,
-  propBorderRadius2,
+//   propBorderRadius,
+//   propBorderRadius1,
+//   propBorderRadius2,
 }) => {
   const [isSideMenuOfSubMenuOpen, setSideMenuOfSubMenuOpen] = useState(false);
 
@@ -175,7 +175,7 @@ ActivityStreamContainerType
     <>
       { showSubHeader && (
         <SubHeaderRoot>
-          <FrameParent>
+          { /* <FrameParent>
             <ProductListWrapper
               to={ `${APP}${ROLESPERMISSION_ROUTE}` } 
               propBorderRadius={ propBorderRadius }
@@ -206,7 +206,7 @@ ActivityStreamContainerType
             >
               <ProductList2>Email Template</ProductList2>
             </ProductListWrapper2>
-          </FrameParent>
+          </FrameParent> */ }
           <Layer3Icon
             alt=''
             src='/layer-3@2x.png'

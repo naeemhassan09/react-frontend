@@ -6,10 +6,12 @@ interface ITokenData {
 }
 interface IInitialState {
   data: ITokenData | null;
+  userData: any;
 }
 
 const INITIAL_STATE: IInitialState = {
   data: null,
+  userData: null,
 };
 
 export const authFeatureSlice = createSlice({
@@ -19,7 +21,7 @@ export const authFeatureSlice = createSlice({
     resetAppData: (state) => {
       state.data = null;
     },
-    setAuthToken: (state, action) => {
+    setAuthToken: (state, action) => {       
       if (!state.data) {
         state.data = {
           token: '',
@@ -29,7 +31,7 @@ export const authFeatureSlice = createSlice({
       state.data.token = action.payload;
     },
     setAuthData: (state, action) => {
-      state.data = action.payload;
+      state.userData = action.payload.data;
     },
   },
   extraReducers: (builder) => {

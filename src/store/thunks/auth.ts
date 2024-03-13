@@ -4,6 +4,7 @@ import { AUTH_LOGIN, AUTH_LOGOUT } from 'src/store/action-types';
 import { AuthService } from '../../services/auth';
 import { getBaseUrl } from '../selectors/features/app';
 import { showAlert } from '../slices/features/alert';
+import { setAuthData } from '../slices/features/auth';
 
 /**
  * Just an example below that how we will create asynchronous actions
@@ -18,7 +19,7 @@ export const login = createAsyncThunk<TObject, TObject, IActionOptions>(
   AUTH_LOGIN,
   async (_requestPayload: Record<string, string>, thunkAPI) => {
     const baseUrl = getBaseUrl(thunkAPI.getState());
-    const { data, error } = await authService.signIn(baseUrl, _requestPayload);
+    const { data, error } = await authService.signIn(baseUrl, _requestPayload);    
 
     if (error) {
       thunkAPI.dispatch(showAlert({
@@ -34,6 +35,7 @@ export const login = createAsyncThunk<TObject, TObject, IActionOptions>(
     }));
 
     localStorageService.persist('authToken', data?.token);
+    thunkAPI.dispatch(setAuthData({data}));
     return thunkAPI.fulfillWithValue(data);
   }
 );

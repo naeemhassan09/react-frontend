@@ -19,7 +19,6 @@ export const Router: React.FC = () =>{
     if (authToken) {
       localStorageService.persist('authToken', authToken);
       const userData = jwtDecode(authToken);
-      dispatch(setAuthData( { user: userData, token: authToken} ));
       dispatch(setAuthToken(authToken));
     }
   }, [authToken]);

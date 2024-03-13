@@ -7,7 +7,7 @@ import { DASHBORD_ROUTE, SIDEBAR_ROUTES, PROFILE_ROUTE, ORDERS_ROUTE, PRODUCTLIS
   EMAILTEMPLATE_ROUTE} from 'src/constants/navigation-routes';
 
 import { Dashboard,  Orders,  Profile, ProductList, UserManagement, ActivityStream, RolesPermission, NewOrder, EmailTemplate } from 'src/pages';
-import { ROLE_TYPE } from '../constants/roles';
+import { ROLES } from '../constants/roles';
 import { Settings } from 'src/pages/settings';
 import SettingsVendor from 'src/pages/settings-vendor';
 
@@ -18,8 +18,8 @@ export default [
         path: DASHBORD_ROUTE,
         title: 'Dashboard',
         permission: [
-          // ROLE_TYPE.ADMIN,
-          // ROLE_TYPE.COMPANY_OWNER,
+          ROLES.ADMIN,
+          ROLES.VENDOR,
         ],
       },
     {
@@ -27,8 +27,8 @@ export default [
         path: PROFILE_ROUTE,
         title: 'Profile',
         permission: [
-          // ROLE_TYPE.ADMIN,
-          // ROLE_TYPE.COMPANY_OWNER,
+            ROLES.ADMIN,
+            ROLES.VENDOR,
         ],
       },
 
@@ -37,8 +37,9 @@ export default [
         path: ORDERS_ROUTE,
         title: 'Orders',
         permission: [
-          // ROLE_TYPE.ADMIN,
-          // ROLE_TYPE.COMPANY_OWNER,
+            ROLES.ADMIN,
+            ROLES.VENDOR,
+         
         ],
       },
 
@@ -47,8 +48,8 @@ export default [
         path: PRODUCTLIST_ROUTE,
         title: 'Product List',
         permission: [
-          // ROLE_TYPE.ADMIN,
-          // ROLE_TYPE.COMPANY_OWNER,
+           ROLES.ADMIN,
+          // ROLES.COMPANY_OWNER,
         ],
       },
 
@@ -57,8 +58,8 @@ export default [
         path: USERMANAGEMENT_ROUTE,
         title: 'User Management',
         permission: [
-          // ROLE_TYPE.ADMIN,
-          // ROLE_TYPE.COMPANY_OWNER,
+         ROLES.ADMIN,
+          // ROLES.COMPANY_OWNER,
         ],
       },
 
@@ -67,8 +68,8 @@ export default [
         path: ACTIVITYSTREAM_ROUTE,
         title: 'Activity Stream',
         permission: [
-          // ROLE_TYPE.ADMIN,
-          // ROLE_TYPE.COMPANY_OWNER,
+           ROLES.ADMIN,
+          // ROLES.COMPANY_OWNER,
         ],
       },
 
@@ -77,8 +78,8 @@ export default [
         path: ROLESPERMISSION_ROUTE,
         title: 'Roles Permissions',
         permission: [
-          // ROLE_TYPE.ADMIN,
-          // ROLE_TYPE.COMPANY_OWNER,
+          ROLES.ADMIN,
+          // ROLES.COMPANY_OWNER,
         ],
       },
       {
@@ -86,8 +87,8 @@ export default [
         path: NEWORDER_ROUTE,
         title: 'New Order',
         permission: [
-          // ROLE_TYPE.ADMIN,
-          // ROLE_TYPE.COMPANY_OWNER,
+         ROLES.ADMIN,
+        ROLES.VENDOR,
         ],
       },
       {
@@ -95,8 +96,8 @@ export default [
         path: SETTINGS_ROUTE,
         title: 'Settings',
         permission: [
-          // ROLE_TYPE.ADMIN,
-          // ROLE_TYPE.COMPANY_OWNER,
+          ROLES.ADMIN,
+         ROLES.VENDOR,
         ],
       },
       {
@@ -104,8 +105,8 @@ export default [
         path: SETTINGSVENDOR_ROUTE,
         title: 'Settings Vendor',
         permission: [
-          // ROLE_TYPE.ADMIN,
-          // ROLE_TYPE.COMPANY_OWNER,
+           ROLES.ADMIN,
+          // ROLES.COMPANY_OWNER,
         ],
       },
       {
@@ -113,8 +114,8 @@ export default [
         path: EMAILTEMPLATE_ROUTE,
         title: 'Email Template',
         permission: [
-          // ROLE_TYPE.ADMIN,
-          // ROLE_TYPE.COMPANY_OWNER,
+           ROLES.ADMIN,
+          // ROLES.COMPANY_OWNER,
         ],
       },
 

@@ -11,6 +11,8 @@ const authFeatureSelector = (state: TReduxState) => state.features.auth;
 
 export const getData = createSelector(authFeatureSelector, (app) => get(app, 'data', null));
 
+export const getUserData = createSelector(authFeatureSelector, (app) => get(app, 'userData', null));
+
 export const getAuthToken = createSelector(getData, (data) => get(data, 'token', ''));
 
 export const getIsLoggedIn = createSelector(getAuthToken, (authToken) => authToken.length > 0);
@@ -21,4 +23,4 @@ export const getIsLoggedIn = createSelector(getAuthToken, (authToken) => authTok
 
 // export const getUserRoleId = createSelector(getUserRoleData, (userRoleData) => get(userRoleData, 'id', null));
 
-// export const getIsAdmin = createSelector(getUserData, (data: any) => data && data?.role?.name === ROLES.ADMIN);
+export const getRole = createSelector(getUserData, (data: any) => data && data?.role_permission?.name );

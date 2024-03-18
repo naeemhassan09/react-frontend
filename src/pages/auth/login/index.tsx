@@ -1,12 +1,13 @@
-import React,  { FunctionComponent, useState, useCallback } from 'react';
+import React,  { FunctionComponent, useState, useCallback, useEffect } from 'react';
 import { TextField, InputAdornment, Icon, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ContactUsForm from 'src/components/contact-us-form';
 import FormSocialMediaContainer from 'src/components/form-social-media-container';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from 'src/store/thunks';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { getData } from 'src/store/selectors/features';
 
 const WelcomeToAlchemative = styled.div`
   align-self: stretch;
@@ -417,7 +418,7 @@ type AuthFormData = {
 const Login: FunctionComponent = () => {
 
   const dispatch = useDispatch();
-
+  
   const {
     register,
     handleSubmit,

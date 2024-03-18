@@ -18,7 +18,6 @@ const EmailTemplateModal: FunctionComponent<EmailTemplateModalType> = () => {
 
   return (
     <div className='App'>
-      <h2>Using CKEditor 5 from source in React</h2>
       <CKEditor
         editor={ ClassicEditor  }
         config={ editorConfiguration  }

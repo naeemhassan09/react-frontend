@@ -10,7 +10,9 @@ import {
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { logout } from 'src/store/thunks';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRole } from 'src/store/selectors/features';
+import { ROLES } from 'src/constants/roles';
 import MiniSideBar from './mini-side-bar';
 import PortalDrawer from './portal-drawer';
 
@@ -169,6 +171,7 @@ const HeaderRoot = styled.div`
 const ActivityStreamContainer1: FunctionComponent = () => {
   const dispatch = useDispatch();
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
+  const userRole=useSelector(getRole);
 
   const openAfterLoginMenu = useCallback(() => {
     setAfterLoginMenuOpen(true);
@@ -182,27 +185,32 @@ const ActivityStreamContainer1: FunctionComponent = () => {
     dispatch(logout({}));
   };
 
+  
+
   return (
     <>
       <HeaderRoot>
         <NavLinksParent>
-          <NavLinks>
-            <Links   to={ `${APP}${ROLESPERMISSION_ROUTE}` } >
-              <RolesPermission>{ 'Roles & Permission' }</RolesPermission>
-            </Links>
-            <Links   to={ `${APP}${USERMANAGEMENT_ROUTE}` } >
-              <RolesPermission>{ 'User Management ' }</RolesPermission>
-            </Links>
-            <Links1   to={ `${APP}${ACTIVITYSTREAM_ROUTE}` } >
-              <ActivityStream>Activity Stream</ActivityStream>
-            </Links1>
-            <Links1  to={ `${APP}${SETTINGSVENDOR_ROUTE}` } >
-              <ActivityStream>Vendor</ActivityStream>
-            </Links1>
-            <Links1  to={ `${APP}${EMAILTEMPLATE_ROUTE}` } >
-              <ActivityStream>Email Template</ActivityStream>
-            </Links1>
-          </NavLinks>
+          { userRole===ROLES.ADMIN &&  
+            <NavLinks>
+              <Links   to={ `${APP}${ROLESPERMISSION_ROUTE}` } >
+                <RolesPermission>{ 'Roles & Permission' }</RolesPermission>
+              </Links>
+              <Links   to={ `${APP}${USERMANAGEMENT_ROUTE}` } >
+                <RolesPermission>{ 'User Management ' }</RolesPermission>
+              </Links>
+              <Links1   to={ `${APP}${ACTIVITYSTREAM_ROUTE}` } >
+                <ActivityStream>Activity Stream</ActivityStream>
+              </Links1>
+              <Links1  to={ `${APP}${SETTINGSVENDOR_ROUTE}` } >
+                <ActivityStream>Vendor</ActivityStream>
+              </Links1>
+              <Links1  to={ `${APP}${EMAILTEMPLATE_ROUTE}` } >
+                <ActivityStream>Email Template</ActivityStream>
+              </Links1>
+            </NavLinks>
+}
+         
           <FrameParent>
             <FrameWrapper>
               <FrameGroup>

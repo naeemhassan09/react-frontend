@@ -16,8 +16,9 @@ import ActivityStreamContainer1 from 'src/components/activity-stream-container1'
 import ActivityStreamContainer from 'src/components/activity-stream-container';
 import CreateShopifyStoreCard from 'src/components/create-shopify-store-card';
 import Pagination from 'src/components/pagination';
-import { logout } from 'src/store/thunks';
+import { fetchShopifyData, logout } from 'src/store/thunks';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
+import { getShopifyData } from 'src/store/selectors/entities';
 
 const Date1 = styled(Autocomplete)`
   flex: 1;
@@ -240,7 +241,7 @@ const SettingsRoot = styled.div`
 
 export const Settings: FunctionComponent = () => {
   const dispatch=useDispatch();
-
+  const storedata= useSelector(getShopifyData);
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
 
   const openModalPopup = useCallback(() => {
@@ -269,6 +270,17 @@ export const Settings: FunctionComponent = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  useEffect(()=>{
+
+    dispatch(fetchShopifyData({}));
+
+  },[]);
+
+  useEffect(()=>{
+    console.log({storedata});
+    
+  },[storedata]);
+
 
   return (
     <>
@@ -290,29 +302,6 @@ export const Settings: FunctionComponent = () => {
               actionButtonText='Create Shopify Store'
               propPadding='var(--padding-mini) 25px'
             />
-            <FilterBarContainer>
-              <FilterBarContainerInner>
-                <DateWrapper>
-                  <Date1
-                    size='small'
-                    sx={ { width: '100%' } }
-                    disablePortal
-                    options={ ['Role1', 'Role2', 'Role3'] }
-                    renderInput={ (params: any) => (
-                      <TextField
-                        { ...params }
-                        color='primary'
-                        label='Role Name'
-                        variant='outlined'
-                        placeholder='Role Name'
-                        helperText=''
-                        required
-                      />
-                    ) }
-                  />
-                </DateWrapper>
-              </FilterBarContainerInner>
-            </FilterBarContainer>
             <StoreSheetHeadingContainer>
               <StoresWrapper>
                 <Stores>Stores</Stores>
@@ -327,27 +316,6 @@ export const Settings: FunctionComponent = () => {
                   <StoreNameContainer>
                     <StoreName1>Store Name</StoreName1>
                   </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Store Name</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>Store Name</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Store Name</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>Store Name</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Store Name</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>Store Name</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Store Name</StoreName1>
-                  </StoreNameFrame>
                 </Colum>
                 <Colum>
                   <StoreNameWrapper>
@@ -356,27 +324,7 @@ export const Settings: FunctionComponent = () => {
                   <StoreNameContainer>
                     <StoreName1>Vendor/Supplier</StoreName1>
                   </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Vendor/Supplier</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>Vendor/Supplier</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Vendor/Supplier</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>Vendor/Supplier</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Vendor/Supplier</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>Vendor/Supplier</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Vendor/Supplier</StoreName1>
-                  </StoreNameFrame>
+                  
                 </Colum>
                 <Colum>
                   <StoreNameWrapper>
@@ -385,27 +333,7 @@ export const Settings: FunctionComponent = () => {
                   <StoreNameContainer>
                     <StoreName1>Admin Domain</StoreName1>
                   </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Admin Domain</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>Admin Domain</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Admin Domain</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>Admin Domain</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Admin Domain</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>Admin Domain</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>Admin Domain</StoreName1>
-                  </StoreNameFrame>
+                  
                 </Colum>
                 <Colum>
                   <StoreNameWrapper>
@@ -414,27 +342,7 @@ export const Settings: FunctionComponent = () => {
                   <StoreNameContainer>
                     <StoreName1>{ 'Request Date&Time' }</StoreName1>
                   </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>{ 'Request Date&Time' }</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>{ 'Request Date&Time' }</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>{ 'Request Date&Time' }</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>{ 'Request Date&Time' }</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>{ 'Request Date&Time' }</StoreName1>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName1>{ 'Request Date&Time' }</StoreName1>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName1>{ 'Request Date&Time' }</StoreName1>
-                  </StoreNameFrame>
+                
                 </Colum>
                 <Colum>
                   <StoreNameWrapper>
@@ -443,27 +351,7 @@ export const Settings: FunctionComponent = () => {
                   <StoreNameContainer>
                     <StoreName>Enabled</StoreName>
                   </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName>Enabled</StoreName>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName>Enabled</StoreName>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName>Enabled</StoreName>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName>Enabled</StoreName>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName>Enabled</StoreName>
-                  </StoreNameFrame>
-                  <StoreNameContainer>
-                    <StoreName>Enabled</StoreName>
-                  </StoreNameContainer>
-                  <StoreNameFrame>
-                    <StoreName>Enabled</StoreName>
-                  </StoreNameFrame>
+                 
                 </Colum>
               </StoresSheetContainer>
               <Pagination

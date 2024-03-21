@@ -284,7 +284,7 @@ useEffect(()=>{
       />
         <FrameParent>
           <CreateWrapper type='submit'>
-            <CreateUserName>Create</CreateUserName>
+            <CreateUserName>{ emailItem ? 'Update' : 'Create' }</CreateUserName>
           </CreateWrapper>
           <CloseContainer  onClick={ ()=>onClose(false) }>
             <CreateUserName>Close</CreateUserName>

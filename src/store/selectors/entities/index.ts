@@ -6,3 +6,4 @@ export * from './orders';
 export * from './activityStream';
 export * from './vendors';
 export * from './email';
+export * from './shopifyStore';

@@ -28,7 +28,6 @@ import { fetchShopifyData } from 'src/store/thunks';
      // A "builder callback" function used to add more reducers
   extraReducers: (builder) => {
     builder.addCase(fetchShopifyData.fulfilled, (state, action) => {
-        console.log(state, action);
         state.data=action.payload;
    
   });

@@ -176,7 +176,6 @@ useEffect(()=>{
 
  useEffect(()=>{
 
-    console.log(emailItem);
 
     if (emailItem)
     {
@@ -268,9 +267,9 @@ useEffect(()=>{
         <CKEditor
         editor={ ClassicEditor }
         data={ editorData }
-        onReady={ (editor) => {
-          console.log('Editor is ready to use!', editor);
-        } }
+        // onReady={ (editor) => {
+        //   console.log('Editor is ready to use!', editor);
+        // } }
         onChange={ (_, editor) => {
           const data = editor.getData();
           setEditorData(data);

@@ -239,6 +239,7 @@ const UpdateVendorModal: FunctionComponent<UpdateVendorModalType> = () => {
         <Checkbox1 label='' control={ <Checkbox id='small' color='primary' /> } />
         <Commision>Commision</Commision>
       </CheckboxParent>
+      
       <FrameAutocomplete
         size='small'
         sx={ { width: '100%' } }

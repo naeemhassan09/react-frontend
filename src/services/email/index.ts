@@ -19,4 +19,32 @@ export class EmailService extends HttpService {
     }
   };
 
+  createEmailTemplate = async (baseAuthUrl: string, token: string, payload: TObject): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.post(baseAuthUrl + '/api/v1/email_templates', payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
+  updateEmailTemplate = async (baseAuthUrl: string, token: string, payload: TObject): 
+  Promise<IPrepareResponse<AxiosResponse>> => {
+    try {
+      const apiResponse = await this.put(baseAuthUrl + '/api/v1/email_templates/'+payload.id, payload, {
+        headers: {
+          Authorization: token
+        }
+      });
+      return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
+    } catch (error) {
+      throw prepareErrorResponse(error);
+    }
+  };
+
 }

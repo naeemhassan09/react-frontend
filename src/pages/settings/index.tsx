@@ -241,8 +241,15 @@ const SettingsRoot = styled.div`
 
 export const Settings: FunctionComponent = () => {
   const dispatch=useDispatch();
-  const storedata= useSelector(getShopifyData);
+  const storeData= useSelector(getShopifyData);
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
+  const [totalPages, setTotalPages]=useState<number>(0);
+  const [currentPage, setCurrentPage]=useState<number>(0);
+  const [selectedStoreArray, setSelectedStoreArray]=useState<any>([]);
+  const [itemsPerPage,setItemsPerPage]=useState(10);
+
+  const [completeStoreData,setCompleteStoreData]=useState(storeData);
+  const [storeNumberOptions, setStoreNumberOptions]=useState([]);
 
   const openModalPopup = useCallback(() => {
     setModalPopupOpen(true);
@@ -252,14 +259,21 @@ export const Settings: FunctionComponent = () => {
     setModalPopupOpen(false);
   }, []);
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages,setTotalPages]=useState<number>(0);
-  
-  const itemsPerPage = 10;
 
-  const handleLogout = () => {
-    dispatch(logout({}));
-  };
+  const onHandleSearchText=((event: any)=>{
+    const searchText= event.target.value.toLowerCase();
+     let filterObject: any= []; 
+     if (completeStoreData && searchText!=='')    
+     {
+         filterObject=storeData?.filter((item:any)=> item.order_number.trim().toLowerCase().includes(searchText)||
+         item.email.trim().toLowerCase().includes(searchText));
+         setCompleteStoreData(filterObject);
+     }  
+ 
+     else
+     setCompleteStoreData(storeData);
+ });
+
 
   const handleNextPage = () => {
     if (currentPage < totalPages)
@@ -270,16 +284,121 @@ export const Settings: FunctionComponent = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  const handleChangeStoreNumber = (selectedValue: any ) => {
+
+    if (selectedValue !== null) {
+        let filterObject: any= [];
+
+        if (completeStoreData && selectedValue!=='')    
+        {
+            filterObject=storeData?.filter((item:any)=> item.order_number.trim().toLowerCase()
+            .includes(selectedValue.value));
+            setCompleteStoreData(filterObject);
+        }  
+    } else
+    {
+      setCompleteStoreData(storeData);
+    }
+};
+
+
+  const handleStoreNumberArray=((orders:any)=>{
+ 
+    if (orders && orders.length>0)
+    {
+        const orderNumberArray = orders.map((order_item: any) => ({
+            label: order_item.order_number,
+            value: order_item.order_number,
+          }));
+
+        setStoreNumberOptions(orderNumberArray);
+    }
+  });
+
+  const handlePerItem=((_value: any)=>{
+    const value=parseInt(_value);
+    if (value===0)
+    setItemsPerPage(10);
+    else
+    setItemsPerPage(_value);
+});
+
+   useEffect(()=>{
+
+    if (completeStoreData && completeStoreData.length>0)
+    {
+        const pages=Math.ceil(completeStoreData.length/itemsPerPage);
+        setTotalPages(pages);
+        setCurrentPage(1);
+    }
+    else {
+        setTotalPages(1);
+        setCurrentPage(1);
+    }
+   },[completeStoreData, itemsPerPage]);
+
+   useEffect(() => {
+    if (completeStoreData !== null  && completeStoreData && completeStoreData.length>itemsPerPage) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const nextItems = completeStoreData.slice(startIndex, endIndex);
+      setSelectedStoreArray(nextItems);
+    }
+    else  setSelectedStoreArray(completeStoreData);
+  }, [completeStoreData, currentPage, itemsPerPage]);
+
+  useEffect(()=>{  
+    setCompleteStoreData(storeData);
+    handleStoreNumberArray(storeData);
+},[storeData]);
+
+  useEffect(()=>{
+    dispatch(fetchShopifyData({}));
+  },[]); 
+
+  const renderTable = () => (
+    selectedStoreArray?.length > 0 ? (
+      <>
+        { selectedStoreArray.map((item: any) => (
+          <StoresSheetContainer key={ item.id }>
+            <Colum>
+              <StoreNameContainer>
+                <StoreName1>Store Name</StoreName1>
+              </StoreNameContainer>
+            </Colum>
+            <Colum>
+              <StoreNameContainer>
+                <StoreName1>Store Name</StoreName1>
+              </StoreNameContainer>
+            </Colum>
+            <Colum>
+              <StoreNameContainer>
+                <StoreName1>Store Name</StoreName1>
+              </StoreNameContainer>
+            </Colum>
+            <Colum>
+              <StoreNameContainer>
+                <StoreName1>Store Name</StoreName1>
+              </StoreNameContainer>
+            </Colum>
+            <Colum>
+              <StoreNameContainer>
+                <StoreName1>Store Name</StoreName1>
+              </StoreNameContainer>
+            </Colum>
+          </StoresSheetContainer>
+        )) } 
+      </>
+    ) : <></>
+  );
+
+
   useEffect(()=>{
 
     dispatch(fetchShopifyData({}));
 
   },[]);
 
-  useEffect(()=>{
-    console.log({storedata});
-    
-  },[storedata]);
 
 
   return (
@@ -313,47 +432,30 @@ export const Settings: FunctionComponent = () => {
                   <StoreNameWrapper>
                     <StoreName>Store Name</StoreName>
                   </StoreNameWrapper>
-                  <StoreNameContainer>
-                    <StoreName1>Store Name</StoreName1>
-                  </StoreNameContainer>
                 </Colum>
                 <Colum>
                   <StoreNameWrapper>
                     <StoreName>Vendor/Supplier</StoreName>
                   </StoreNameWrapper>
-                  <StoreNameContainer>
-                    <StoreName1>Vendor/Supplier</StoreName1>
-                  </StoreNameContainer>
-                  
                 </Colum>
                 <Colum>
                   <StoreNameWrapper>
                     <StoreName>Admin Domain</StoreName>
-                  </StoreNameWrapper>
-                  <StoreNameContainer>
-                    <StoreName1>Admin Domain</StoreName1>
-                  </StoreNameContainer>
-                  
+                  </StoreNameWrapper>                 
                 </Colum>
                 <Colum>
                   <StoreNameWrapper>
                     <StoreName>{ 'Request Date&Time' }</StoreName>
                   </StoreNameWrapper>
-                  <StoreNameContainer>
-                    <StoreName1>{ 'Request Date&Time' }</StoreName1>
-                  </StoreNameContainer>
-                
                 </Colum>
                 <Colum>
                   <StoreNameWrapper>
                     <StoreName>Enabled</StoreName>
                   </StoreNameWrapper>
-                  <StoreNameContainer>
-                    <StoreName>Enabled</StoreName>
-                  </StoreNameContainer>
-                 
                 </Colum>
+
               </StoresSheetContainer>
+              { renderTable() }
               <Pagination
                 imageAltText='/double-right@2x.png'
                 imageId='/icons8back50-1@2x.png'
@@ -364,7 +466,7 @@ export const Settings: FunctionComponent = () => {
                 currentPage={ currentPage }
                 totalPages={ totalPages }
                 onItemsPerPageChange={ (_value) => {
-                    // handle items per page change
+                    handlePerItem(_value);
                 } }
                 onNextPage={ handleNextPage }
                 onPrevPage={ handlePrevPage }

@@ -2,550 +2,27 @@ import { FunctionComponent, useState, useCallback, useEffect } from 'react';
 import {
   TextField,
   InputAdornment,
-  Icon,
-  IconButton,
-  Autocomplete,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Modal from 'src/components/modal';
-import PortalPopup from 'src/components/portal-popup';
-import MiniSideBar from 'src/components/mini-side-bar';
-import PortalDrawer from 'src/components/portal-drawer';
-import SideMenuOfSubMenu from 'src/components/side-menu-of-sub-menu';
 import EmailTemplateModal from 'src/components/email-template-modal';
 import Pagination from 'src/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEmailData, logout } from 'src/store/thunks';
-import { APP, DASHBORD_ROUTE, ORDERS_ROUTE, PRODUCTLIST_ROUTE, SETTINGS_ROUTE } from 'src/constants/navigation-routes';
+import { fetchEmailData } from 'src/store/thunks';
 import ActivityStreamContainer1 from 'src/components/activity-stream-container1';
 import { getEmailTemplates } from 'src/store/selectors/entities';
-import SearchSharpIcon from '@mui/icons-material/SearchSharp';
-
+import FormContainer from 'src/components/form-container';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-const AlchemativeLogo1Icon = styled.img`
-  width: 10.44rem;
-  position: relative;
-  height: 1.61rem;
-  object-fit: cover;
-`;
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
+import ActivityStreamContainer from 'src/components/activity-stream-container';
+import PortalPopup from 'src/components/portal-popup';
+import PortalDrawer from 'src/components/portal-drawer';
 
-const Logo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: var(--padding-3xs) 0rem;
-`;
-
-const DashboardSvgIcon = styled.img`
-  width: 1.5rem;
-  position: relative;
-  height: 1.26rem;
-  overflow: hidden;
-  flex-shrink: 0;
-`;
-
-const Dashboard = styled.div`
-  position: absolute;
-  top: 0rem;
-  left: 0rem;
-  font-weight: 500;
-  cursor: pointer;
-`;
-
-const DashboardWrapper = styled.div`
-  width: 4.94rem;
-  position: relative;
-  height: 1.31rem;
-`;
-
-const Frame = styled(Link)`
-  cursor: pointer;
-  text-decoration: none;
-  align-self: stretch;
-  background-color: var(--color-gray-400);
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  padding: var(--padding-3xs) var(--padding-7xl);
-  gap: var(--gap-3xs);
-  color: inherit;
-  &:hover {
-    background-color: var(--color-gray-300);
-    transition: 0.1s;
-  }
-`;
-
-const OrderSvgIcon = styled.img`
-  width: 1.5rem;
-  position: relative;
-  height: 1.5rem;
-  overflow: hidden;
-  flex-shrink: 0;
-`;
-
-const Orders = styled.div`
-  height: 1.31rem;
-  position: relative;
-  font-weight: 500;
-  display: inline-block;
-  cursor: pointer;
-`;
-
-const Layer = styled(Link)`
-  cursor: pointer;
-  text-decoration: none;
-  align-self: stretch;
-  background-color: var(--color-gray-400);
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  padding: var(--padding-3xs) var(--padding-7xl);
-  gap: var(--gap-3xs);
-  color: inherit;
-  &:hover {
-    background-color: var(--color-gray-300);
-    transition: 0.1s;
-  }
-`;
-
-const SettingsSvgIcon1Parent = styled(Link)`
-  cursor: pointer;
-  text-decoration: none;
-  align-self: stretch;
-  background-color: var(--color-gray-400);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  padding: var(--padding-3xs) var(--padding-7xl);
-  gap: var(--gap-3xs);
-  color: inherit;
-  &:hover {
-    background-color: var(--color-gray-300);
-    transition: 0.1s;
-  }
-`;
-
-const FrameParent = styled.div`
-  width: 11.56rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: var(--padding-8xl) 0rem;
-  box-sizing: border-box;
-  gap: var(--gap-xs);
-`;
-
-const SideMenuBarInner = styled.div`
-  border-top: 1px solid var(--color-darkgray);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-const SideMenuBar = styled.div`
-  align-self: stretch;
-  border-radius: var(--br-3xs);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: var(--padding-5xl) var(--padding-xl);
-  gap: var(--gap-xl);
-  background-image: url("/sidemenubar8@3x.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: top;
-  @media screen and (max-width: 960px) {
-    display: none;
-  }
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
 
 const RolesPermission = styled.div`
   position: relative;
   font-weight: 500;
-`;
-
-const Links = styled(Link)`
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: var(--br-31xl);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-3xs);
-  color: inherit;
-  &:hover {
-    background-color: var(--color-gray-300);
-    transition: 0.1s;
-  }
-`;
-
-const Links1 = styled(Link)`
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: var(--br-31xl);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-3xs);
-  color: inherit;
-  &:hover {
-    background-color: var(--color-gray-300);
-    transform: 0.1s;
-  }
-`;
-
-const Links2 = styled(Link)`
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: var(--br-31xl);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-3xs);
-  color: inherit;
-`;
-
-const NavLinks = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  @media screen and (max-width: 960px) {
-    display: none;
-  }
-`;
-
-const JamesSmith = styled.div`
-  position: relative;
-  font-weight: 600;
-`;
-
-const Developer = styled.div`
-  position: relative;
-  font-size: var(--font-size-3xs);
-  font-weight: 500;
-  color: var(--color-darkgray);
-  margin-top: -0.25rem;
-`;
-
-const Frame1 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const FrameChild = styled.img`
-  width: 2rem;
-  position: relative;
-  border-radius: 50%;
-  height: 2rem;
-  object-fit: cover;
-`;
-
-const FrameContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--gap-3xs);
-`;
-
-const FrameWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-`;
-
-const IconsolidmenuAlt = styled.img`
-  width: 2.5rem;
-  position: relative;
-  height: 2.5rem;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: none;
-  cursor: pointer;
-  @media screen and (max-width: 960px) {
-    display: flex;
-  }
-`;
-
-const FrameGroup = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  font-size: var(--font-size-xs);
-  color: var(--color-darkslategray-200);
-  @media screen and (max-width: 960px) {
-    flex: 1;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--gap-0);
-  }
-`;
-
-const NavLinksParent = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Header = styled.div`
-  align-self: stretch;
-  border-radius: var(--br-3xs);
-  background-color: var(--color-gray-100);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-mini) var(--padding-6xl);
-  color: var(--color-silver);
-  @media screen and (max-width: 960px) {
-    border-radius: 0px;
-    border-bottom-right-radius: var(--br-31xl);
-    border-bottom-left-radius: var(--br-31xl);
-  }
-`;
-
-const ProductListWrapper = styled(Link)`
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: var(--br-31xl);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-3xs);
-  color: inherit;
-  &:hover {
-    background-color: var(--color-lightpink);
-    cursor: pointer;
-  }
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const ProductList = styled.div`
-  height: 1.31rem;
-  position: relative;
-  font-weight: 500;
-  display: inline-block;
-  cursor: pointer;
-  @media screen and (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-const ProductListWrapper1 = styled(Link)`
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: var(--br-31xl);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-3xs);
-  color: inherit;
-  &:hover {
-    background-color: var(--color-lightpink);
-    cursor: pointer;
-  }
-  @media screen and (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-const ProductListWrapper2 = styled.div`
-  border-radius: var(--br-31xl);
-  display: none;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-3xs);
-`;
-
-const FrameDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  @media screen and (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-const Layer3Icon = styled.img`
-  border-radius: var(--br-31xl);
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-  object-fit: contain;
-  display: none;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--color-crimson);
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  @media screen and (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-const SubHeader = styled.div`
-  width: 65rem;
-  display: none;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--padding-6xl);
-  box-sizing: border-box;
-  color: var(--color-gray-200);
-  @media screen and (max-width: 960px) {
-    display: flex;
-    align-self: stretch;
-    width: auto;
-  }
-  @media screen and (max-width: 768px) {
-    align-self: stretch;
-    width: auto;
-  }
-`;
-
-const FrameItem = styled(TextField)`
-  border: none;
-  background-color: transparent;
-  flex: 1;
-  @media screen and (max-width: 420px) {
-    flex: unset;
-    align-self: stretch;
-  }
-`;
-
-const NewButton = styled.div`
-  height: 2.25rem;
-  border-radius: var(--br-8xs);
-  background-color: var(--color-firebrick);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-3xs) var(--padding-xl);
-  box-sizing: border-box;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--color-crimson);
-  }
-`;
-
-const FrameParent1 = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-3xs);
-  @media screen and (max-width: 420px) {
-    flex-direction: column;
-  }
-`;
-
-const ActivityStreamContentContaiInner = styled.div`
-  align-self: stretch;
-  background-color: var(--white);
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  padding: var(--padding-11xl) var(--padding-6xl);
-  @media screen and (max-width: 420px) {
-    flex-direction: row;
-  }
-`;
-
-const Vendor = styled.div`
-  height: 1.69rem;
-  flex: 1;
-  position: relative;
-  font-weight: 500;
-  display: inline-block;
-  cursor: pointer;
-`;
-
-const ActivityStreamHeadingContai = styled.div`
-  align-self: stretch;
-  background-color: var(--white);
-  backdrop-filter: blur(50px);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: var(--padding-10xl) var(--padding-6xl);
-  text-align: center;
-  font-size: var(--text-lg-leading-6-font-medium-size);
-  color: var(--color-darkslategray-300);
-`;
-
-const Title = styled.b`
-  flex: 1;
-  position: relative;
-`;
-
-const TitleWrapper = styled.div`
-  align-self: stretch;
-  background-color: var(--color-gray-100);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-xl) 0rem;
-`;
-
-const WelcomeAbroad = styled.div`
-  flex: 1;
-  position: relative;
-  font-weight: 500;
-`;
-
-const WelcomeAbroadWrapper = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-xl) 0rem;
-`;
-
-const Colum = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
 `;
 
 const TrueWrapper = styled.div`
@@ -567,11 +44,97 @@ const Colum3Inner = styled.div`
   padding: var(--padding-3xs) 0rem;
 `;
 
-const MenuVerticalIcon = styled.img`
-  width: 1.56rem;
+
+const ActivityStreamSheet = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+
+const Emails = styled.div`
+  flex: 1;
   position: relative;
-  height: 1.56rem;
+  font-weight: 500;
+  cursor: pointer;
+`;
+
+const EmailsWrapper = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const EmailHeadingContainer = styled.div`
+  align-self: stretch;
+  background-color: var(--white);
+  backdrop-filter: blur(50px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--padding-10xl) var(--padding-6xl);
+  font-size: var(--text-lg-leading-6-font-medium-size);
+`;
+
+const Role = styled.b`
+  flex: 1;
+  position: relative;
+`;
+
+const RoleWrapper = styled.div`
+  align-self: stretch;
+  background-color: var(--color-gray-100);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-xl) 0rem;
+`;
+
+const Role1 = styled.div`
+  flex: 1;
+  position: relative;
+  font-weight: 500;
+`;
+
+const RoleContainer = styled.div`
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-xl) 0rem;
+`;
+
+const RoleFrame = styled.div`
+  align-self: stretch;
+  background-color: var(--color-lavenderblush-100);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-xl) 0rem;
+`;
+
+const Colum = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+const MenuVerticalIcon = styled.img`
+  position: relative;
+  width: 1.5rem;
+  height: 1.05rem;
   object-fit: contain;
+  cursor: pointer;
 `;
 
 const MenuVerticalWrapper = styled.div`
@@ -591,94 +154,46 @@ const Colum5Inner = styled.div`
   padding: var(--padding-lg) 0rem;
 `;
 
-const ActivityStreamSheet = styled.div`
+const Colum5Child = styled.div`
   align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-`;
-
-const FrameInner = styled(Autocomplete)``;
-
-const ItemPerPageParent = styled.div`
+  background-color: var(--color-lavenderblush-100);
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: var(--gap-18xl);
+  padding: var(--padding-lg) 0rem;
 `;
 
-const Of0Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-3xs);
-`;
-
-const DoubleRightIcon = styled.img`
-  width: 1.5rem;
-  position: relative;
-  height: 1.5rem;
-  object-fit: contain;
-`;
-
-const Icons8Back = styled.img`
-  width: 1.5rem;
-  position: relative;
-  height: 1.5rem;
-  object-fit: cover;
-`;
-
-const DoubleRightParent = styled.div`
+const EmailSheetContainer = styled.div`
+  align-self: stretch;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: var(--gap-2xl);
 `;
 
-const PaginationBox = styled.div`
-  align-self: stretch;
-  flex: 1;
-  background-color: var(--white);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  padding: var(--padding-xl) var(--padding-3xs);
-  gap: var(--gap-27xl);
-`;
-
-const PaginationConatiner = styled.div`
-  align-self: stretch;
-  background-color: var(--white);
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 0rem var(--padding-16xl);
-`;
-
-const ActivityStreamContainer = styled.div`
+const SettingsSheetContainer = styled.div`
   align-self: stretch;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  text-align: center;
   color: var(--color-darkslategray-100);
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
 
+const OpenInWindow = styled.div`
+  position: relative;
+  font-weight: 500;
+`;
+
 const OpenInWindowWrapper = styled.div`
-  height: 2.25rem;
   border-radius: var(--br-8xs);
   background-color: var(--color-brown-100);
-  display: flex;
+  height: 2.25rem;
+  display: none;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -695,7 +210,7 @@ const OpenInWindowWrapper = styled.div`
 `;
 
 const ModalButton = styled.div`
-  width: 65rem;
+  align-self: stretch;
   background-color: var(--white);
   overflow: hidden;
   display: none;
@@ -703,28 +218,23 @@ const ModalButton = styled.div`
   align-items: center;
   justify-content: center;
   padding: var(--padding-30xl) var(--padding-2xl);
-  box-sizing: border-box;
+  text-align: left;
+  color: var(--white);
   @media screen and (max-width: 768px) {
     display: flex;
-    align-self: stretch;
-    width: auto;
   }
 `;
 
-const ActivityStreamContentContai = styled.div`
+const EmailManagementContentContai = styled.div`
   flex: 1;
   background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  color: var(--white);
-  @media screen and (max-width: 960px) {
-    flex: 1;
-  }
 `;
 
-const ActivityStreamMainContainer = styled.div`
+const EmailManagementMainContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -734,10 +244,10 @@ const ActivityStreamMainContainer = styled.div`
   max-width: 80rem;
 `;
 
-const SettingsEmailTemplateRoot = styled.div`
-  width: 100%;
+const SettingsEmailManagementRoot = styled.div`
   position: relative;
   background-color: var(--white);
+  width: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -746,15 +256,71 @@ const SettingsEmailTemplateRoot = styled.div`
   padding: var(--padding-sm) var(--padding-mini);
   box-sizing: border-box;
   min-height: 45rem;
-  text-align: left;
+  text-align: center;
   font-size: var(--text-sm-leading-5-font-normal-size);
-  color: var(--color-darkgray);
+  color: var(--color-darkslategray-200);
   font-family: var(--font-poppins);
-
-
 `;
 
+const FrameChild = styled(TextField)`
+  border: none;
+  background-color: transparent;
+  flex: 1;
+  @media screen and (max-width: 420px) {
+    flex: unset;
+    align-self: stretch;
+  }
+`;
 
+const Add = styled.div`
+  position: relative;
+  font-weight: 600;
+  color: white;
+`;
+
+const AddButton = styled.div`
+  border-radius: var(--br-8xs);
+  margin-top: 1.2rem;
+  margin-left: 1rem;
+  background-color: red;
+  height: 2.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-3xs) var(--padding-xl);
+  box-sizing: border-box;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--color-crimson);
+  }
+`;
+
+const FrameParent = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-3xs);
+  @media screen and (max-width: 420px) {
+    flex-direction: column;
+  }
+`;
+
+const SearchBarContainer = styled.div`
+  align-self: stretch;
+  background-color: var(--white);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--padding-11xl) var(--padding-6xl);
+  @media screen and (max-width: 420px) {
+    flex-direction: row;
+  }
+`;
 
 
 export const EmailTemplate: FunctionComponent = () => {
@@ -769,6 +335,7 @@ export const EmailTemplate: FunctionComponent = () => {
   const [selectedEmailTemplate, setSelectedEmailTemplate]=useState<any>([]);
   const [itemsPerPage, setItemsPerPage]=useState(10);
   const [completeEmailTemplate, setCompleteEmailTemplate]=useState(emailTemplateData);
+  const [emailTemplate, setEmailTemplate]=useState<any>(null);
 
   const openAfterLoginMenu = useCallback(() => {
     setAfterLoginMenuOpen(true);
@@ -803,19 +370,11 @@ export const EmailTemplate: FunctionComponent = () => {
   }, []);
 
 
-  const handleLogout = () => {
-    dispatch(logout({}));
-  };
-
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
 
   const renderTable=(()=>(<>
     {
-        completeEmailTemplate && completeEmailTemplate.length>0 && 
-        completeEmailTemplate.map((item: any, index: number)=>(
+        selectedEmailTemplate && selectedEmailTemplate.length>0 && 
+        selectedEmailTemplate.map((item: any, index: number)=>(
           <>
             <ActivityStreamSheet key={ index }>
               <Colum>
@@ -836,6 +395,15 @@ export const EmailTemplate: FunctionComponent = () => {
                 <Colum3Inner>
                   <TrueWrapper>
                     <RolesPermission>{ item.is_active? 'True':'false' }</RolesPermission>
+                  </TrueWrapper>
+                </Colum3Inner>
+              </Colum>
+
+              <Colum>
+                <Colum3Inner>
+                  <TrueWrapper 
+                  style={ { cursor:'pointer' } } onClick={ ()=>{ setEmailTemplate(item); openEmailTemplateModal() } }>
+                    <RolesPermission>Edit</RolesPermission>
                   </TrueWrapper>
                 </Colum3Inner>
               </Colum>
@@ -914,33 +482,126 @@ useEffect(()=>{setCompleteEmailTemplate(emailTemplateData)},[emailTemplateData])
     dispatch(fetchEmailData({}));
   },[]);
 
-    
-    
- 
-    
-     
-    
-      return (
-        <div>
-          <h1>I am here</h1>
-          <CKEditor
-            editor={ ClassicEditor  }
-            data='<p>Hello from CKEditor 5!</p>'
-            onReady={ (editor) => { 
-              console.log('Editor is ready to use!', editor);
-              }  }
-            onChange={ (event, editor) => { 
-              const data = editor.getData();
-              console.log({  event, editor, data   });
-              }  }
-            onBlur={ (event, editor) => { 
-              console.log('Blur.', editor, event);
-              }  }
-            onFocus={ (event, editor) => { 
-              console.log('Focus.', editor, event);
-              }  }
+return (
+  <>
+    <SettingsEmailManagementRoot>
+      <EmailManagementMainContainer>
+        <FormContainer
+            dimensions='/alchemativelogo-11@2x.png'
+            alchemativeLogo1IconBackgroundImage="url('/sidemenubar2@3x.png')"
+        />
+        <EmailManagementContentContai>
+          <ActivityStreamContainer1 />
+          <ActivityStreamContainer
+                showSubHeader={ false }
+                propBorderRadius='50px'
+                propBorderRadius1='50px'
+                propBorderRadius2='50px'
           />
-        </div>
+          <SearchBarContainer>
+            <FrameParent>
+              <FrameChild
+                color='primary'
+                label='Search'
+                size='small'
+                fullWidth
+                variant='standard'
+                InputProps={ {
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <SearchSharpIcon />
+                      </InputAdornment>
+                    ),
+                } }
+                sx={ { '& .MuiInputBase-root': { height: '36px' } } }
+                onChange={ onHandleSearchText }
+                />  
+            </FrameParent>
+            <AddButton onClick={ ()=> { openEmailTemplateModal(); setEmailTemplate(undefined) } }>
+              <Add>Add New</Add>
+            </AddButton>
+          </SearchBarContainer>
+          <EmailHeadingContainer>
+            <EmailsWrapper>
+              <Emails>Emails</Emails>
+            </EmailsWrapper>
+          </EmailHeadingContainer>
+          <SettingsSheetContainer>
+            <EmailSheetContainer>
+              <Colum>
+                <RoleWrapper>
+                  <Role>Title</Role>
+                </RoleWrapper>
+              </Colum>     
+              <Colum>               
+                <RoleWrapper>
+                  <Role>Trigger</Role>
+                </RoleWrapper>
+              </Colum>
+              <Colum>
+                <RoleWrapper>
+                  <Role>Status</Role>
+                </RoleWrapper>
+              </Colum>
+              <Colum>
+                <RoleWrapper>
+                  <Role>Actions</Role>
+                </RoleWrapper>
+              </Colum>
+            </EmailSheetContainer>
+            { renderTable() }
+            <Pagination
+                imageAltText='/double-right@2x.png'
+                imageId='/icons8back50-1@2x.png'
+                imageCode='/icons8forward50-1@2x.png'
+                imageDimensions='/double-right1@2x.png'
+                itemsPerPageOptions={ [10, 15, 20] }
+                itemsPerPage={ itemsPerPage }
+                currentPage={ currentPage }
+                totalPages={ totalPages }
+                onItemsPerPageChange={ (_value) => 
+                    handlePerItem(_value)
+                }
+                onNextPage={ handleNextPage }
+                onPrevPage={ handlePrevPage }
+            />
+          </SettingsSheetContainer>
+        
+        </EmailManagementContentContai>
+      </EmailManagementMainContainer>
+
+        
+    </SettingsEmailManagementRoot>
+    { isEmailTemplateModalOpen && (
+    <PortalDrawer
+    overlayColor='rgba(113, 113, 113, 0.3)'
+    placement='Right'
+    onOutsideClick={ closeEmailTemplateModal }
+   >
+      <EmailTemplateModal onClose={ setEmailTemplateModalOpen } emailItem={ emailTemplate } />
+    </PortalDrawer>
+  ) }
+  </>
+        // <div>
+        //   <h1>I am here</h1>
+        //   <CKEditor
+        //     editor={ ClassicEditor  }
+        //     data='<p>Hello from CKEditor 5!</p>'
+        //     onReady={ (editor) => { 
+        //       console.log('Editor is ready to use!', editor);
+        //       }  }
+        //     onChange={ (event, editor) => { 
+        //       const data = editor.getData();
+        //       console.log({  event, editor, data   });
+        //       }  }
+        //     onBlur={ (event, editor) => { 
+        //       console.log('Blur.', editor, event);
+        //       }  }
+        //     onFocus={ (event, editor) => { 
+        //       console.log('Focus.', editor, event);
+        //       }  }
+        //   />
+        // </div>
     
     
   );

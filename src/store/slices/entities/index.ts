@@ -8,6 +8,7 @@ import { activeStreamReducer } from './activityStream';
 import { userManagementReducer } from './userManagement';
 import { vendorReducer } from './vendor';
 import { emailTemplateReducer } from './email';
+import { shopifyStoreReducer } from './shopifyStore';
 
 const entitiesReducer = combineReducers({
   app: appEntityReducer,
@@ -19,6 +20,7 @@ const entitiesReducer = combineReducers({
   userManagement: userManagementReducer,
   vendors: vendorReducer,
   emailTemplate: emailTemplateReducer,
+  shopifyStore: shopifyStoreReducer,
 });
 
 export { entitiesReducer };

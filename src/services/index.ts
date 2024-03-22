@@ -1,3 +1,4 @@
+export { ShopifyStoreService } from './shopifyStore';
 export { DashboardServices } from './dashboard';
 export { AppService } from './app';
 export { AuthService } from './auth';

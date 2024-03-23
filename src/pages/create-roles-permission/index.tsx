@@ -274,7 +274,7 @@ const SettingsRolesPermisssionsRoot = styled.div`
   font-family: var(--font-poppins);
 `;
 
-export const RolesPermission: FunctionComponent = () => {
+export const CreateRolesPermission: FunctionComponent = () => {
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
 
   const openModalPopup = useCallback(() => {

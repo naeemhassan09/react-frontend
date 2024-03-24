@@ -22,6 +22,7 @@ export const PRODUCTLIST_ROUTE = '/productlist';
 export const USERMANAGEMENT_ROUTE= '/usermanagement';
 export const ACTIVITYSTREAM_ROUTE = '/activitystream';
 export const NEW_ROLESPERMISSION_ROUTE = '/create-rolepermission';
+export const EDIT_ROLESPERMISSION_ROUTE='/edit-rolepermission/';
 export const ROLESPERMISSION_ROUTE='/rolepermission';
 export const NEWORDER_ROUTE = '/neworder';
 export const SETTINGS_ROUTE = '/settings';

@@ -145,8 +145,8 @@ export class VendorsService extends HttpService {
   updateVendorAllocateProductIds = async (baseAuthUrl: string, token: string, payload: any): 
   Promise<IPrepareResponse<AxiosResponse>> => {
     try {
-      const apiResponse = await this.post(baseAuthUrl + '/api/v1/products/allocate_vendor?vendor_id='+payload.id, 
-      payload.idArray, {
+      const apiResponse = await this.post(baseAuthUrl + '/api/v1/products/allocate_vendor?vendor_id='+payload.id+
+      `?saas_account=${window.location.hostname}`, payload.idArray, {
         headers: {
           Authorization: token
         }

@@ -9,6 +9,7 @@ import { userManagementReducer } from './userManagement';
 import { vendorReducer } from './vendor';
 import { emailTemplateReducer } from './email';
 import { shopifyStoreReducer } from './shopifyStore';
+import { rolePermissionReducer } from './role-permission';
 
 const entitiesReducer = combineReducers({
   app: appEntityReducer,
@@ -21,6 +22,7 @@ const entitiesReducer = combineReducers({
   vendors: vendorReducer,
   emailTemplate: emailTemplateReducer,
   shopifyStore: shopifyStoreReducer,
+  rolePermisssion: rolePermissionReducer,
 });
 
 export { entitiesReducer };

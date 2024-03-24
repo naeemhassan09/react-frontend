@@ -5,7 +5,8 @@ import { DASHBORD_ROUTE, SIDEBAR_ROUTES, PROFILE_ROUTE, ORDERS_ROUTE, PRODUCTLIS
   SETTINGS_ROUTE,
   SETTINGSVENDOR_ROUTE,
   EMAILTEMPLATE_ROUTE,
-  NEW_ROLESPERMISSION_ROUTE} from 'src/constants/navigation-routes';
+  NEW_ROLESPERMISSION_ROUTE,
+  EDIT_ROLESPERMISSION_ROUTE} from 'src/constants/navigation-routes';
 
 import { Dashboard,  Orders,  Profile, ProductList, UserManagement, ActivityStream, CreateRolesPermission, NewOrder, EmailTemplate, RolePermission } from 'src/pages';
 import { ROLES } from '../constants/roles';
@@ -87,6 +88,15 @@ export default [
         component: RolePermission,
         path: ROLESPERMISSION_ROUTE,
         title: 'Roles Permissions',
+        permission: [
+          ROLES.ADMIN,
+          // ROLES.COMPANY_OWNER,
+        ],
+      },
+      {
+        component: CreateRolesPermission,
+        path: EDIT_ROLESPERMISSION_ROUTE,
+        title: 'Edit Roles Permissions',
         permission: [
           ROLES.ADMIN,
           // ROLES.COMPANY_OWNER,

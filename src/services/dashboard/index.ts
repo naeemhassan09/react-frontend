@@ -9,7 +9,7 @@ export class DashboardServices extends HttpService {
        
         try {
           const apiResponse = await this.get(
-            `${baseAuthUrl}/api/v1/dashboards`
+            `${baseAuthUrl}/api/v1/dashboards?saas_account=${window.location.hostname}`
           );
           return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
         } catch (error) {

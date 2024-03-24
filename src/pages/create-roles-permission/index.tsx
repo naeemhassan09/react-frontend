@@ -12,6 +12,7 @@ import FormContainer from 'src/components/form-container';
 import ActivityStreamContainer1 from 'src/components/activity-stream-container1';
 import ActivityStreamContainer from 'src/components/activity-stream-container';
 import ProductCard from 'src/components/product-card';
+import { useLocation, useParams } from 'react-router-dom';
 
 const AddNewRole = styled.div`
   flex: 1;
@@ -274,8 +275,12 @@ const SettingsRolesPermisssionsRoot = styled.div`
   font-family: var(--font-poppins);
 `;
 
+
 export const CreateRolesPermission: FunctionComponent = () => {
   const [isModalPopupOpen, setModalPopupOpen] = useState(false);
+
+  console.log(   localStorage.getItem('id'));
+
 
   const openModalPopup = useCallback(() => {
     setModalPopupOpen(true);
@@ -285,6 +290,8 @@ export const CreateRolesPermission: FunctionComponent = () => {
     setModalPopupOpen(false);
   }, []);
 
+
+  
   return (
     <>
       <SettingsRolesPermisssionsRoot>

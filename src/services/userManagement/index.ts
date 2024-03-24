@@ -22,7 +22,8 @@ export class UserManagementService extends HttpService {
   createNewUser = async (baseAuthUrl: string, token: string, payload: any): 
   Promise<IPrepareResponse<AxiosResponse>> => {
     try {
-      const apiResponse = await this.post(baseAuthUrl + '/api/v1/members', payload, {
+      const apiResponse = await this.post(baseAuthUrl + `/api/v1/members?saas_account=
+      ${window.location.hostname}`, payload, {
         headers: {
           Authorization: token
         }

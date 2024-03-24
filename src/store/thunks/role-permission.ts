@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {  FETCH_ROLES, FETCH_SINLE_ROLES } from 'src/store/action-types';
+import {  CREATE_ROLE, FETCH_ROLES, FETCH_SINLE_ROLES, UPDATE_ROLE } from 'src/store/action-types';
 import { RolePermissionService } from 'src/services';
 import { getBaseUrl } from '../selectors/features/app';
 import { getAuthToken } from '../selectors/features';
@@ -28,7 +28,28 @@ export const fetchSingleRole = createAsyncThunk<TObject, TObject, IActionOptions
   async ( _requestPayload: Record<string, string>,thunkAPI) => {
     const baseUrl = getBaseUrl(thunkAPI.getState());
     const token= getAuthToken(thunkAPI.getState());
-    const { data } = await RolePermissionServices.fetchSingleRole(baseUrl, token, '');
+    const { data } = await RolePermissionServices.fetchSingleRole(baseUrl, token, _requestPayload);
     return thunkAPI.fulfillWithValue(data);
   }
+  
+);
+
+export const createRolePermission = createAsyncThunk<TObject, TObject, IActionOptions>(
+    CREATE_ROLE, 
+    async ( _requestPayload: Record<string, string>,thunkAPI) => {
+        const baseUrl = getBaseUrl(thunkAPI.getState());
+        const token= getAuthToken(thunkAPI.getState());
+        const { data } = await RolePermissionServices.createRole(baseUrl, token, _requestPayload);
+        return thunkAPI.fulfillWithValue(data);
+      }
+);
+
+export const updateRolePermission = createAsyncThunk<TObject, TObject, IActionOptions>(
+    UPDATE_ROLE, 
+    async ( _requestPayload: Record<string, string>,thunkAPI) => {
+        const baseUrl = getBaseUrl(thunkAPI.getState());
+        const token= getAuthToken(thunkAPI.getState());
+        const { data } = await RolePermissionServices.updateRole(baseUrl, token, _requestPayload);
+        return thunkAPI.fulfillWithValue(data);
+      }
 );

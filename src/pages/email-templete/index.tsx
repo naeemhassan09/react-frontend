@@ -582,26 +582,7 @@ return (
     </PortalDrawer>
   ) }
   </>
-        // <div>
-        //   <h1>I am here</h1>
-        //   <CKEditor
-        //     editor={ ClassicEditor  }
-        //     data='<p>Hello from CKEditor 5!</p>'
-        //     onReady={ (editor) => { 
-        //       console.log('Editor is ready to use!', editor);
-        //       }  }
-        //     onChange={ (event, editor) => { 
-        //       const data = editor.getData();
-        //       console.log({  event, editor, data   });
-        //       }  }
-        //     onBlur={ (event, editor) => { 
-        //       console.log('Blur.', editor, event);
-        //       }  }
-        //     onFocus={ (event, editor) => { 
-        //       console.log('Focus.', editor, event);
-        //       }  }
-        //   />
-        // </div>
+        
     
     
   );

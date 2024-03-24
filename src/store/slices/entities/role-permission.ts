@@ -40,9 +40,7 @@ import { fetchRoles, fetchSingleRole } from 'src/store/thunks';
   });
 
   builder.addCase(fetchSingleRole.fulfilled, (state, action) => {
-    console.log(action);
-    state.data=action.payload
-    ;
+    state.singleData=action.payload.role_permission;
    
 
 });
@@ -51,7 +49,7 @@ import { fetchRoles, fetchSingleRole } from 'src/store/thunks';
    
   });
   
-  export const { setRolePermissionDat } = RolePermissionSlice.actions;
+  export const { setRolePermissionDat, setSingleRole } = RolePermissionSlice.actions;
   
   export const rolePermissionReducer = RolePermissionSlice.reducer;
   

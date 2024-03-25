@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from 'src/store/thunks';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { getData } from 'src/store/selectors/features';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const WelcomeToAlchemative = styled.div`
   align-self: stretch;
@@ -451,13 +453,17 @@ const Login: FunctionComponent = () => {
               <FrameWrapper>
                 <WelcomeToAlchemativeParent>
                   <WelcomeToAlchemative>
-                    WELCOME TO SHOPIFY-MANGMENT-APPLICATION
+                    Welcome to Shopify Management Application
                   </WelcomeToAlchemative>
                   <LoremIpsumDolor>
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et
-                    massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
-                    sapien fringilla, mattis ligula consectetur, ultrices
-                    mauris. Maecenas vitae mattis tellus..
+                    <WelcomeToAlchemative> 🌟 Empower Your B2B Commerce with Efficiency and Ease!</WelcomeToAlchemative>
+
+                    Dive into the world of seamless B2B product exchange with the Shopify Management Application. 
+                    Specifically tailored for the dynamic needs of B2B transactions, our application revolutionizes 
+                    how you manage your product inventory, orders, and customer relationships. 
+                    We bring to your fingertips an intuitive platform that streamlines the complexities of 
+                    B2B exchanges, ensuring a robust and efficient trading experience. 
+                    Embrace a smarter way to do business and elevate your B2B exchange to new heights!
                   </LoremIpsumDolor>
                 </WelcomeToAlchemativeParent>
               </FrameWrapper>
@@ -511,7 +517,7 @@ const Login: FunctionComponent = () => {
                             aria-label='toggle password visibility'
                           >
                             <Icon>
-                              { showPassword ? 'visibility_off' : 'visibility' }
+                              { showPassword ?  <VisibilityIcon/> :  <VisibilityOffIcon/> }
                             </Icon>
                           </IconButton>
                         </InputAdornment>
@@ -548,7 +554,7 @@ const Login: FunctionComponent = () => {
           </FrameDiv>
           <NavLinks>
             <PrivacyPolicy>
-              © 2023 – Powered by Alchemative – All Rights Reserved
+              © 2024 – Powered by Alchemative – All Rights Reserved
             </PrivacyPolicy>
           </NavLinks>
         </FooterLinks>

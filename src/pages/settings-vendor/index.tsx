@@ -342,7 +342,7 @@ const SettingsVendor: FunctionComponent = () => {
                 </Frame>
                 <SettingsSvgIcon1Parent to={ `${APP}${SETTINGS_ROUTE}` }>
                   <OrderSvgIcon alt='' src='/settingssvgicon-1.svg' />
-                  <Orders>Setiings</Orders>
+                  <Orders>Settings</Orders>
                 </SettingsSvgIcon1Parent>
               </FrameParent>
             </SideMenuBarInner>

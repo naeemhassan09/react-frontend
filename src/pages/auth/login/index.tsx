@@ -25,7 +25,7 @@ const LoremIpsumDolor = styled.div`
   position: relative;
   font-size: var(--font-size-xs);
   font-weight: 500;
-  font-family: var(--font-poppins);
+  // font-family: var(--font-poppins);
   @media screen and (max-width: 960px) {
     text-align: center;
   }

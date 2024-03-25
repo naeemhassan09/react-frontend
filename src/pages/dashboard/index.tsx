@@ -579,7 +579,7 @@ export const Dashboard: FunctionComponent = () => {
                 </Frame1>
                 <SettingsSvgIcon1Parent to={ `${APP}${SETTINGS_ROUTE}` }>
                   <OrderSvgIcon alt='' src='/settingssvgicon-1.svg' />
-                  <Orders1>Setiings</Orders1>
+                  <Orders1>Settings</Orders1>
                 </SettingsSvgIcon1Parent>
               </FrameParent>
             </SideMenuBarInner>

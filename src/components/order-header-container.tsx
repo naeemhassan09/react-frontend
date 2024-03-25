@@ -2,7 +2,8 @@ import { FunctionComponent, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRole, getUserData } from 'src/store/selectors/features';
 import { logout } from '../store/thunks/auth';
 import PortalDrawer from './portal-drawer';
 import MiniSideBar from './mini-side-bar';
@@ -142,12 +143,17 @@ const HeaderRoot = styled.div`
   }
 `;
 
+
+
 const OrderHeaderContainer: FunctionComponent<OrderHeaderContainerType> = ({
   pageTitle,
 }) => {
   const dispatch = useDispatch();
   const [isMiniSideBarOpen, setMiniSideBarOpen] = useState(false);
 
+  const userRole=useSelector(getRole);
+  const user=useSelector(getUserData);
+  
   const openMiniSideBar = useCallback(() => {
     setMiniSideBarOpen(true);
   }, []);
@@ -173,6 +179,10 @@ const OrderHeaderContainer: FunctionComponent<OrderHeaderContainerType> = ({
           </FrameWrapper>
           <FrameGroup>
             <FrameContainer>
+              <Frame>
+                <JamesSmith>{ user.full_name }</JamesSmith>
+                <Developer>{ userRole  }</Developer>
+              </Frame>
               <EllipseWrapper>
                 <FrameChild alt='' src='/ellipse-3@2x.png' />
                 <Box>

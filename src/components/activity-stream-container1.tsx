@@ -11,7 +11,7 @@ import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { logout } from 'src/store/thunks';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRole } from 'src/store/selectors/features';
+import { getRole, getUserData } from 'src/store/selectors/features';
 import { ROLES } from 'src/constants/roles';
 import MiniSideBar from './mini-side-bar';
 import PortalDrawer from './portal-drawer';
@@ -172,6 +172,7 @@ const ActivityStreamContainer1: FunctionComponent = () => {
   const dispatch = useDispatch();
   const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
   const userRole=useSelector(getRole);
+  const user=useSelector(getUserData);
 
   const openAfterLoginMenu = useCallback(() => {
     setAfterLoginMenuOpen(true);
@@ -215,8 +216,8 @@ const ActivityStreamContainer1: FunctionComponent = () => {
             <FrameWrapper>
               <FrameGroup>
                 <Frame>
-                  <JamesSmith>James Smith</JamesSmith>
-                  <Developer>Developer</Developer>
+                  <JamesSmith>{ user.full_name }</JamesSmith>
+                  <Developer>{ userRole  }</Developer>
                 </Frame>
                 <FrameChild alt='' src='/ellipse-3@2x.png' />
                 <Box>

@@ -26,7 +26,7 @@ export class OrderService extends HttpService {
 
             try {
               const apiResponse = await this.get(
-                `${baseAuthUrl}/api/v1/orders/product_drowdown`,
+                `${baseAuthUrl}/api/v1/orders/product_drowdown?saas_account=${window.location.hostname}`,
                { headers: {
                     Authorization: `${token}`
                   }}

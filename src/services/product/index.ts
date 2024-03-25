@@ -301,7 +301,7 @@ export class ProductService extends HttpService {
     //    const token=useSelector(getAuthToken);
         try {
           const apiResponse = await this.get(
-            `${baseAuthUrl}/api/v1/products`,
+            `${baseAuthUrl}/api/v1/products?saas_account=${window.location.hostname}`,
         //    { headers: {Authorization: token}}
           );
           return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
@@ -314,7 +314,7 @@ export class ProductService extends HttpService {
         //    const token=useSelector(getAuthToken);
             try {
               const apiResponse = await this.get(
-                `${baseAuthUrl}/api/v1/products/download_products`,
+                `${baseAuthUrl}/api/v1/products/download_products?saas_account=${window.location.hostname}`,
             { headers: {Authorization: token}}
               );
               return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);

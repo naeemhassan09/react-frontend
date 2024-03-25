@@ -8,3 +8,4 @@ export * from './userManagement';
 export * from './vendors';
 export * from './email';
 export * from './shopifyStore';
+export * from './role-permission';

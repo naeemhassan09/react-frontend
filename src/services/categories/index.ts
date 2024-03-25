@@ -24,7 +24,7 @@ export class CategoryService extends HttpService {
   createBrandProductAssociation = async (baseUrl: string, data: TObject): Promise<any> => {
     try {
       const apiResponse = await this.post(
-        `${baseUrl}/brand-category-product-junction/link-product`,
+        `${baseUrl}/brand-category-product-junction/link-product?saas_account=${window.location.hostname}`,
         data
       );
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
@@ -36,7 +36,7 @@ export class CategoryService extends HttpService {
   unlinkBrandProductAssociation = async (baseUrl: string, data: TObject): Promise<any> => {
     try {
       const apiResponse = await this.post(
-        `${baseUrl}/brand-category-product-junction/unlink-product`,
+        `${baseUrl}/brand-category-product-junction/unlink-product?saas_account=${window.location.hostname}`,
         data
       );
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
@@ -51,7 +51,7 @@ export class CategoryService extends HttpService {
   ): Promise<IPrepareResponse<AxiosResponse>> => {
     try {
       const apiResponse = await this.get(
-        `${baseUrl}/brand-category-product-junction/get-categories-and-brands`,
+        `${baseUrl}/brand-category-product-junction/get-categories-and-brands?saas_account=${window.location.hostname}`,
         queryParams
       );
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);
@@ -66,7 +66,7 @@ export class CategoryService extends HttpService {
   ): Promise<IPrepareResponse<AxiosResponse>> => {
     try {
       const apiResponse = await this.get(
-        `${baseUrl}/reporting-category-types`,
+        `${baseUrl}/reporting-category-types?saas_account=${window.location.hostname}`,
         queryParams
       );
       return prepareResponseObject(apiResponse, RESPONSE_TYPES.SUCCESS);

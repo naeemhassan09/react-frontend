@@ -5,9 +5,10 @@ import { ProductList } from './productlist';
 import { Health as HealthCheck} from './health';
 import { UserManagement } from './usermanagment';
 import { ActivityStream } from './activitystream';
-import { RolesPermission } from './roles-permission';
+import { CreateRolesPermission } from './create-roles-permission';
 import { NewOrder } from './neworder/index';
 import { EmailTemplate } from './email-templete/index';
+import { RolePermission } from './role-permission';
 
 export {
   Dashboard,
@@ -17,7 +18,8 @@ export {
   ProductList,
   UserManagement,
   ActivityStream, 
-  RolesPermission,
+  CreateRolesPermission,
   NewOrder,
   EmailTemplate,
+  RolePermission,
 };

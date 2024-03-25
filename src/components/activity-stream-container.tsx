@@ -5,15 +5,8 @@ import {
   type CSSProperties,
 } from 'react';
 import { Link } from 'react-router-dom';
-import { Property } from 'csstype';
 import styled from 'styled-components';
-import { 
-  ACTIVITYSTREAM_ROUTE, APP, 
-  EMAILTEMPLATE_ROUTE, 
-  ROLESPERMISSION_ROUTE, 
-  SETTINGSVENDOR_ROUTE, 
-  USERMANAGEMENT_ROUTE 
-} from 'src/constants/navigation-routes';
+
 import SideMenuOfSubMenu from './side-menu-of-sub-menu';
 import PortalDrawer from './portal-drawer';
 

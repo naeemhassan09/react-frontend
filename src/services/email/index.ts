@@ -22,7 +22,8 @@ export class EmailService extends HttpService {
   createEmailTemplate = async (baseAuthUrl: string, token: string, payload: TObject): 
   Promise<IPrepareResponse<AxiosResponse>> => {
     try {
-      const apiResponse = await this.post(baseAuthUrl + '/api/v1/email_templates', payload, {
+      const apiResponse = await this.post(baseAuthUrl + `/api/v1/email_templates?saas_account=
+      ${window.location.hostname}`, payload, {
         headers: {
           Authorization: token
         }
@@ -36,7 +37,8 @@ export class EmailService extends HttpService {
   updateEmailTemplate = async (baseAuthUrl: string, token: string, payload: TObject): 
   Promise<IPrepareResponse<AxiosResponse>> => {
     try {
-      const apiResponse = await this.put(baseAuthUrl + '/api/v1/email_templates/'+payload.id, payload, {
+      const apiResponse = await this.put(baseAuthUrl + '/api/v1/email_templates/'+payload.id+
+      `?saas_account=${window.location.hostname}`, payload, {
         headers: {
           Authorization: token
         }

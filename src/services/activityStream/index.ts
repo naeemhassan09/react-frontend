@@ -24,7 +24,8 @@ export class ActivityStreamsService extends HttpService {
   Promise<IPrepareResponse<AxiosResponse>> => {
         try {
           const apiResponse = await this.get(
-            `${baseAuthUrl}/web_api/v2/activity_streams/download_selected_activity_stream?start_date=` + 
+            `${baseAuthUrl}/web_api/v2/activity_streams/download_selected_activity_stream?
+            saas_account=${window.location.hostname}?start_date=` + 
             queryParams.startDate + '&end_date=' + queryParams.endDate, {
           headers: {Authorization: token}}
           );

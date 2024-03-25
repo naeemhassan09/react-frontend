@@ -4,23 +4,23 @@ import {
   InputAdornment,
 } from '@mui/material';
 import styled from 'styled-components';
-import EmailTemplateModal from 'src/components/email-template-modal';
 import Pagination from 'src/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEmailData } from 'src/store/thunks';
+import { fetchRoles } from 'src/store/thunks';
 import ActivityStreamContainer1 from 'src/components/activity-stream-container1';
-import { getEmailTemplates } from 'src/store/selectors/entities';
 import FormContainer from 'src/components/form-container';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import ActivityStreamContainer from 'src/components/activity-stream-container';
-import PortalPopup from 'src/components/portal-popup';
-import PortalDrawer from 'src/components/portal-drawer';
-
+import { getAllRolePermission } from 'src/store/selectors/entities/role-permissions';
+import { Link } from 'react-router-dom';
+import { NEW_ROLESPERMISSION_ROUTE, APP, EDIT_ROLESPERMISSION_ROUTE } from 'src/constants/navigation-routes';
 
 const RolesPermission = styled.div`
+  position: relative;
+  font-weight: 500;
+`;
+
+const EditRolesPermission = styled(Link)`
   position: relative;
   font-weight: 500;
 `;
@@ -54,14 +54,14 @@ const ActivityStreamSheet = styled.div`
 `;
 
 
-const Emails = styled.div`
+const Roles = styled.div`
   flex: 1;
   position: relative;
   font-weight: 500;
   cursor: pointer;
 `;
 
-const EmailsWrapper = styled.div`
+const RolesWrapper = styled.div`
   align-self: stretch;
   display: flex;
   flex-direction: row;
@@ -69,7 +69,7 @@ const EmailsWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const EmailHeadingContainer = styled.div`
+const RoleHeadingContainer = styled.div`
   align-self: stretch;
   background-color: var(--white);
   backdrop-filter: blur(50px);
@@ -96,30 +96,6 @@ const RoleWrapper = styled.div`
   padding: var(--padding-xl) 0rem;
 `;
 
-const Role1 = styled.div`
-  flex: 1;
-  position: relative;
-  font-weight: 500;
-`;
-
-const RoleContainer = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-xl) 0rem;
-`;
-
-const RoleFrame = styled.div`
-  align-self: stretch;
-  background-color: var(--color-lavenderblush-100);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-xl) 0rem;
-`;
 
 const Colum = styled.div`
   flex: 1;
@@ -137,34 +113,8 @@ const MenuVerticalIcon = styled.img`
   cursor: pointer;
 `;
 
-const MenuVerticalWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 0rem var(--padding-3xs);
-`;
 
-const Colum5Inner = styled.div`
-  align-self: stretch;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-lg) 0rem;
-`;
-
-const Colum5Child = styled.div`
-  align-self: stretch;
-  background-color: var(--color-lavenderblush-100);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-lg) 0rem;
-`;
-
-const EmailSheetContainer = styled.div`
+const RoleSheetContainer = styled.div`
   align-self: stretch;
   display: flex;
   flex-direction: row;
@@ -184,48 +134,7 @@ const SettingsSheetContainer = styled.div`
   }
 `;
 
-const OpenInWindow = styled.div`
-  position: relative;
-  font-weight: 500;
-`;
-
-const OpenInWindowWrapper = styled.div`
-  border-radius: var(--br-8xs);
-  background-color: var(--color-brown-100);
-  height: 2.25rem;
-  display: none;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-3xs) var(--padding-xl);
-  box-sizing: border-box;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--color-crimson);
-    cursor: pointer;
-  }
-  @media screen and (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-const ModalButton = styled.div`
-  align-self: stretch;
-  background-color: var(--white);
-  overflow: hidden;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--padding-30xl) var(--padding-2xl);
-  text-align: left;
-  color: var(--white);
-  @media screen and (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-const EmailManagementContentContai = styled.div`
+const RoleManagementContentContai = styled.div`
   flex: 1;
   background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0));
   display: flex;
@@ -234,7 +143,7 @@ const EmailManagementContentContai = styled.div`
   justify-content: flex-start;
 `;
 
-const EmailManagementMainContainer = styled.div`
+const RoleManagementMainContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -244,7 +153,7 @@ const EmailManagementMainContainer = styled.div`
   max-width: 80rem;
 `;
 
-const SettingsEmailManagementRoot = styled.div`
+const SettingsRoleManagementRoot = styled.div`
   position: relative;
   background-color: var(--white);
   width: 100%;
@@ -278,7 +187,7 @@ const Add = styled.div`
   color: white;
 `;
 
-const AddButton = styled.div`
+const AddButton = styled(Link)`
   border-radius: var(--br-8xs);
   margin-top: 1.2rem;
   margin-left: 1rem;
@@ -323,78 +232,56 @@ const SearchBarContainer = styled.div`
 `;
 
 
-export const EmailTemplate: FunctionComponent = () => {
+export const RolePermission: FunctionComponent = () => {
   const dispatch=useDispatch();
-  const emailTemplateData= useSelector(getEmailTemplates);
-  const [isModalPopupOpen, setModalPopupOpen] = useState(false);
-  const [isAfterLoginMenuOpen, setAfterLoginMenuOpen] = useState(false);
-  const [isSideMenuOfSubMenuOpen, setSideMenuOfSubMenuOpen] = useState(false);
-  const [isEmailTemplateModalOpen, setEmailTemplateModalOpen] = useState(false);
+  const rolePermissionData= useSelector(getAllRolePermission);
+
   const [totalPages, setTotalPages]=useState<number>(0);
   const [currentPage, setCurrentPage]=useState<number>(0);
-  const [selectedEmailTemplate, setSelectedEmailTemplate]=useState<any>([]);
+  const [selectedRolePermission, setSelectedRolePermission]=useState<any>([]);
   const [itemsPerPage, setItemsPerPage]=useState(10);
-  const [completeEmailTemplate, setCompleteEmailTemplate]=useState(emailTemplateData);
-  const [emailTemplate, setEmailTemplate]=useState<any>(null);
+  const [completeRolePermission, setCompleteRolePermission]=useState(rolePermissionData);
 
-  const openAfterLoginMenu = useCallback(() => {
-    setAfterLoginMenuOpen(true);
-  }, []);
-
-  const closeAfterLoginMenu = useCallback(() => {
-    setAfterLoginMenuOpen(false);
-  }, []);
-
-  const openSideMenuOfSubMenu = useCallback(() => {
-    setSideMenuOfSubMenuOpen(true);
-  }, []);
-
-  const closeSideMenuOfSubMenu = useCallback(() => {
-    setSideMenuOfSubMenuOpen(false);
-  }, []);
-
-  const openEmailTemplateModal = useCallback(() => {
-    setEmailTemplateModalOpen(true);
-  }, []);
-
-  const closeEmailTemplateModal = useCallback(() => {
-    setEmailTemplateModalOpen(false);
-  }, []);
-
-  const openModalPopup = useCallback(() => {
-    setModalPopupOpen(true);
-  }, []);
-
-  const closeModalPopup = useCallback(() => {
-    setModalPopupOpen(false);
-  }, []);
-
-
+  const formatDate=((dateTimeString:string) =>{
+    const options: any = { 
+      year: '2-digit', 
+      month: '2-digit', 
+      day: '2-digit', 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      hour12: true 
+    };
+  
+    const formattedDate = new Date(dateTimeString).toLocaleString('en-US', options);
+    
+    return formattedDate;
+  });
 
   const renderTable=(()=>(<>
     {
-        selectedEmailTemplate && selectedEmailTemplate.length>0 && 
-        selectedEmailTemplate.map((item: any, index: number)=>(
+
+        selectedRolePermission && selectedRolePermission.length>0 && 
+        selectedRolePermission.map((item: any, index: number)=>(
           <>
             <ActivityStreamSheet key={ index }>
               <Colum>
                 <Colum3Inner>
                   <TrueWrapper>
-                    <RolesPermission>{ item.title }</RolesPermission>
+                    <RolesPermission>{ item.name }</RolesPermission>
                   </TrueWrapper>
                 </Colum3Inner>
               </Colum>
               <Colum>
                 <Colum3Inner>
                   <TrueWrapper>
-                    <RolesPermission>{ item.trigger }</RolesPermission>
+                    <RolesPermission>{ formatDate(item.created_at) }</RolesPermission>
                   </TrueWrapper>
                 </Colum3Inner>
               </Colum>
               <Colum>
                 <Colum3Inner>
                   <TrueWrapper>
-                    <RolesPermission>{ item.is_active? 'True':'false' }</RolesPermission>
+                    <RolesPermission>{ formatDate(item.updated_at) }</RolesPermission>
                   </TrueWrapper>
                 </Colum3Inner>
               </Colum>
@@ -402,8 +289,13 @@ export const EmailTemplate: FunctionComponent = () => {
               <Colum>
                 <Colum3Inner>
                   <TrueWrapper 
-                  style={ { cursor:'pointer' } } onClick={ ()=>{ setEmailTemplate(item); openEmailTemplateModal() } }>
-                    <RolesPermission>Edit</RolesPermission>
+                  style={ { cursor:'pointer' } }
+                  >
+                    <EditRolesPermission 
+                    to={  `${APP}${EDIT_ROLESPERMISSION_ROUTE}${item.id}`  } 
+                    onClick={  ()=>{ localStorage.setItem('id', item.id) } }>
+                      Edit
+                    </EditRolesPermission>
                   </TrueWrapper>
                 </Colum3Inner>
               </Colum>
@@ -428,16 +320,15 @@ export const EmailTemplate: FunctionComponent = () => {
    const searchText= event.target.value.toLowerCase();
     let filterObject: any= [];
  
-    if (completeEmailTemplate && searchText!=='')    
+    if (completeRolePermission && searchText!=='')    
     {
-        filterObject=emailTemplateData?.filter((item:any)=> item.title.trim().toLowerCase().includes(searchText));
-        console.log(filterObject);
-        setCompleteEmailTemplate(filterObject);
+        filterObject=rolePermissionData?.filter((item:any)=> item.name.trim().toLowerCase().includes(searchText));
+        setCompleteRolePermission(filterObject);
     }  
 
     else 
-    if (emailTemplateData)
-    setCompleteEmailTemplate(emailTemplateData);
+    if (rolePermissionData)
+    setCompleteRolePermission(rolePermissionData);
 });
 
 const handlePerItem=((_value: any)=>{
@@ -449,12 +340,14 @@ const handlePerItem=((_value: any)=>{
 });
 
 
-useEffect(()=>{setCompleteEmailTemplate(emailTemplateData)},[emailTemplateData]);
+
+
+useEffect(()=>{setCompleteRolePermission(rolePermissionData)},[rolePermissionData]);
 
    useEffect(()=>{
-    if (completeEmailTemplate && completeEmailTemplate.length>0)
+    if (completeRolePermission && completeRolePermission.length>0)
     {
-        const pages=Math.ceil(completeEmailTemplate.length/itemsPerPage);
+        const pages=Math.ceil(completeRolePermission.length/itemsPerPage);
         setTotalPages(pages);
         setCurrentPage(1);
     }
@@ -464,33 +357,34 @@ useEffect(()=>{setCompleteEmailTemplate(emailTemplateData)},[emailTemplateData])
         setCurrentPage(1);
     }
 
-   },[completeEmailTemplate, itemsPerPage]);
+   },[completeRolePermission, itemsPerPage]);
 
    useEffect(() => {
-    if (completeEmailTemplate && completeEmailTemplate !== null    && completeEmailTemplate.length>itemsPerPage) {
+    
+    if (completeRolePermission && completeRolePermission !== null    && completeRolePermission.length>itemsPerPage) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const nextItems = completeEmailTemplate.slice(startIndex, endIndex);
-      setSelectedEmailTemplate(nextItems);
+      const nextItems = completeRolePermission.slice(startIndex, endIndex);
+      setSelectedRolePermission(nextItems);
     }
 
-    else  setSelectedEmailTemplate(completeEmailTemplate);
+    else  setSelectedRolePermission(completeRolePermission);
 
-  }, [completeEmailTemplate, currentPage, itemsPerPage]);
+  }, [completeRolePermission, currentPage, itemsPerPage]);
 
   useEffect(()=>{
-    dispatch(fetchEmailData({}));
+    dispatch(fetchRoles({}));
   },[]);
 
 return (
   <>
-    <SettingsEmailManagementRoot>
-      <EmailManagementMainContainer>
+    <SettingsRoleManagementRoot>
+      <RoleManagementMainContainer>
         <FormContainer
             dimensions='/alchemativelogo-11@2x.png'
             alchemativeLogo1IconBackgroundImage="url('/sidemenubar2@3x.png')"
         />
-        <EmailManagementContentContai>
+        <RoleManagementContentContai>
           <ActivityStreamContainer1 />
           <ActivityStreamContainer
                 showSubHeader={ false }
@@ -515,32 +409,34 @@ return (
                 } }
                 sx={ { '& .MuiInputBase-root': { height: '36px' } } }
                 onChange={ onHandleSearchText }
-                />  
+              />  
             </FrameParent>
-            <AddButton onClick={ ()=> { openEmailTemplateModal(); setEmailTemplate(undefined) } }>
+            <AddButton 
+            to={ `${APP}${NEW_ROLESPERMISSION_ROUTE}` } 
+            onClick={ ()=>{ localStorage.setItem('id', 'null') } }>
               <Add>Add New</Add>
             </AddButton>
           </SearchBarContainer>
-          <EmailHeadingContainer>
-            <EmailsWrapper>
-              <Emails>Emails</Emails>
-            </EmailsWrapper>
-          </EmailHeadingContainer>
+          <RoleHeadingContainer>
+            <RolesWrapper>
+              <Roles>Role Permission</Roles>
+            </RolesWrapper>
+          </RoleHeadingContainer>
           <SettingsSheetContainer>
-            <EmailSheetContainer>
+            <RoleSheetContainer>
               <Colum>
                 <RoleWrapper>
-                  <Role>Title</Role>
+                  <Role>Role</Role>
                 </RoleWrapper>
               </Colum>     
               <Colum>               
                 <RoleWrapper>
-                  <Role>Trigger</Role>
+                  <Role>Added on</Role>
                 </RoleWrapper>
               </Colum>
               <Colum>
                 <RoleWrapper>
-                  <Role>Status</Role>
+                  <Role>Updated on</Role>
                 </RoleWrapper>
               </Colum>
               <Colum>
@@ -548,7 +444,7 @@ return (
                   <Role>Actions</Role>
                 </RoleWrapper>
               </Colum>
-            </EmailSheetContainer>
+            </RoleSheetContainer>
             { renderTable() }
             <Pagination
                 imageAltText='/double-right@2x.png'
@@ -567,23 +463,12 @@ return (
             />
           </SettingsSheetContainer>
         
-        </EmailManagementContentContai>
-      </EmailManagementMainContainer>
+        </RoleManagementContentContai>
+      </RoleManagementMainContainer>
 
         
-    </SettingsEmailManagementRoot>
-    { isEmailTemplateModalOpen && (
-    <PortalDrawer
-    overlayColor='rgba(113, 113, 113, 0.3)'
-    placement='Right'
-    onOutsideClick={ closeEmailTemplateModal }
-   >
-      <EmailTemplateModal onClose={ setEmailTemplateModalOpen } emailItem={ emailTemplate } />
-    </PortalDrawer>
-  ) }
-  </>
-        
-    
-    
+    </SettingsRoleManagementRoot>
+   
+  </>    
   );
 };

@@ -8,6 +8,8 @@ import {
   FormControlLabel,
 } from '@mui/material';
 import styled, { keyframes } from 'styled-components';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 type CreateShopifyModalType = {
   onClose?: () => void;
@@ -266,7 +268,7 @@ const CreateShopifyModal: FunctionComponent<CreateShopifyModalType> = () => {
                 onClick={ handleShowPasswordClick }
                 aria-label='toggle password visibility'
               >
-                <Icon>{ showPassword ? 'visibility_off' : 'visibility' }</Icon>
+                <Icon>{ showPassword ? <VisibilityIcon/> :  <VisibilityOffIcon/>  }</Icon>
               </IconButton>
             </InputAdornment>
           ),
